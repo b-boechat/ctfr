@@ -5,11 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tfrc"
 dynamic = ['version']
-authors = [
-  { name="Bernardo Boechat", email="bernardoant@poli.ufrj.br" },
-  { name="Luiz Wagner Pereira Biscainho", email="cpneqs@gmail.com" },
-  { name="Mauricio do Vale Madeira da Costa", email="mauriciomvc@gmail.com" },
-]
+#authors = [
+#  { name="Bernardo Boechat", email="bernardoant@poli.ufrj.br" },
+#  { name="Luiz Wagner Pereira Biscainho", email="cpneqs@gmail.com" },
+#  { name="Mauricio do Vale Madeira da Costa", email="mauriciomvc@gmail.com" },
+#]
 description = "Efficient toolbox for computing combined time-frequency representations of audio signals."
 readme = "README.md"
 requires-python = ">=3.9"
