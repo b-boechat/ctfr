@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tfrc"
-dynamic = ['version']
+dynamic = ['version', 'authors']
 #authors = [
 #  { name="Bernardo Boechat", email="bernardoant@poli.ufrj.br" },
 #  { name="Luiz Wagner Pereira Biscainho", email="cpneqs@gmail.com" },
@@ -13,7 +13,7 @@ dynamic = ['version']
 description = "Efficient toolbox for computing combined time-frequency representations of audio signals."
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = ["numpy>=1.26"]
+dependencies = ["numpy>=1.26", "librosa>=0.10"]
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "License :: OSI Approved :: MIT License",
