@@ -10,7 +10,7 @@ authors = [
   { name="Luiz Wagner Pereira Biscainho", email="cpneqs@gmail.com" },
   { name="Mauricio do Vale Madeira da Costa", email="mauriciomvc@gmail.com" },
 ]
-description = "Efficient toolbox for computing combined time-frequency representations."
+description = "Efficient toolbox for computing combined time-frequency representations of audio signals."
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = ["numpy>=1.26"]
