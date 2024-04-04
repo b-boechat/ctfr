@@ -11,16 +11,19 @@ CYTHON_SO_FILE_PATHS = $(foreach name, $(CY_METHODS_FILES_NAMES_NO_EXT),$(CY_MET
 
 RM = rm -f
 RMR = $(RM) -r
-PYTHON = python3
+PYTHON_EXEC ?= python3
 PIP = pip3
-BUILD = $(PYTHON) -m build
-SETUP = $(PYTHON) setup.py
+BUILD = $(PYTHON_EXEC) -m build
+SETUP = $(PYTHON_EXEC) setup.py
 
 sdist:
-	$(BUILD) -s
+	$(BUILD) --sdist
+
+wheel:
+	$(BUILD) --wheel
 
 dev:
-	$(PIP) install -e .
+	$(PIP) install --editable .
 
 ext:
 	$(SETUP) build_ext --inplace
@@ -47,4 +50,7 @@ clean_cache:
 
 clean_cy:
 	$(RMR) $(foreach c_file, $(CYTHON_C_FILE_PATHS),$(c_file)) 
-	$(RMR) $(foreach so_file, $(CYTHON_SO_FILE_PATHS),$(so_file)) 
+	$(RMR) $(foreach so_file, $(CYTHON_SO_FILE_PATHS),$(so_file))
+
+clean_wheelhouse: # This command is not run by make clean.
+	$(RMR) wheelhouse
