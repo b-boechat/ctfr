@@ -1,3 +1,4 @@
 __version__ = "0.0.0.2"
 
-from utils import load, stft, cqt
+from tfrc.utils import load, stft, cqt
+from tfrc.methods import fls_cy, swgm_cy
