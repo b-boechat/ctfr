@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=60", "wheel>=0.43", "cython>=3.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tfrc"
+dynamic = ['version']
+authors = [
+  { name="Bernardo Boechat", email="bernardoant@poli.ufrj.br" },
+  { name="Luiz Wagner Pereira Biscainho", email="cpneqs@gmail.com" },
+  { name="Mauricio do Vale Madeira da Costa", email="mauriciomvc@gmail.com" },
+]
+description = "Efficient toolbox for computing combined time-frequency representations."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.26"]
+classifiers = [
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 1 - Planning",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Cython",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio",
+]
+keywords = ["audio", "music", "sound", "time-frequency representations"]
+
+[project.urls]
+Homepage = "https://github.com/b-boechat/tfrc-lib"
+Issues = "https://github.com/b-boechat/tfrc-lib/issues"
+#Documentation = "#TODO"
+
+[project.optional-dependencies]
+dev = ["cython>=3.0.0", "setuptools>=60", "build"]
+
+[tool.setuptools.dynamic]
+version = {attr = "tfrc.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
