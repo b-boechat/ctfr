@@ -39,7 +39,14 @@ uninstall:
 
 clean: clean_dist clean_build clean_cache clean_cy
 
+wheel-manylinux-pipeline: clean
+	docker run -ti -v $(pwd):/io quay.io/pypa/manylinux_2_28_x86_64 /io/script.sh
+	docker run -ti -v $(pwd):/io quay.io/pypa/manylinux_2_28_aarch64 /io/script.sh
+	docker run -ti -v $(pwd):/io quay.io/pypa/manylinux_2_28_ppc64le
+	docker run -ti -v $(pwd):/io quay.io/pypa/manylinux_2_28_s390x
 
+manylinux-install:
+	echo "TODO"
 
 
 clean_dist:
