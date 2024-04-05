@@ -16,20 +16,23 @@ PIP = pip3
 BUILD = $(PYTHON_EXEC) -m build
 SETUP = $(PYTHON_EXEC) setup.py
 
-sdist:
-	$(BUILD) --sdist
-
-wheel:
-	$(BUILD) --wheel
-
-dev:
-	$(PIP) install --editable .
-
-ext:
-	$(SETUP) build_ext --inplace
-
 install:
 	$(PIP) install .
+
+sdist:
+	USE_CYTHON=1 $(BUILD) --sdist
+
+sdist-ship: clean sdist
+	mv dist/* wheelhouse
+
+wheel:
+	USE_CYTHON=1 $(BUILD) --wheel
+
+dev:
+	USE_CYTHON=1 $(PIP) install --editable .
+
+ext:
+	USE_CYTHON=1 $(SETUP) build_ext --inplace
 
 uninstall:
 	$(PIP) uninstall $(PROJECT_NAME)
