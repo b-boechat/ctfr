@@ -12,9 +12,12 @@ CYTHON_SO_FILE_PATHS = $(foreach name, $(CY_METHODS_FILES_NAMES_NO_EXT),$(CY_MET
 RM = rm -f
 RMR = $(RM) -r
 PYTHON_EXEC ?= python3
-PIP = pip3
+PIP = python3 -m pip
 BUILD = $(PYTHON_EXEC) -m build
 SETUP = $(PYTHON_EXEC) setup.py
+
+TWINE = python3 -m twine
+WHEELHOUSE = wheelhouse
 
 install:
 	$(PIP) install .
@@ -23,7 +26,7 @@ sdist: clean
 	USE_CYTHON=1 $(BUILD) --sdist
 
 sdist-ship: sdist
-	mv dist/* wheelhouse
+	mv dist/* $(WHEELHOUSE)
 
 wheel:
 	USE_CYTHON=1 $(BUILD) --wheel
@@ -47,8 +50,10 @@ wheel-manylinux-pipeline: clean
 
 dist-pipeline: sdist-ship wheel-manylinux-pipeline
 
-#manylinux-install:
-#	echo "TODO"
+publish-testpypi:
+	$(TWINE) upload --repository testpypi $(WHEELHOUSE)/*
+# Install with: pip install --index-url https://test.pypi.org/simple/ tfrc
+
 
 clean-dist:
 	$(RMR) dist
@@ -64,4 +69,6 @@ clean-cy:
 	$(RMR) $(foreach so_file, $(CYTHON_SO_FILE_PATHS),$(so_file))
 
 clean-wheelhouse: # This command is not run by make clean.
-	$(RMR) wheelhouse/*
+	$(RMR) $(WHEELHOUSE)/*
+
+
