@@ -29,7 +29,7 @@ wheel:
 	USE_CYTHON=1 $(BUILD) --wheel
 
 dev:
-	USE_CYTHON=1 $(PIP) install --editable .
+	USE_CYTHON=1 $(PIP) install --editable .[dev]
 
 ext:
 	USE_CYTHON=1 $(SETUP) build_ext --inplace

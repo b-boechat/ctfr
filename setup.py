@@ -32,13 +32,11 @@ def no_cythonize(extensions, **_ignore):
 USE_CYTHON = bool(int(getenv("USE_CYTHON", 0)))
 
 if USE_CYTHON:
-    print("Using Cython!")
     from Cython.Build import cythonize
     compiler_directives = {"language_level": 3}
-    ext_modules = cythonize(extensions)
+    ext_modules = cythonize(extensions, compiler_directives=compiler_directives)
     
 else:
-    print("Not using Cython!")
     ext_modules = no_cythonize(extensions)
 
 
