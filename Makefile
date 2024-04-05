@@ -19,10 +19,10 @@ SETUP = $(PYTHON_EXEC) setup.py
 install:
 	$(PIP) install .
 
-sdist:
+sdist: clean
 	USE_CYTHON=1 $(BUILD) --sdist
 
-sdist-ship: clean sdist
+sdist-ship: sdist
 	mv dist/* wheelhouse
 
 wheel:
@@ -37,29 +37,31 @@ ext:
 uninstall:
 	$(PIP) uninstall $(PROJECT_NAME)
 
-clean: clean_dist clean_build clean_cache clean_cy
+clean: clean-dist clean-build clean-cache clean-cy
 
 wheel-manylinux-pipeline: clean
-	docker run -ti -v $(pwd):/io quay.io/pypa/manylinux_2_28_x86_64 /io/script.sh
-	docker run -ti -v $(pwd):/io quay.io/pypa/manylinux_2_28_aarch64 /io/script.sh
-	docker run -ti -v $(pwd):/io quay.io/pypa/manylinux_2_28_ppc64le /io/script.sh
-	docker run -ti -v $(pwd):/io quay.io/pypa/manylinux_2_28_s390x /io/script.sh
+	docker run -ti -v $(shell pwd):/io quay.io/pypa/manylinux_2_28_x86_64 /io/script.sh
+#	docker run -ti -v $(shell pwd):/io quay.io/pypa/manylinux_2_28_aarch64 /io/script.sh
+#	docker run -ti -v $(shell pwd):/io quay.io/pypa/manylinux_2_28_ppc64le /io/script.sh
+#	docker run -ti -v $(shell pwd):/io quay.io/pypa/manylinux_2_28_s390x /io/script.sh
+
+dist-pipeline: sdist-ship wheel-manylinux-pipeline
 
 #manylinux-install:
 #	echo "TODO"
 
-clean_dist:
+clean-dist:
 	$(RMR) dist
 
-clean_build:
+clean-build:
 	$(RMR) build $(SOURCE_BASE_FOLDER)/*.egg-info
 
-clean_cache:
+clean-cache:
 	find . -name __pycache__ -exec $(RMR) {} +
 
-clean_cy:
+clean-cy:
 	$(RMR) $(foreach c_file, $(CYTHON_C_FILE_PATHS),$(c_file)) 
 	$(RMR) $(foreach so_file, $(CYTHON_SO_FILE_PATHS),$(so_file))
 
-clean_wheelhouse: # This command is not run by make clean.
-	$(RMR) wheelhouse
+clean-wheelhouse: # This command is not run by make clean.
+	$(RMR) wheelhouse/*
