@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=60", "wheel>=0.43", "cython>=3.0.0"]
+requires = ["setuptools>=69", "wheel>=0.43", "cython>=3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -35,7 +35,7 @@ Issues = "https://github.com/b-boechat/tfrc-lib/issues"
 #Documentation = "#TODO"
 
 [project.optional-dependencies]
-dev = ["cython>=3.0.0", "setuptools>=60", "build"]
+dev = ["cython>=3", "setuptools>=69", "pip>=24"]
 
 [tool.setuptools.dynamic]
 version = {attr = "tfrc.__version__"}

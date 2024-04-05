@@ -96,5 +96,5 @@ cdef _fls_cy(double[:,:,::1] X, Py_ssize_t freq_width, Py_ssize_t time_width, do
 
 
 # Temporary testing function.
-def dummy_function():
+def foo():
     print("Working!")
