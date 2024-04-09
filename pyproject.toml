@@ -1,5 +1,6 @@
 [build-system]
-requires = ["setuptools>=69", "wheel>=0.43", "cython>=3"]
+#requires = ["setuptools>=69", "wheel>=0.43", "cython>=3"]
+requires = ["setuptools", "wheel", "cython"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -13,7 +14,7 @@ dynamic = ['version', 'authors']
 description = "Efficient toolbox for computing combined time-frequency representations of audio signals."
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = ["numpy>=1.26", "librosa>=0.10", "scipy"]
+dependencies = ["numpy", "librosa", "scipy"]
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "License :: OSI Approved :: MIT License",
@@ -35,6 +36,7 @@ Issues = "https://github.com/b-boechat/tfrc-lib/issues"
 #Documentation = "#TODO"
 
 [project.optional-dependencies]
+#dev = ["cython>=3", "setuptools>=69", "pip>=24"]
 dev = ["cython>=3", "setuptools>=69", "pip>=24"]
 
 [tool.setuptools.dynamic]
