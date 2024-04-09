@@ -23,19 +23,19 @@ install:
 	$(PIP) install .
 
 sdist: clean
-	USE_CYTHON=1 $(BUILD) --sdist
+	CYTHONIZE=1 $(BUILD) --sdist
 
 sdist-ship: sdist
 	mv dist/* $(WHEELHOUSE)
 
 wheel:
-	USE_CYTHON=1 $(BUILD) --wheel
+	CYTHONIZE=1 $(BUILD) --wheel
 
 dev:
-	USE_CYTHON=1 $(PIP) install --editable .[dev]
+	CYTHONIZE=1 $(PIP) install --editable .[dev]
 
 ext:
-	USE_CYTHON=1 $(SETUP) build_ext --inplace
+	CYTHONIZE=1 $(SETUP) build_ext --inplace
 
 uninstall:
 	$(PIP) uninstall $(PROJECT_NAME)

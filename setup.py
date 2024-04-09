@@ -10,6 +10,7 @@ method_cy_names = [
     "fls_cy", 
     "lt_cy"
 ]
+
 extensions = [Extension(f"tfrc.methods.{name}", [f"src/tfrc/methods/{name}.pyx"]) for name in method_cy_names]
 
 # Function to call when building from C code (no cythonization)
@@ -29,9 +30,9 @@ def no_cythonize(extensions, **_ignore):
         extension.sources[:] = sources
     return extensions
 
-USE_CYTHON = bool(int(getenv("USE_CYTHON", 0)))
+CYTHONIZE = bool(int(getenv("USE_CYTHON", 0)))
 
-if USE_CYTHON:
+if CYTHONIZE:
     from Cython.Build import cythonize
     compiler_directives = {"language_level": 3}
     ext_modules = cythonize(extensions, compiler_directives=compiler_directives)
