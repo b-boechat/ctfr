@@ -30,14 +30,16 @@ def no_cythonize(extensions, **_ignore):
         extension.sources[:] = sources
     return extensions
 
-CYTHONIZE = bool(int(getenv("USE_CYTHON", 0)))
+CYTHONIZE = bool(int(getenv("CYTHONIZE", 0)))
 
 if CYTHONIZE:
+    print("Building from .pyx files.")
     from Cython.Build import cythonize
     compiler_directives = {"language_level": 3}
     ext_modules = cythonize(extensions, compiler_directives=compiler_directives)
     
 else:
+    print("Building from .c files.")
     ext_modules = no_cythonize(extensions)
 
 
