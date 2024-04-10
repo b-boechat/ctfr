@@ -16,7 +16,6 @@ def _swgm_wrapper(X, beta = 0.3, max_gamma = 20.0):
         
         References: (Placeholder)
     """
-    print(X)
     return _swgm_cy(X, beta, max_gamma)
 
 @cython.boundscheck(False)
