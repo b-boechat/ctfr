@@ -50,6 +50,23 @@ def tfrc(
 
     raise InvalidRepresentationType(f"Invalid value for parameter 'representation_type': {representation_type}")
 
+def tfrc_from_specs(
+    specs_tensor: np.ndarray,
+    method: str,
+    target_energy: float = None,
+    **kwargs: Any
+) -> np.ndarray:
+
+    if target_energy is None:
+        target_energy = np.sum(specs_tensor[0])
+
+    _normalize_specs_tensor(specs_tensor, target_energy)
+    comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
+    _normalize_spec(comb_spec, target_energy)
+    return comb_spec
+
+
+# =============================================================================
 
 def _tfrc_stfts(
     signal,
