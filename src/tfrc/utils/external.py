@@ -16,6 +16,3 @@ def stft_spec(signal, **kwargs):
 
 def cqt_spec(signal, **kwargs):
     return np.square(np.abs(cqt(signal, **kwargs), dtype=np.double))
-
-#def specshow(**kwargs):
-#    return specshow(**kwargs)
