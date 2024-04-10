@@ -3,7 +3,7 @@ from scipy.stats import gmean
 cimport cython
 from libc.math cimport exp
 
-def _swgm_wrapper(X, beta, max_gamma):
+def _swgm_wrapper(X, beta = 0.3, max_gamma = 20.0):
     """ Calculate the "Sample-Weighted Geometric Mean" combination of spectrograms. 
         
         :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 

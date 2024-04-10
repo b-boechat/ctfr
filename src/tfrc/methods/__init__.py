@@ -2,4 +2,4 @@ from .fls_cy import _fls_wrapper, foo
 from .swgm_cy import _swgm_wrapper
 from .lt_cy import _lt_wrapper
 
-from methods import _get_method_function
+from .methods import _get_method_function, get_valid_methods
