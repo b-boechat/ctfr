@@ -1,1 +1,1 @@
-from .tfrc import tfrc
+from .tfrc import tfrc, tfrc_from_specs
