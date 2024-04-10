@@ -1,21 +1,21 @@
 import librosa
 import numpy as np
-from librosa.display import specshow
+#from librosa.display import specshow
 
-def load(**kwargs):
-    return librosa.load(**kwargs)
+def load(path, **kwargs):
+    return librosa.load(path, **kwargs)
 
-def stft(**kwargs):
-    return librosa.stft(**kwargs)
+def stft(signal, **kwargs):
+    return librosa.stft(signal, **kwargs)
 
-def cqt(**kwargs):
-    return librosa.cqt(**kwargs)
+def cqt(signal, **kwargs):
+    return librosa.cqt(signal, **kwargs)
 
-def stft_spec(**kwargs):
-    return np.square(np.abs(stft(**kwargs), dtype=np.double))
+def stft_spec(signal, **kwargs):
+    return np.square(np.abs(stft(signal, **kwargs), dtype=np.double))
 
-def cqt_spec(**kwargs):
-    return np.square(np.abs(cqt(**kwargs), dtype=np.double))
+def cqt_spec(signal, **kwargs):
+    return np.square(np.abs(cqt(signal, **kwargs), dtype=np.double))
 
-def specshow(**kwargs):
-    return specshow(**kwargs)
+#def specshow(**kwargs):
+#    return specshow(**kwargs)
