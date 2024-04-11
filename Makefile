@@ -4,10 +4,6 @@ SOURCE_BASE_FOLDER = src
 SOURCE_LOCATION = $(SOURCE_BASE_FOLDER)/$(PROJECT_NAME)
 CY_IMPLEMENTATIONS_LOCATIONS = $(SOURCE_LOCATION)/methods/implementations
 
-
-CY_METHODS_FILES_NAMES_NO_EXT = swgm_cy fls_cy lt_cy # Possibly read from manifest.
-CYTHON_C_FILE_PATHS = $(foreach name, $(CY_METHODS_FILES_NAMES_NO_EXT),$(CY_IMPLEMENTATIONS_LOCATIONS)/$(name).c)
-
 RM = rm -f
 RMR = $(RM) -r
 PYTHON_EXEC ?= python3
@@ -64,9 +60,10 @@ clean-build:
 clean-cache:
 	find . -name __pycache__ -exec $(RMR) {} +
 
-clean-cy:
-	$(RMR) $(foreach c_file, $(CYTHON_C_FILE_PATHS),$(c_file)) 
+clean-cy: # TODO rewrite this using the .pyx files as reference, so it's possible to add .c extensions.
+	$(RMR) $(CY_IMPLEMENTATIONS_LOCATIONS)/*.c
 	$(RMR) $(CY_IMPLEMENTATIONS_LOCATIONS)/*.so
+	$(RMR) $(CY_IMPLEMENTATIONS_LOCATIONS)/*.html
 
 clean-wheelhouse: # This command is not run by make clean.
 	$(RMR) $(WHEELHOUSE)/*

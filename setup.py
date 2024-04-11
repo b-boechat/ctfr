@@ -1,17 +1,17 @@
 from setuptools import Extension, setup
 from os import getenv
 from os.path import splitext
+from glob import glob
 
 from Cython.Build import cythonize
 
 # Define Cython extensions to build. The pyx files are assumed to be in src/tfrc/methods.
-method_cy_names = [
-    "swgm_cy",
-    "fls_cy", 
-    "lt_cy"
-]
+IMPLEMENTATIONS_SOURCE_DIR = "src/tfrc/methods/implementations"
+IMPLEMENTATIONS_MODULE = "tfrc.methods.implementations"
 
-extensions = [Extension(f"tfrc.methods.implementations.{name}", [f"src/tfrc/methods/implementations/{name}.pyx"]) for name in method_cy_names]
+def get_cy_extensions():
+    method_cy_source_paths = glob(f"{IMPLEMENTATIONS_SOURCE_DIR}/*.pyx")
+    return [Extension(f"{IMPLEMENTATIONS_MODULE}.{path.split('/')[-1].split('.')[-1]}", [path]) for path in method_cy_source_paths]
 
 # Function to call when building from C code (no cythonization)
 # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
@@ -31,6 +31,8 @@ def no_cythonize(extensions, **_ignore):
     return extensions
 
 CYTHONIZE = bool(int(getenv("CYTHONIZE", 0)))
+
+extensions = get_cy_extensions()
 
 if CYTHONIZE:
     print("Building from .pyx files.")
