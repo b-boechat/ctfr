@@ -11,7 +11,7 @@ method_cy_names = [
     "lt_cy"
 ]
 
-extensions = [Extension(f"tfrc.methods.{name}", [f"src/tfrc/methods/{name}.pyx"]) for name in method_cy_names]
+extensions = [Extension(f"tfrc.methods.implementations.{name}", [f"src/tfrc/methods/implementations/{name}.pyx"]) for name in method_cy_names]
 
 # Function to call when building from C code (no cythonization)
 # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules

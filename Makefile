@@ -2,12 +2,11 @@ PROJECT_NAME = tfrc
 
 SOURCE_BASE_FOLDER = src
 SOURCE_LOCATION = $(SOURCE_BASE_FOLDER)/$(PROJECT_NAME)
-CY_METHODS_LOCATION = $(SOURCE_LOCATION)/methods
+CY_IMPLEMENTATIONS_LOCATIONS = $(SOURCE_LOCATION)/methods/implementations
 
 
 CY_METHODS_FILES_NAMES_NO_EXT = swgm_cy fls_cy lt_cy # Possibly read from manifest.
-CYTHON_C_FILE_PATHS = $(foreach name, $(CY_METHODS_FILES_NAMES_NO_EXT),$(CY_METHODS_LOCATION)/$(name).c)
-CYTHON_SO_FILE_PATHS = $(foreach name, $(CY_METHODS_FILES_NAMES_NO_EXT),$(CY_METHODS_LOCATION)/$(name).so)
+CYTHON_C_FILE_PATHS = $(foreach name, $(CY_METHODS_FILES_NAMES_NO_EXT),$(CY_IMPLEMENTATIONS_LOCATIONS)/$(name).c)
 
 RM = rm -f
 RMR = $(RM) -r
@@ -66,7 +65,7 @@ clean-cache:
 
 clean-cy:
 	$(RMR) $(foreach c_file, $(CYTHON_C_FILE_PATHS),$(c_file)) 
-	$(RMR) $(foreach so_file, $(CYTHON_SO_FILE_PATHS),$(so_file))
+	$(RMR) $(CY_IMPLEMENTATIONS_LOCATIONS)/*.so
 
 clean-wheelhouse: # This command is not run by make clean.
 	$(RMR) $(WHEELHOUSE)/*
