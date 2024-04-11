@@ -3,3 +3,6 @@ class Warning_ (Warning):
 
 class FunctionNotBuiltWarning(Warning_):
     pass
+
+class ParameterChangeWarning(Warning_):
+    pass

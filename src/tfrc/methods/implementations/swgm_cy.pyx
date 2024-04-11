@@ -2,6 +2,8 @@ import numpy as np
 from scipy.stats import gmean
 cimport cython
 from libc.math cimport exp
+from warnings import warn
+from tfrc.warning import ParameterChangeWarning
 
 def _swgm_wrapper(X, beta = 0.3, max_gamma = 20.0):
     """ Calculate the "Sample-Weighted Geometric Mean" combination of spectrograms. 
@@ -16,6 +18,16 @@ def _swgm_wrapper(X, beta = 0.3, max_gamma = 20.0):
         
         References: (Placeholder)
     """
+    beta = float(beta)
+    if beta < 0:
+        beta = 0.0
+        warn("Beta parameter must be >= 0. Setting beta = 0.", ParameterChangeWarning)
+
+    max_gamma = float(max_gamma)
+    if max_gamma < 1:
+        max_gamma = 1.0
+        warn("Max_gamma parameter must be >= 1. Setting max_gamma = 1.", ParameterChangeWarning)
+
     return _swgm_cy(X, beta, max_gamma)
 
 @cython.boundscheck(False)

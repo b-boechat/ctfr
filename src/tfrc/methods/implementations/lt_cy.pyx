@@ -1,6 +1,8 @@
 import numpy as np
 cimport cython
 from libc.math cimport INFINITY, sqrt, pow
+from warnings import warn
+from tfrc.warning import ParameterChangeWarning
 
 def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 0.8):
     """ Calculate the "Lukin-Todd" (LT) combination of spectrograms. 
@@ -14,6 +16,21 @@ def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 0.8):
         
         References: (Placeholder)
     """
+    freq_width = int(freq_width)
+    if freq_width % 2 == 0:
+        freq_width += 1
+        warn(f"The 'freq_width' parameter should be an odd integer. Changing to the nearest odd integer {freq_width}.", ParameterChangeWarning)
+
+    time_width = int(time_width)
+    if time_width % 2 == 0:
+        time_width += 1
+        warn(f"The 'time_width' parameter should be an odd integer. Changing to the nearest odd integer {time_width}.", ParameterChangeWarning)
+    
+    eta = float(eta)
+    if eta < 0:
+        eta = 0.0
+        warn(f"The 'eta' parameter should be a non-negative float. Changing to 0.", ParameterChangeWarning)
+
     return _lt_cy(X, freq_width, time_width, eta)
 
 @cython.boundscheck(False)

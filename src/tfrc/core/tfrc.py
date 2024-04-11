@@ -1,5 +1,5 @@
 import numpy as np
-from tfrc.exception import InvalidRepresentationType
+from tfrc.exception import InvalidRepresentationTypeError
 from tfrc.utils import stft_spec, cqt_spec, _get_signal_energy, _normalize_spec, _normalize_specs_tensor
 from tfrc.methods import _get_method_function
 from typing import List, Optional, Any
@@ -48,7 +48,7 @@ def tfrc(
             **kwargs
         )
 
-    raise InvalidRepresentationType(f"Invalid value for parameter 'representation_type': {representation_type}")
+    raise InvalidRepresentationTypeError(f"Invalid value for parameter 'representation_type': {representation_type}")
 
 def tfrc_from_specs(
     specs_tensor: np.ndarray,
