@@ -1,11 +1,11 @@
 from tfrc.exception import InvalidCombinationMethod
-from .methods_dict import methods_dict
+from .methods_dict import _methods_dict
 
 def _get_method_function(key):
     try:
-        return methods_dict[key]["function"]
+        return _methods_dict[key]["function"]
     except KeyError:
         raise InvalidCombinationMethod(f"Invalid combination method: {key}")
 
 def get_valid_methods():
-    return list(methods_dict.keys())
+    return list(_methods_dict.keys())
