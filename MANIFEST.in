@@ -1,3 +1,1 @@
-include src/tfrc/methods/swgm_cy.pyx
-include src/tfrc/methods/fls_cy.pyx
-include src/tfrc/methods/lt_cy.pyx
+include src/tfrc/methods/implementations/*.pyx
