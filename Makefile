@@ -14,6 +14,7 @@ PYTHON_EXEC ?= python3
 PIP = python3 -m pip
 BUILD = $(PYTHON_EXEC) -m build
 SETUP = $(PYTHON_EXEC) setup.py
+DIST = dist
 
 TWINE = python3 -m twine
 WHEELHOUSE = wheelhouse
@@ -50,12 +51,12 @@ wheel-manylinux-pipeline: clean
 dist-pipeline: sdist-ship wheel-manylinux-pipeline
 
 publish-testpypi:
-	$(TWINE) upload --repository testpypi $(WHEELHOUSE)/*
-# Install with: pip install --index-url https://test.pypi.org/simple/ tfrc
+	$(TWINE) upload --repository testpypi $(DIST)/*/*
+# Install with: pip install --extra-index-url https://test.pypi.org/simple/ tfrc
 
 
 clean-dist:
-	$(RMR) dist
+	$(RMR) $(DIST)
 
 clean-build:
 	$(RMR) build $(SOURCE_BASE_FOLDER)/*.egg-info
