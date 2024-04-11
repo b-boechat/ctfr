@@ -2,7 +2,7 @@ import numpy as np
 cimport cython
 from libc.math cimport INFINITY, sqrt, pow
 
-def _lt_wrapper(X, freq_width, time_width, eta):
+def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 0.8):
     """ Calculate the "Lukin-Todd" (LT) combination of spectrograms. 
         
         :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 

@@ -3,7 +3,7 @@ from scipy.signal import correlate
 from libc.math cimport exp, sqrt
 cimport cython
 
-def _fls_wrapper(X, freq_width, time_width, gamma):
+def _fls_wrapper(X, freq_width = 21, time_width = 11, gamma = 20.0):
     """ Calculate the "Fast Local Sparsity" (FLS) combination of spectrograms. 
         
         :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 
