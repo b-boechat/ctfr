@@ -1,8 +1,8 @@
-class Error(Exception):
+class Exception_(Exception):
     pass
 
-class InvalidRepresentationType(Error):
+class InvalidRepresentationType(Exception_):
     pass
 
-class InvalidCombinationMethod(Error):
+class InvalidCombinationMethod(Exception_):
     pass
