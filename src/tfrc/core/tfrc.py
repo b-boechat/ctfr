@@ -54,19 +54,27 @@ def tfrc_from_specs(
     specs_tensor: np.ndarray,
     method: str,
     *,
-    target_energy: float = None,
+    normalize_input: bool = False,
+    input_energy: float = None,
+    normalize_output: bool = True,
+    output_energy: float = None,
     **kwargs: Any
 ) -> np.ndarray:
 
     if specs_tensor.ndim != 3:
         raise InvalidSpecsTensorError(f"Invalid specs tensor shape: {specs_tensor.shape}. Expected 3 dimensions.")
 
-    if target_energy is None:
-        target_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
+    if normalize_input: 
+        if input_energy is None:
+            input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
+        _normalize_specs_tensor(specs_tensor, input_energy)
 
-    _normalize_specs_tensor(specs_tensor, target_energy)
+    if normalize_output and output_energy is None:
+        output_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
+
     comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
-    _normalize_spec(comb_spec, target_energy)
+    if normalize_output:
+        _normalize_spec(comb_spec, output_energy)
     return comb_spec
 
 
