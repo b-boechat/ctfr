@@ -1,14 +1,14 @@
 import numpy as np
-from tfrc.exception import InvalidRepresentationTypeError
-from tfrc.utils import stft_spec, cqt_spec, _get_signal_energy, _normalize_spec, _normalize_specs_tensor
+from tfrc.exception import InvalidRepresentationTypeError, InvalidSpecsTensorError
+from tfrc.utils import stft_spec, cqt_spec, _get_signal_energy, _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array
 from tfrc.methods import _get_method_function
 from typing import List, Optional, Any
 
 def tfrc(
     signal: np.ndarray,
     method: str,
-    representation_type: str = "stft",
     *,
+    representation_type: str = "stft",
     win_length_list: Optional[List[int]] = None,
     hop_length: Optional[int] = None,
     n_fft: Optional[int] = None,
@@ -53,12 +53,16 @@ def tfrc(
 def tfrc_from_specs(
     specs_tensor: np.ndarray,
     method: str,
+    *,
     target_energy: float = None,
     **kwargs: Any
 ) -> np.ndarray:
 
+    if specs_tensor.ndim != 3:
+        raise InvalidSpecsTensorError(f"Invalid specs tensor shape: {specs_tensor.shape}. Expected 3 dimensions.")
+
     if target_energy is None:
-        target_energy = np.sum(specs_tensor[0])
+        target_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
 
     _normalize_specs_tensor(specs_tensor, target_energy)
     comb_spec = _get_method_function(method)(specs_tensor, **kwargs)

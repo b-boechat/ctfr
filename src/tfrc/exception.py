@@ -6,3 +6,6 @@ class InvalidRepresentationTypeError(Exception_):
 
 class InvalidCombinationMethodError(Exception_):
     pass
+
+class InvalidSpecsTensorError(Exception_):
+    pass
