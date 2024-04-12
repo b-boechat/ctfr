@@ -116,8 +116,3 @@ cdef _fls_cy(double[:,:,::1] X, Py_ssize_t freq_width, Py_ssize_t time_width, do
 
     # Calculate spectrogram as a binwise weighted arithmetic mean.
     return np.average(X_ndarray, axis=0, weights=combination_weight_ndarray)
-
-
-# Temporary testing function.
-def foo():
-    print("Working!")
