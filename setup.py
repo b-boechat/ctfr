@@ -1,17 +1,18 @@
 from setuptools import Extension, setup
 from os import getenv
+from os import sep
 from os.path import splitext
 from glob import glob
 
 from Cython.Build import cythonize
 
-# Define Cython extensions to build. The pyx files are assumed to be in src/tfrc/methods.
-IMPLEMENTATIONS_SOURCE_DIR = "src/tfrc/methods/implementations"
+# Define Cython extensions to build. The pyx files are assumed to be in src/tfrc/methods/implementations.
+IMPLEMENTATIONS_SOURCE_DIR = f"src{sep}tfrc{sep}methods{sep}implementations"
 IMPLEMENTATIONS_MODULE = "tfrc.methods.implementations"
 
 def get_cy_extensions():
-    method_cy_source_paths = glob(f"{IMPLEMENTATIONS_SOURCE_DIR}/*.pyx")
-    return [Extension(f"{IMPLEMENTATIONS_MODULE}.{path.split('/')[-1].split('.')[0]}", [path]) for path in method_cy_source_paths]
+    method_cy_source_paths = glob(f"{IMPLEMENTATIONS_SOURCE_DIR}{sep}*.pyx")
+    return [Extension(f"{IMPLEMENTATIONS_MODULE}.{path.split(sep)[-1].split('.')[0]}", [path]) for path in method_cy_source_paths]
 
 # Function to call when building from C code (no cythonization)
 # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
