@@ -24,7 +24,7 @@ def _swgm_wrapper(X, beta = 0.3, max_gamma = 20.0):
         warn("Beta parameter must be >= 0. Setting beta = 0.", ParameterChangeWarning)
 
     max_gamma = float(max_gamma)
-    if max_gamma < 1:
+    if max_gamma < 1.0:
         max_gamma = 1.0
         warn("Max_gamma parameter must be >= 1. Setting max_gamma = 1.", ParameterChangeWarning)
 

@@ -11,7 +11,7 @@ IMPLEMENTATIONS_MODULE = "tfrc.methods.implementations"
 
 def get_cy_extensions():
     method_cy_source_paths = glob(f"{IMPLEMENTATIONS_SOURCE_DIR}/*.pyx")
-    return [Extension(f"{IMPLEMENTATIONS_MODULE}.{path.split('/')[-1].split('.')[-1]}", [path]) for path in method_cy_source_paths]
+    return [Extension(f"{IMPLEMENTATIONS_MODULE}.{path.split('/')[-1].split('.')[0]}", [path]) for path in method_cy_source_paths]
 
 # Function to call when building from C code (no cythonization)
 # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules

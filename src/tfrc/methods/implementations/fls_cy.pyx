@@ -18,16 +18,25 @@ def _fls_wrapper(X, freq_width = 21, time_width = 11, gamma = 20.0):
         References: (Placeholder)
     """
     freq_width = int(freq_width)
+    if freq_width < 0:
+        freq_width = 21
+        warn(f"The 'freq_width' parameter should be a positive integer. Setting freq_width = {freq_width}.", ParameterChangeWarning)
     if freq_width % 2 == 0:
         freq_width += 1
-        warn(f"The 'freq_width' parameter should be an odd integer. Changing to the nearest odd integer {freq_width}.", ParameterChangeWarning)
+        warn(f"The 'freq_width' parameter should be an odd integer. Setting freq_width = {freq_width}.", ParameterChangeWarning)
 
     time_width = int(time_width)
+    if time_width < 0:
+        time_width = 11
+        warn(f"The 'time_width' parameter should be a positive integer. Setting time_width = {time_width}.", ParameterChangeWarning)
     if time_width % 2 == 0:
         time_width += 1
-        warn(f"The 'time_width' parameter should be an odd integer. Changing to the nearest odd integer {time_width}.", ParameterChangeWarning)
+        warn(f"The 'time_width' parameter should be an odd integer. Setting time_width = {time_width}.", ParameterChangeWarning)
     
     gamma = float(gamma)
+    if gamma < 0.0:
+        gamma = 20.0
+        warn(f"The 'gamma' parameter should be a non-negative float. Setting gamma = {gamma}.", ParameterChangeWarning)
 
     return _fls_cy(X, freq_width, time_width, gamma)
 
