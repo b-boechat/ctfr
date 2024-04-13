@@ -1,4 +1,4 @@
-__version__ = "0.0.0.5"
+__version__ = "0.0.0.6"
 
 from warnings import warn as _warn
 from tfrc.utils import load, stft, cqt, stft_spec, cqt_spec
