@@ -1,11 +1,12 @@
 import numpy as np
 from tfrc.exception import InvalidRepresentationTypeError, InvalidSpecsTensorError
-from tfrc.utils import stft_spec, cqt_spec, _get_signal_energy, _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array
+from tfrc.utils import stft_spec, cqt_spec, _get_signal_energy, _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
 from tfrc.methods import _get_method_function
 from typing import List, Optional, Any
 
 def tfrc(
     signal: np.ndarray,
+    sr,
     method: str,
     *,
     representation_type: str = "stft",
@@ -22,6 +23,7 @@ def tfrc(
 
     if representation_type == "stft":
         params = _set_stft_params(
+            sr = sr,
             win_length_list = win_length_list, 
             hop_length = hop_length, 
             n_fft = n_fft
@@ -82,7 +84,7 @@ def tfrc_from_specs(
 
 def _tfrc_stfts(
     signal,
-    method,
+    method, # sr
     win_length_list,
     hop_length,
     n_fft,
@@ -135,10 +137,13 @@ def _tfrc_cqts(
     _normalize_spec(comb_spec, signal_energy)
     return comb_spec
 
-def _set_stft_params(win_length_list, hop_length, n_fft):
+def _set_stft_params(sr, win_length_list, hop_length, n_fft):
     if win_length_list is None:
-        win_length_list = [1024, 2048, 4096]
-    else: # TODO catch exception.
+        # Default pper window length is 0.1 seconds in samples, rounded to the nearest power of 2.
+        upper_length =  _round_to_power_of_two(int(sr * 0.1), mode="round") 
+        win_length_list = [upper_length // 4, upper_length // 2, upper_length]
+
+    else:
         win_length_list = sorted(win_length_list)
 
     if hop_length is None:
@@ -155,8 +160,8 @@ def _set_stft_params(win_length_list, hop_length, n_fft):
 
 def _set_cqt_params(filter_scale_list, bins_per_octave, fmin, n_bins, hop_length):
     if filter_scale_list is None:
-        filter_scale_list = [1/3, 1/2, 1]
-    else: # TODO catch exception
+        filter_scale_list = [1/3, 2/3, 1]
+    else:
         filter_scale_list = sorted(filter_scale_list)
     
     if bins_per_octave is None:

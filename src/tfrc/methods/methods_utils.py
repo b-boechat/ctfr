@@ -7,5 +7,5 @@ def _get_method_function(key):
     except KeyError:
         raise InvalidCombinationMethodError(f"Invalid combination method: {key}")
 
-def get_valid_methods():
+def get_methods():
     return list(_methods_dict.keys())
