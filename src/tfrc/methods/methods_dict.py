@@ -5,21 +5,27 @@ from .implementations.binwise_np import _mean_wrapper, _median_wrapper, _min_wra
 
 _methods_dict = {
     "swgm": {
-        "function": _swgm_wrapper
+        "name": "Sample Weighted Geometric Mean (SWGM)",
+        "function": _swgm_wrapper,
     },
     "fls": {
+        "name": "Fast Local Sparsity (FLS)",
         "function": _fls_wrapper
     },
     "lt": {
+        "name": "Lukin-Todd (LT)",
         "function": _lt_wrapper
     },
     "mean": {
+        "name": "Binwise Mean",
         "function": _mean_wrapper
     },
     "median": {
+        "name": "Binwise Median",
         "function": _median_wrapper
     },
     "min": {
+        "name": "Binwise Minimum",
         "function": _min_wrapper
     }
 }

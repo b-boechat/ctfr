@@ -9,3 +9,8 @@ def _get_method_function(key):
 
 def get_methods():
     return list(_methods_dict.keys())
+
+def list_methods():
+    print("Listing installed methods:", end="\n\n")
+    for key, val in _methods_dict.items():
+        print(f"- {val['name']} -- {key}")
