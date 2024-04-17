@@ -1,6 +1,6 @@
 import numpy as np
 from tfrc.exception import InvalidRepresentationTypeError, InvalidSpecsTensorError
-from tfrc.utils import stft_spec, cqt_spec, _get_signal_energy, _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
+from tfrc.utils import stft_spec, cqt_spec, _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
 from tfrc.methods import _get_method_function
 from typing import List, Optional, Any
 
@@ -22,7 +22,7 @@ def tfrc(
 
 
     if representation_type == "stft":
-        params = _set_stft_params(
+        params = _get_stft_params(
             sr = sr,
             win_length_list = win_length_list, 
             hop_length = hop_length, 
@@ -36,7 +36,8 @@ def tfrc(
         )
 
     if representation_type == "cqt":
-        params = _set_cqt_params(
+        params = _get_cqt_params(
+            sr = sr,
             filter_scale_list = filter_scale_list,
             bins_per_octave = bins_per_octave,
             fmin = fmin,
@@ -130,23 +131,24 @@ def _tfrc_cqts(
             for filter_scale in filter_scale_list
         ]
     )
-    signal_energy = _get_signal_energy(signal)
-    _normalize_specs_tensor(specs_tensor, signal_energy)
+    input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
+    _normalize_specs_tensor(specs_tensor, input_energy)
     comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
-    _normalize_spec(comb_spec, signal_energy)
+    _normalize_spec(comb_spec, input_energy)
     return comb_spec
 
-def _set_stft_params(sr, win_length_list, hop_length, n_fft):
+def _get_stft_params(sr, win_length_list, hop_length, n_fft):
     if win_length_list is None:
-        # Default upper window length is 0.1 seconds in samples, rounded to the nearest power of 2.
-        upper_length =  _round_to_power_of_two(int(sr * 0.1), mode="round") 
-        win_length_list = [upper_length // 4, upper_length // 2, upper_length]
+        # Default middle window length is 0.1 seconds in samples, rounded to the nearest power of 2.
+        # Default caps at 2048 samples to avoid high computational costs.
+        middle_length =  min(_round_to_power_of_two(int(sr * 0.1), mode="round"), 2048)
+        win_length_list = [middle_length // 2, middle_length, middle_length * 2]
 
     else:
         win_length_list = sorted(win_length_list)
 
     if hop_length is None:
-        hop_length = int(win_length_list[0]/2)
+        hop_length = win_length_list[0] // 4
 
     if n_fft is None:
         n_fft = win_length_list[-1]
@@ -157,7 +159,7 @@ def _set_stft_params(sr, win_length_list, hop_length, n_fft):
         "n_fft": n_fft,
     }
 
-def _set_cqt_params(filter_scale_list, bins_per_octave, fmin, n_bins, hop_length):
+def _get_cqt_params(sr, filter_scale_list, bins_per_octave, fmin, n_bins, hop_length):
     if filter_scale_list is None:
         filter_scale_list = [1/3, 2/3, 1]
     else:
@@ -173,7 +175,7 @@ def _set_cqt_params(filter_scale_list, bins_per_octave, fmin, n_bins, hop_length
         n_bins = bins_per_octave * 8
 
     if hop_length is None:
-        hop_length = 512
+        hop_length = _round_to_power_of_two(int(sr * 0.1), mode="round") // 4
     
     return {
         "filter_scale_list": filter_scale_list,

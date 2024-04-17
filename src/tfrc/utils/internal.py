@@ -19,10 +19,10 @@ def _normalize_spec(spec, target_energy):
 
 def _round_to_power_of_two(number, mode):
     if mode == "ceil":
-        return 2 ** np.ceil(np.log2(number))
+        return int(2 ** np.ceil(np.log2(number)))
     elif mode == "floor":
-        return 2 ** np.floor(np.log2(number))
+        return int(2 ** np.floor(np.log2(number)))
     elif mode == "round":
-        return 2 ** np.round(np.log2(number))
+        return int(2 ** np.round(np.log2(number)))
     else:
         raise ValueError(f"Invalid mode: {mode}")
