@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from tfrc import mean_from_specs, median_from_specs, min_from_specs
-from base import BaseTestParameterValidation
+from tests.utils.base import BaseTestParameterValidation
 
 class TestParameterValidationMean(BaseTestParameterValidation):
     def test_correct_arguments(self):

@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 from tfrc import swgm_from_specs
 from tfrc.warning import ParameterChangeWarning
-from base import BaseTestParameterValidation
+from tests.utils.base import BaseTestParameterValidation
 
 class TestParameterValidationSwgm(BaseTestParameterValidation):
     def test_correct_arguments(self):
