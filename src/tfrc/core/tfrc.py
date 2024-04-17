@@ -6,7 +6,7 @@ from typing import List, Optional, Any
 
 def tfrc(
     signal: np.ndarray,
-    sr,
+    sr: float,
     method: str,
     *,
     representation_type: str = "stft",
@@ -56,27 +56,26 @@ def tfrc_from_specs(
     specs_tensor: np.ndarray,
     method: str,
     *,
-    normalize_input: bool = False,
+    normalize_input: bool = True,
     input_energy: float = None,
     normalize_output: bool = True,
-    output_energy: float = None,
     **kwargs: Any
 ) -> np.ndarray:
 
     if specs_tensor.ndim != 3:
         raise InvalidSpecsTensorError(f"Invalid specs tensor shape: {specs_tensor.shape}. Expected 3 dimensions.")
 
+    if (normalize_input or normalize_output) and input_energy is None:
+        input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
+
     if normalize_input: 
-        if input_energy is None:
-            input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
         _normalize_specs_tensor(specs_tensor, input_energy)
 
-    if normalize_output and output_energy is None:
-        output_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
-
     comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
+
     if normalize_output:
-        _normalize_spec(comb_spec, output_energy)
+        _normalize_spec(comb_spec, input_energy)
+
     return comb_spec
 
 
@@ -84,7 +83,7 @@ def tfrc_from_specs(
 
 def _tfrc_stfts(
     signal,
-    method, # sr
+    method,
     win_length_list,
     hop_length,
     n_fft,
@@ -102,10 +101,10 @@ def _tfrc_stfts(
             for win_length in win_length_list
         ]
     )
-    signal_energy = _get_signal_energy(signal)
-    _normalize_specs_tensor(specs_tensor, signal_energy)
+    input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
+    _normalize_specs_tensor(specs_tensor, input_energy)
     comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
-    _normalize_spec(comb_spec, signal_energy)
+    _normalize_spec(comb_spec, input_energy)
     return comb_spec
 
 def _tfrc_cqts(
@@ -139,7 +138,7 @@ def _tfrc_cqts(
 
 def _set_stft_params(sr, win_length_list, hop_length, n_fft):
     if win_length_list is None:
-        # Default pper window length is 0.1 seconds in samples, rounded to the nearest power of 2.
+        # Default upper window length is 0.1 seconds in samples, rounded to the nearest power of 2.
         upper_length =  _round_to_power_of_two(int(sr * 0.1), mode="round") 
         win_length_list = [upper_length // 4, upper_length // 2, upper_length]
 
