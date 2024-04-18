@@ -1,16 +1,14 @@
 import pytest
+import numpy as np
+import json
 from tfrc import load
 
-_samples_dict = {
-    "guitarset": {
-        "load_params": {
-            "path": "tests/data/guitarset_sample/guitarset_sample.wav",
-            "sr": 22050,
-            "mono": True
-        },
+_specs_tensor_samples_dict = {
+    "example": {
+        "path": "tests/data/example.json"
     }
 }
 
-@pytest.fixture
-def load_sample(sample_id):
-    return load(**_samples_dict[sample_id]["load_params"])
+def load_sample_specs_tensor(sample_id):
+    with open(_specs_tensor_samples_dict[sample_id]) as f:
+        return np.array(json.load(f), dtype=np.double)
