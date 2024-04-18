@@ -2,7 +2,7 @@ import librosa
 import numpy as np
 #from librosa.display import specshow
 
-def load(path, *, sr=22050, mono=True, offset=0.0, duration=None, dtype=np.float32, res_type='soxr_hq'):
+def load(path, *, sr=22050, mono=True, offset=0.0, duration=None, dtype=np.double, res_type='soxr_hq'):
     return librosa.load(path, sr=sr, mono=mono, offset=offset, duration=duration, dtype=dtype, res_type=res_type)
 
 def stft(signal, *, n_fft=2048, hop_length=None, win_length=None, window='hann', center=True, pad_mode='constant'):
