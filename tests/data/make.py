@@ -5,7 +5,7 @@ import numpy as np
 
 def make_sample_stft_specs():
 
-    output_path = "sample_specs_tensor_1.json"
+    output_path = "sample_stft_specs.json"
     if os.path.exists(output_path):
         raise FileExistsError(f"File already exists: {output_path}")
 

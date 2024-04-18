@@ -4,8 +4,8 @@ import json
 from tfrc import load
 
 _specs_tensor_samples_dict = {
-    "example": {
-        "path": "tests/data/example.json"
+    "sample_stft_specs": {
+        "path": "tests/data/sample_stft_specs.json"
     }
 }
 
