@@ -65,7 +65,7 @@ You can freely add parameters to your implementation function, as long as the TF
 
 #### Parameter validation
 
-If you add parameters to your method, it is good practice to create a *wrapper* function to perform parameter validation. For example, let's add a parameter called ```offset``` to the *max* method, which is added to every element before computing the binwise maximum. This argument is required to be a positive number. Let's change our ```max.py``` file: (TODO add validation for being a number)
+If you add parameters to your method, it is good practice to create a *wrapper* function to perform parameter validation. For example, let's add a parameter called *offset* to the *max* method, which is added to every element before computing the binwise maximum. This argument is required to be a positive number. Let's change our ```max.py``` file: (TODO add validation for being a number)
 
 ```python
 # content of max.py
