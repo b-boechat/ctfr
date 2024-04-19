@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from tfrc import fls_from_specs
-from tfrc.warning import ParameterChangeWarning
+from tfrc.warning import ArgumentChangeWarning
 from tests.utils.base import BaseTestParameterValidation
 
 class TestParameterValidationFls(BaseTestParameterValidation):
@@ -24,13 +24,13 @@ class TestParameterValidationFls(BaseTestParameterValidation):
             fls_from_specs(self.X, gamma = "string")
 
     def test_parameter_changes(self):
-        with pytest.warns(ParameterChangeWarning):
+        with pytest.warns(ArgumentChangeWarning):
             fls_from_specs(self.X, freq_width = -5)
-        with pytest.warns(ParameterChangeWarning):
+        with pytest.warns(ArgumentChangeWarning):
             fls_from_specs(self.X, freq_width = 12)
-        with pytest.warns(ParameterChangeWarning):
+        with pytest.warns(ArgumentChangeWarning):
             fls_from_specs(self.X, time_width = -5)
-        with pytest.warns(ParameterChangeWarning):
+        with pytest.warns(ArgumentChangeWarning):
             fls_from_specs(self.X, time_width = 12)
-        with pytest.warns(ParameterChangeWarning):
+        with pytest.warns(ArgumentChangeWarning):
             fls_from_specs(self.X, gamma = -5.0)

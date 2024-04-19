@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from tfrc import swgm_from_specs
-from tfrc.warning import ParameterChangeWarning
+from tfrc.warning import ArgumentChangeWarning
 from tests.utils.base import BaseTestParameterValidation
 
 class TestParameterValidationSwgm(BaseTestParameterValidation):
@@ -21,7 +21,7 @@ class TestParameterValidationSwgm(BaseTestParameterValidation):
             swgm_from_specs(self.X, max_gamma = "string")
 
     def test_parameter_changes(self):
-        with pytest.warns(ParameterChangeWarning):
+        with pytest.warns(ArgumentChangeWarning):
             swgm_from_specs(self.X, beta = -1.0)
-        with pytest.warns(ParameterChangeWarning):
+        with pytest.warns(ArgumentChangeWarning):
             swgm_from_specs(self.X, max_gamma = 0.5)

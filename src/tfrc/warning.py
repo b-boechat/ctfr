@@ -4,5 +4,5 @@ class Warning_ (Warning):
 class FunctionNotBuiltWarning(Warning_):
     pass
 
-class ParameterChangeWarning(Warning_):
+class ArgumentChangeWarning(Warning_):
     pass
