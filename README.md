@@ -74,7 +74,7 @@ tfrc is designed to be easily extensible with new combination methods written in
 
 ### Installation
 
-First, make sure you've installed tfrc in editable mode with development dependencies. See [the installation guide](README.md#development-mode) for more details.
+First, make sure you've installed tfrc in editable mode with development dependencies. See [the installation guide](#development-mode) for more details.
 
 ### Writing a simple method
 
