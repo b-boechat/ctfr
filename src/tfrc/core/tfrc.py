@@ -67,7 +67,7 @@ def tfrc_from_specs(
         if spec.ndim != 2:
             raise InvalidSpecError(f"Invalid spec shape: {spec.shape}. Expected 2 dimensions.")
 
-    specs_tensor = np.concatenate(tuple(np.expand_dims(spec, axis=0) for spec in specs), axis=0)
+    specs_tensor = np.ascontiguousarray(np.stack(specs, axis=0))
 
     if (normalize_input or normalize_output) and input_energy is None:
         input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
@@ -93,6 +93,7 @@ def _tfrc_stfts(
     n_fft,
     **kwargs
 ):
+
     specs_tensor = np.array(
         [
             stft_spec(
