@@ -7,7 +7,7 @@ from libc.math cimport INFINITY, exp, log10
 
 
 # Currently only hybrid.
-def ls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-50):
+def _ls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-50):
     """ Calculate the "Hybrid Local Sparsity" (LS-H) combination of spectrograms. In low-energy regions the combination defaults to binwise minimax, in order to reduce the computational cost.
         
         :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 
@@ -16,7 +16,7 @@ def ls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energ
         :param freq_width_sparsity (Odd integer): Local sparsity window length in frequency.
         :param time_width_energy (Odd integer): Local energy window length in time.
         :param time_width_sparsity (Odd integer): Local sparsity window length in time.
-        :param beta (Double >= 0): Parameter for calculating combination weights. Example value: zeta = 80.0.
+        :param beta (Double >= 0): Parameter for calculating combination weights. Example value: beta = 80.0.
         :param energy_criterium_db (Double): Local energy criterium that distinguishes high-energy regions (where LS is computed) from low-energy regions (where binwise minimax is computed).
         :return combined_tfr (Ndarray <double> [K x M]): Combined spectrogram, not yet with normalized energy.
         
@@ -157,7 +157,7 @@ cdef local_sparsity_hybrid(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy,
                 min_local_energy = INFINITY
                 weights_sum = 0.0
                 for p in range(P):
-                    combination_weight[p] = exp( (2*log_sparsity[p] - sum_log_sparsity) * zeta)
+                    combination_weight[p] = exp( (2*log_sparsity[p] - sum_log_sparsity) * beta)
                     weights_sum += combination_weight[p]
                     if energy[p, red_k, red_m] < min_local_energy:
                         min_local_energy = energy[p, red_k, red_m]
