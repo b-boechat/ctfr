@@ -1,5 +1,5 @@
 import numpy as np
-from tfrc.exception import InvalidRepresentationTypeError, InvalidSpecsTensorError
+from tfrc.exception import InvalidRepresentationTypeError, InvalidSpecError
 from tfrc.utils import stft_spec, cqt_spec, _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
 from tfrc.methods import _get_method_function
 from typing import List, Optional, Any
@@ -54,7 +54,7 @@ def tfrc(
     raise InvalidRepresentationTypeError(f"Invalid value for parameter 'representation_type': {representation_type}")
 
 def tfrc_from_specs(
-    specs_tensor: np.ndarray,
+    specs: tuple[np.ndarray],
     method: str,
     *,
     normalize_input: bool = True,
@@ -63,8 +63,11 @@ def tfrc_from_specs(
     **kwargs: Any
 ) -> np.ndarray:
 
-    if specs_tensor.ndim != 3:
-        raise InvalidSpecsTensorError(f"Invalid specs tensor shape: {specs_tensor.shape}. Expected 3 dimensions.")
+    for spec in specs:
+        if spec.ndim != 2:
+            raise InvalidSpecError(f"Invalid spec shape: {spec.shape}. Expected 2 dimensions.")
+
+    specs_tensor = np.concatenate(tuple(np.expand_dims(spec, axis=0) for spec in specs), axis=0)
 
     if (normalize_input or normalize_output) and input_energy is None:
         input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
@@ -148,7 +151,7 @@ def _get_stft_params(sr, win_length_list, hop_length, n_fft):
         win_length_list = sorted(win_length_list)
 
     if hop_length is None:
-        hop_length = win_length_list[0] // 4
+        hop_length = win_length_list[0] // 2
 
     if n_fft is None:
         n_fft = win_length_list[-1]

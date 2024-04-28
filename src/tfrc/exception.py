@@ -7,5 +7,5 @@ class InvalidRepresentationTypeError(Exception_):
 class InvalidCombinationMethodError(Exception_):
     pass
 
-class InvalidSpecsTensorError(Exception_):
+class InvalidSpecError(Exception_):
     pass
