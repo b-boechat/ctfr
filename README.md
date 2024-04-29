@@ -225,4 +225,9 @@ If you use tfrc in your work, please cite the paper (TODO).
 "TODO" in TODO.
 ```
 
-Also, if you use a specific combination method, please cite the corresponding paper. You can find the references in the documentation or by running: [TODO]
+Also, if you use a specific combination method, please cite the corresponding paper. You can find the citations in the documentation or by running ```tfrc.cite_method```:
+
+```python-repl
+>>> tfrc.cite_method("fls")
+M. V. M. da Costa and L. W. P. Biscainho, "The fast local sparsity method: a low-cost combination of time-frequency representations based on the Hoyer sparsity", Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, 09 2022.
+```
