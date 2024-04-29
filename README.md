@@ -1,5 +1,6 @@
 # tfrc
-![Licence](https://img.shields.io/github/license/b-boechat/tfrc-lib)
+
+[![PyPI](https://img.shields.io/pypi/v/tfrc-lib.svg)](https://pypi.python.org/pypi/tfrc-lib) [![Python Versions](https://img.shields.io/pypi/pyversions/tfrc.svg)](https://pypi.python.org/pypi/tfrc-lib) ![Licence](https://img.shields.io/github/license/b-boechat/tfrc-lib) 
 
 #### Efficient toolbox for computing combined time-frequency representations of audio signals.
 
