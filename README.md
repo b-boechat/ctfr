@@ -49,6 +49,12 @@ The latest stable release is available on PyPI, and can be installed with the fo
 pip install tfrc
 ```
 
+This will install the package and its runtime dependencies. Note that this doesn't install the plotting dependencies, which are optional. To install with plotting included, run:
+
+```shell
+pip install tfrc[display]
+```
+
 ### Development mode
 
 If you want to make changes to tfrc, you can install it in editable mode with development dependencies by cloning or downloading the repository and running:
@@ -61,6 +67,13 @@ or
 
 ```shell
 CYTHONIZE=1 pip install -e .[dev]
+```
+
+on a Linux system. On Windows, you can run instead:
+
+```shell
+set CYTHONIZE=1
+pip install -e .[dev]
 ```
 
 When installing in this mode, Cython is a build dependency. If you have trouble running this command, see [this guide](https://docs.cython.org/en/stable/src/quickstart/install.html).
@@ -206,8 +219,10 @@ TODO function to validate methods and parameter names.
 [Back to top ↥](#tfrc)
 ### Citing
 
-If you use tfrc for your work, please cite the paper (TODO)
+If you use tfrc in your work, please cite the paper (TODO).
 
 ```
 "TODO" in TODO.
 ```
+
+Also, if you use a specific combination method, please cite the corresponding paper. You can find the references in the documentation or by running: [TODO]

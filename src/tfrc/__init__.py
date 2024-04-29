@@ -3,10 +3,11 @@ __version__ = "0.0.0.6"
 from warnings import warn as _warn
 from tfrc.utils import load, stft, cqt, stft_spec, cqt_spec
 from tfrc.core import tfrc, tfrc_from_specs
+from tfrc.meta import cite, cite_method
 from tfrc.warning import FunctionNotBuiltWarning
 
 from tfrc.methods.methods_dict import _methods_dict
-from tfrc.methods import get_methods, list_methods
+from tfrc.methods import get_methods, list_methods, validate_method, get_method_name
 
 def _export_all_method_functions(_methods_dict):
     for key in _methods_dict:

@@ -36,7 +36,8 @@ Issues = "https://github.com/b-boechat/tfrc-lib/issues"
 #Documentation = "#TODO"
 
 [project.optional-dependencies]
-dev = ["cython>=3", "setuptools>=69", "pip>=24"]
+dev = ["cython>=3", "setuptools>=69", "pip>=24", "matplotlib>=3.3"]
+display = ["matplotlib>=3.3"]
 
 [tool.setuptools.dynamic]
 version = {attr = "tfrc.__version__"}
