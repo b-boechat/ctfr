@@ -143,9 +143,10 @@ def _tfrc_cqts(
 
 def _get_stft_params(sr, win_length_list, hop_length, n_fft):
     if win_length_list is None:
-        # Default middle window length is 0.1 seconds in samples, rounded to the nearest power of 2.
-        # Default caps at 2048 samples to avoid high computational costs.
-        middle_length =  min(_round_to_power_of_two(int(sr * 0.1), mode="round"), 2048)
+        # Default middle window length is 50ms seconds in samples, rounded to the nearest power of 2.
+        # For sr = 22050, this is 1024 samples.
+        # For sr = 44100, this is 2048 samples.
+        middle_length =  _round_to_power_of_two(int(sr * 0.05), mode="round")
         win_length_list = [middle_length // 2, middle_length, middle_length * 2]
 
     else:
@@ -179,7 +180,7 @@ def _get_cqt_params(sr, filter_scale_list, bins_per_octave, fmin, n_bins, hop_le
         n_bins = bins_per_octave * 8
 
     if hop_length is None:
-        hop_length = _round_to_power_of_two(int(sr * 0.1), mode="round") // 4
+        hop_length = _round_to_power_of_two(int(sr * 0.05), mode="round") // 4
     
     return {
         "filter_scale_list": filter_scale_list,
