@@ -1,7 +1,8 @@
 import numpy as np
 from tfrc.exception import InvalidRepresentationTypeError, InvalidSpecError
-from tfrc.utils import stft_spec, cqt_spec, _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
-from tfrc.methods import _get_method_function
+from tfrc.utils import stft_spec, cqt_spec
+from tfrc.utils.internal import _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
+from tfrc.methods.methods_utils import _get_method_function
 from typing import List, Optional, Any
 
 def tfrc(

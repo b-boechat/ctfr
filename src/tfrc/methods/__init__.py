@@ -1,1 +1,1 @@
-from .methods_utils import _get_method_function, get_methods, list_methods, validate_method, get_method_name
+from .methods_utils import get_methods, list_methods, validate_method, get_method_name
