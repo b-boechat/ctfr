@@ -82,6 +82,28 @@ When installing in this mode, Cython is a build dependency. If you have trouble 
 ---
 
 [Back to top ↥](#tfrc)
+### Citing
+
+If you use tfrc in your work, please cite the paper (TODO).
+
+```
+"TODO" in TODO.
+```
+
+Also, if you use a specific combination method, please cite the corresponding paper. You can find the citations in the documentation or by running ```tfrc.cite_method```,  with an optional ```mode``` argument set to ```doi``` (default if available) or ```citation``` (IEEE style).
+
+```python
+>>> tfrc.cite_method("fls")
+https://doi.org/10.17743/jaes.2022.0036
+>>> tfrc.cite_method("fls", mode="citation")
+M. V. M. da Costa and L. W. P. Biscainho, "The fast local sparsity method: a low-cost combination of time-frequency representations based on the Hoyer sparsity", Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, 09 2022.
+>>> tfrc.cite_method("lt") # DOI not available
+A. Lukin and J. Todd, "Adaptive Time-Frequency Resolution for Analysis and Processing of Audio", in Proceedings of the 27th AES International Conference, 05 2006.
+```
+
+---
+
+[Back to top ↥](#tfrc)
 ## Adding methods
 
 tfrc is designed to be easily extensible with new combination methods written in Python or Cython. This section explains how to do so.
@@ -230,24 +252,4 @@ Parameter names (aside from the TFRs tensor) must not clash with ```tfrc``` or `
 
 TODO function to validate methods and parameter names.
 
----
-
 [Back to top ↥](#tfrc)
-### Citing
-
-If you use tfrc in your work, please cite the paper (TODO).
-
-```
-"TODO" in TODO.
-```
-
-Also, if you use a specific combination method, please cite the corresponding paper. You can find the citations in the documentation or by running ```tfrc.cite_method```,  with an optional ```mode``` argument set to ```doi``` (default if available) or ```citation``` (IEEE style).
-
-```python
->>> tfrc.cite_method("fls")
-https://doi.org/10.17743/jaes.2022.0036
->>> tfrc.cite_method("fls", mode="citation")
-M. V. M. da Costa and L. W. P. Biscainho, "The fast local sparsity method: a low-cost combination of time-frequency representations based on the Hoyer sparsity", Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, 09 2022.
->>> tfrc.cite_method("lt") # DOI not available
-A. Lukin and J. Todd, "Adaptive Time-Frequency Resolution for Analysis and Processing of Audio", in Proceedings of the 27th AES International Conference, 05 2006.
-```
