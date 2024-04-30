@@ -77,7 +77,7 @@ set CYTHONIZE=1
 pip install -e .[dev]
 ```
 
-When installing in this mode, Cython is a build dependency. If you have trouble running this command, see [this guide](https://docs.cython.org/en/stable/src/quickstart/install.html).
+When installing in this mode, Cython is a build dependency. If you have trouble running Cython, see [this guide](https://docs.cython.org/en/stable/src/quickstart/install.html).
 
 ---
 
