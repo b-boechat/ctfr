@@ -12,3 +12,6 @@ class InvalidSpecError(Exception_):
 
 class CitationNotImplementedError(Exception_):
     pass
+
+class InvalidCitationModeError(Exception_):
+    pass

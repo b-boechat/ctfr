@@ -127,7 +127,8 @@ _methods_dict = {
     ...
     "max": {
         "name": "Binwise Maximum",
-        "function": _max
+        "function": _max,
+        "citation": None
     }
 }
 ```
@@ -141,6 +142,20 @@ And its's done! Your combination method is fully integrated into the package. Yo
 >>> tfrc.max_from_specs(X, normalize_input=False, normalize_output=False)
 array([[10,  5],
        [ 5, 10]])
+```
+
+### Adding citation information
+
+All entries in ```_methods_dict``` must have a ```citation``` field, which can be set to ```None``` if the method is not published. Otherwise, it should be a string with a citation for the method in IEEE citation style. Additionally, if a DOI is available, it can be optionally added as an url in a ```doi``` field.
+
+For example, the entry for the *fls* method is as follows:
+
+```python
+"fls": {
+    ... # name and function fields
+    "citation": "M. V. M. da Costa and L. W. P. Biscainho, \"The fast local sparsity method: a low-cost combination of time-frequency representations based on the Hoyer sparsity\", Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, 09 2022."
+    "doi": "https://doi.org/10.17743/jaes.2022.0036"
+}
 ```
 
 ### Adding parameters
@@ -226,9 +241,13 @@ If you use tfrc in your work, please cite the paper (TODO).
 "TODO" in TODO.
 ```
 
-Also, if you use a specific combination method, please cite the corresponding paper. You can find the citations in the documentation or by running ```tfrc.cite_method```:
+Also, if you use a specific combination method, please cite the corresponding paper. You can find the citations in the documentation or by running ```tfrc.cite_method```,  with an optional ```mode``` argument set to ```doi``` (default if available) or ```citation``` (IEEE style).
 
-```python-repl
+```python
 >>> tfrc.cite_method("fls")
+https://doi.org/10.17743/jaes.2022.0036
+>>> tfrc.cite_method("fls", mode="citation")
 M. V. M. da Costa and L. W. P. Biscainho, "The fast local sparsity method: a low-cost combination of time-frequency representations based on the Hoyer sparsity", Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, 09 2022.
+>>> tfrc.cite_method("lt") # DOI not available
+A. Lukin and J. Todd, "Adaptive Time-Frequency Resolution for Analysis and Processing of Audio", in Proceedings of the 27th AES International Conference, 05 2006.
 ```

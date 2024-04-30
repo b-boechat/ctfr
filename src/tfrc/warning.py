@@ -6,3 +6,6 @@ class FunctionNotBuiltWarning(Warning_):
 
 class ArgumentChangeWarning(Warning_):
     pass
+
+class DoiNotAvailableWarning(Warning_):
+    pass

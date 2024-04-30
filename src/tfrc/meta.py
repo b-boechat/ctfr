@@ -4,5 +4,5 @@ from .exception import CitationNotImplementedError
 def cite():
     raise CitationNotImplementedError("Package citation not implemented")
 
-def cite_method(method):
-    print(_get_method_citation(method))
+def cite_method(method, mode=None):
+    print(_get_method_citation(method, mode=mode))

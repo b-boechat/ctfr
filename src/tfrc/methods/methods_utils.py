@@ -1,6 +1,8 @@
 from tfrc.exception import InvalidCombinationMethodError
 from .methods_dict import _methods_dict
-from tfrc.exception import CitationNotImplementedError
+from tfrc.exception import CitationNotImplementedError, InvalidCitationModeError
+from tfrc.warning import DoiNotAvailableWarning
+from warnings import warn
 
 def _get_method_function(key):
     try:
@@ -8,15 +10,31 @@ def _get_method_function(key):
     except KeyError:
         raise InvalidCombinationMethodError(f"Invalid combination method: {key}")
 
-def _get_method_citation(method):
+def _get_method_citation(method, mode):
     try:
-        citation = _methods_dict[method]["citation"]
-        if citation is None:
-            return f"No citation available for method '{_methods_dict[method]['name']}'."
-        else:
-            return citation
+        entry = _methods_dict[method]
     except KeyError:
-        raise CitationNotImplementedError(f"Citation for method '{method}' not implemented")
+        raise InvalidCombinationMethodError(f"Invalid combination method: {method}")
+
+    if mode is None or mode == "doi":
+        try:
+            return entry["doi"]
+        except KeyError:
+            if mode == "doi":
+                warn(DoiNotAvailableWarning(f"DOI not available for method '{entry['name']}'. Trying citation instead."))
+            mode = "citation"
+    
+    if mode == "citation":
+        try:
+            citation = entry["citation"]
+            if citation is None:
+                return f"No citation available for method '{entry['name']}'."
+            else:
+                return citation
+        except KeyError:
+            raise CitationNotImplementedError(f"Citation for method '{method}' not implemented")
+
+    raise InvalidCitationModeError(f"Invalid citation mode: {mode}")
 
 def get_method_name(key):
     try:

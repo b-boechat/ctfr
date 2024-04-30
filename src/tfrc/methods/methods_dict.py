@@ -28,16 +28,18 @@ _methods_dict = {
     "fls": {
         "name": "Fast Local Sparsity (FLS)",
         "function": _fls_wrapper,
-        "citation": "M. V. M. da Costa and L. W. P. Biscainho, \"The fast local sparsity method: a low-cost combination of time-frequency representations based on the Hoyer sparsity\", Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, 09 2022."
+        "citation": "M. V. M. da Costa and L. W. P. Biscainho, \"The fast local sparsity method: a low-cost combination of time-frequency representations based on the Hoyer sparsity\", Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, 09 2022.",
+        "doi": "https://doi.org/10.17743/jaes.2022.0036"
     },
     "lt": {
         "name": "Lukin-Todd (LT)",
         "function": _lt_wrapper,
-        "citation": "A. Lukin and J. Todd, \"Adaptive Time-Frequency Resolution for Analysis and Processing of Audio\", in Proceedings of the 27th AES International Conference, 05 2006."
+        "citation": "A. Lukin and J. Todd, \"Adaptive Time-Frequency Resolution for Analysis and Processing of Audio\", in Proceedings of the 27th AES International Conference, 05 2006.",
     },
     "ls": {
         "name": "Local Sparsity (LS)",
         "function": _ls_wrapper,
-        "citation": "M. V. M. da Costa, I. F. Apolinário, and L. W. P. Biscainho, \"Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms\", Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, 11 2019."
+        "citation": "M. V. M. da Costa, I. F. Apolinário, and L. W. P. Biscainho, \"Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms\", Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, 11 2019.",
+        "doi": "http://doi.org/10.17743/jaes.2019.0039"
     }
 }
