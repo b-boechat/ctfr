@@ -8,5 +8,5 @@ def cite():
 def cite_method(method, mode=None):
     print(_get_method_citation(method, mode=mode))
 
-def version():
-    print(f"Version: {__version__}")
+def show_version():
+    print(f"tfrc version: {__version__}")

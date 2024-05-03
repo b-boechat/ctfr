@@ -3,7 +3,7 @@ __version__ = "0.0.0.7"
 from warnings import warn as _warn
 from tfrc.utils import load, stft, cqt, stft_spec, cqt_spec, specshow, power_to_db
 from tfrc.core import tfrc, tfrc_from_specs
-from tfrc.meta import cite, cite_method
+from tfrc.meta import cite, cite_method, show_version
 from tfrc.warning import FunctionNotBuiltWarning
 
 from tfrc.methods.methods_dict import _methods_dict
