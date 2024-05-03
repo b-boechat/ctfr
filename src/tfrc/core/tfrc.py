@@ -64,11 +64,10 @@ def tfrc_from_specs(
     **kwargs: Any
 ) -> np.ndarray:
 
-    for spec in specs:
-        if spec.ndim != 2:
-            raise InvalidSpecError(f"Invalid spec shape: {spec.shape}. Expected 2 dimensions.")
+    validate_specs(specs)
 
-    specs_tensor = np.ascontiguousarray(np.stack(specs, axis=0))
+    # np.ascontiguous array is not strictly needed here, as validate_specs already converts the input arrays to C-contiguous and this is preserved by np.stack.
+    specs_tensor = np.ascontiguousarray(np.stack(specs, axis=0)).astype(np.double)
 
     if (normalize_input or normalize_output) and input_energy is None:
         input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
@@ -190,3 +189,17 @@ def _get_cqt_params(sr, filter_scale_list, bins_per_octave, fmin, n_bins, hop_le
         "n_bins": n_bins,
         "hop_length": hop_length
     }
+
+def validate_specs(specs):
+    try:
+        specs = tuple(np.ascontiguousarray(spec) for spec in specs)
+    except Exception:
+        raise InvalidSpecError("Invalid specs: all specs must be convertible to numpy arrays.")
+
+    if not all([spec.ndim == 2 for spec in specs]):
+        raise InvalidSpecError("Invalid specs: all specs must have 2 dimensions.")
+
+    if not len(set([spec.shape for spec in specs])) == 1:
+        raise InvalidSpecError("Invalid specs: all specs must have the same shape.")
+
+    return specs
