@@ -155,13 +155,13 @@ _methods_dict = {
 }
 ```
 
-And its's done! Your combination method is fully integrated into the package. You can now use it just as any included method by calling ```ctfr.max``` or ```ctfr.max_from_specs``` or by providing ```method="max"``` to ```ctfr.ctfr``` or ```ctfr.ctfr_from_specs``` (see documentation for more details). You can verify that your method works by running the following code in an interactive Python session:
+And its's done! Your combination method is fully integrated into the package. You can now use it just as any included method by calling ```ctfr.methods.max``` or ```ctfr.methods.max_from_specs``` or by providing ```method="max"``` to ```ctfr.ctfr``` or ```ctfr.ctfr_from_specs``` (see documentation for more details). You can verify that your method works by running the following code in an interactive Python session:
 
 ```python
 >>> import ctfr
 >>> import numpy as np
 >>> X = np.array([ [[0, 5], [5, 0]], [[10, 0], [0, 10]]  ])
->>> ctfr.max_from_specs(X, normalize_input=False, normalize_output=False)
+>>> ctfr.methods.max_from_specs(X, normalize_input=False, normalize_output=False)
 array([[10,  5],
        [ 5, 10]])
 ```
