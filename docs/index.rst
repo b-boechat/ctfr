@@ -3,12 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-ctfr documentation
-==================
+Welcome to ctfr's docs! 
+==========================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+``ctfr`` is a Python library etc.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   ctfr
+
 
 .. warning::
    This is a warning
@@ -22,11 +27,9 @@ documentation for details.
    :caption: Contents:
 
 
-Contributing
-------------
+Indices and tables
+==================
 
-If you would like to contribute to the project, do this.
-
-- Fork the repository
-
-- Make your changes
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
