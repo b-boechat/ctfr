@@ -90,7 +90,7 @@ audio data and plot it.
 
     Sample rate: 22050 Hz
 
-    [<matplotlib.lines.Line2D object at 0x7e16e901d5d0>]
+    [<matplotlib.lines.Line2D object at 0x780f55e45390>]
 
 
 
@@ -140,7 +140,7 @@ length of :math:`512` samples, and a FFT size of :math:`2048` samples.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7e16e9087ad0>
+    <matplotlib.colorbar.Colorbar object at 0x780f55fdd450>
 
 
 
@@ -183,7 +183,7 @@ Now, let’s increase the window length to :math:`L = 1024` samples (~
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7e16e90da150>
+    <matplotlib.colorbar.Colorbar object at 0x780f55d0d450>
 
 
 
@@ -225,7 +225,7 @@ resulting spectrogram.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7e16e8f9a150>
+    <matplotlib.colorbar.Colorbar object at 0x780f55d84850>
 
 
 
@@ -370,29 +370,37 @@ compute the combined TFR and plot it.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7e16e8be3290>
+    <matplotlib.colorbar.Colorbar object at 0x780f5597c850>
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 180-184
+.. GENERATED FROM PYTHON SOURCE LINES 180-185
+
+.. note::
+   You can also use ``ctfr.methods.swgm_from_specs(X, ...)``,
+   which is an alias for
+   ``ctfr.ctfr_from_specs(X, method='swgm', ...)``.
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 188-192
 
 As we can see, we have achieved good resolution in both time and
 frequency domains, with the sinusoidal components and the pulse
 component well resolved.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 187-189
+.. GENERATED FROM PYTHON SOURCE LINES 195-197
 
 --------------
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 192-195
+.. GENERATED FROM PYTHON SOURCE LINES 200-203
 
 Using ctfr.ctfr
 ^^^^^^^^^^^^^^^
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 198-206
+.. GENERATED FROM PYTHON SOURCE LINES 206-214
 
 Using ``ctfr_from_specs`` is useful when we already have the STFT
 spectrograms to combine, or when we want more control over how to
@@ -403,7 +411,7 @@ STFT spectrograms with different window lengths and then combines them.
 Let’s do this for our signal, using the same parameters as before.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 206-216
+.. GENERATED FROM PYTHON SOURCE LINES 214-224
 
 .. code-block:: Python
 
@@ -431,18 +439,25 @@ Let’s do this for our signal, using the same parameters as before.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7e16e87482d0>
+    <matplotlib.colorbar.Colorbar object at 0x780f5550c850>
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 217-221
+.. GENERATED FROM PYTHON SOURCE LINES 225-229
+
+.. note::
+   You can also use ``ctfr.methods.swgm(X, sr, ...)``, which
+   is an alias for ``ctfr.ctfr(X, sr, method='swgm', ...)``.
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 232-236
 
 We can see that the combined spectrogram looks the same as the one we
 computed in the previous section. Let’s confirm that they’re indeed the
 same:
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 221-222
+.. GENERATED FROM PYTHON SOURCE LINES 236-237
 
 .. code-block:: Python
 
@@ -463,7 +478,7 @@ same:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.394 seconds)
+   **Total running time of the script:** (0 minutes 1.367 seconds)
 
 
 .. _sphx_glr_download_gallery_examples_basic_usage.py:

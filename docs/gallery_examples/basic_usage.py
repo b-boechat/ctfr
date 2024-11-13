@@ -177,6 +177,14 @@ plt.colorbar(img, format="%+2.0f dB");
 
 
 ######################################################################
+# .. note::
+#    You can also use ``ctfr.methods.swgm_from_specs(X, ...)``,
+#    which is an alias for
+#    ``ctfr.ctfr_from_specs(X, method='swgm', ...)``.
+# 
+
+
+######################################################################
 # As we can see, we have achieved good resolution in both time and
 # frequency domains, with the sinusoidal components and the pulse
 # component well resolved.
@@ -211,6 +219,13 @@ swgm_spec_2 = ctfr.ctfr(signal, sr = sr, method = "swgm", win_length_list=[512, 
 img = ctfr.specshow(ctfr.power_to_db(swgm_spec_2, ref=np.max), sr=sr, hop_length=512, x_axis='time', y_axis='linear', cmap='inferno')
 plt.ylim(0, 1000)
 plt.colorbar(img, format="%+2.0f dB");
+
+
+######################################################################
+# .. note::
+#    You can also use ``ctfr.methods.swgm(X, sr, ...)``, which
+#    is an alias for ``ctfr.ctfr(X, sr, method='swgm', ...)``.
+# 
 
 
 ######################################################################

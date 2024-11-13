@@ -13,6 +13,7 @@ import pypandoc as pdoc
 from pypandoc.pandoc_download import download_pandoc
 import json
 from os import path
+import re
 
 def convert_ipynb_to_gallery(file_name):
 
@@ -20,6 +21,8 @@ def convert_ipynb_to_gallery(file_name):
         file_name = file_name + '.ipynb'
     input_path = path.join(IPYNB_BASE_DIR, file_name)
     output_path = path.join(OUTPUT_PY_DIR, file_name.replace('.ipynb', '.py'))
+
+    note_md_pattern = re.compile(r"\s*\*\*Note:\*\*\s*")
 
     nb_dict = json.load(open(input_path))
     cells = nb_dict['cells']
@@ -36,6 +39,8 @@ def convert_ipynb_to_gallery(file_name):
             if cell['cell_type'] == 'markdown':
                 md_source = ''.join(cell['source'])
                 rst_source = pdoc.convert_text(md_source, 'rst', 'md')
+                #Substitute pattern
+                rst_source = note_md_pattern.sub(".. note::\n   ", rst_source)
                 commented_source = '\n'.join(['# ' + x for x in
                                               rst_source.split('\n')])
                 python_file = python_file + '\n\n\n' + '#' * 70 + '\n' + \
