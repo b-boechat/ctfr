@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 import json
-from tfrc import load
+from ctfr import load
 
 _specs_tensor_samples_dict = {
     "sample_stft_specs": {

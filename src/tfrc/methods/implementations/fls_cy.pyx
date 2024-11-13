@@ -2,7 +2,7 @@ import numpy as np
 from scipy.signal import correlate
 from libc.math cimport exp, sqrt
 from warnings import warn
-from tfrc.warning import ArgumentChangeWarning
+from ctfr.warning import ArgumentChangeWarning
 cimport cython
 
 def _fls_wrapper(X, freq_width = 21, time_width = 11, gamma = 20.0):

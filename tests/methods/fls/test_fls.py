@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
-from tfrc import fls_from_specs
-from tfrc.warning import ArgumentChangeWarning
+from ctfr import fls_from_specs
+from ctfr.warning import ArgumentChangeWarning
 from tests.utils.base import BaseTestParameterValidation
 
 class TestParameterValidationFls(BaseTestParameterValidation):

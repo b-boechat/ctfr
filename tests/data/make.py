@@ -1,4 +1,4 @@
-import tfrc
+import ctfr
 import json
 import os
 import numpy as np
@@ -9,7 +9,7 @@ def make_sample_stft_specs():
     if os.path.exists(output_path):
         raise FileExistsError(f"File already exists: {output_path}")
 
-    signal, _ = tfrc.load(
+    signal, _ = ctfr.load(
         "sample_file_4.wav", 
         sr=22050, 
         mono=True, 
@@ -19,7 +19,7 @@ def make_sample_stft_specs():
     )
     specs_tensor = np.array(
         [
-            tfrc.stft_spec(
+            ctfr.stft_spec(
                 signal, 
                 n_fft = 2048,
                 hop_length = 512,

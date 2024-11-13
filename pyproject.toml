@@ -4,7 +4,7 @@ requires = ["setuptools", "wheel", "cython"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tfrc"
+name = "ctfr"
 dynamic = ['version', 'authors']
 #authors = [
 #  { name="Bernardo Boechat", email="bernardoant@poli.ufrj.br" },
@@ -31,8 +31,8 @@ classifiers = [
 keywords = ["audio", "music", "sound", "time-frequency representations"]
 
 [project.urls]
-Homepage = "https://github.com/b-boechat/tfrc-lib"
-Issues = "https://github.com/b-boechat/tfrc-lib/issues"
+Homepage = "https://github.com/b-boechat/ctfr-lib"
+Issues = "https://github.com/b-boechat/ctfr-lib/issues"
 #Documentation = "#TODO"
 
 [project.optional-dependencies]
@@ -40,7 +40,7 @@ dev = ["cython>=3", "setuptools>=69", "pip>=24", "matplotlib>=3.3"]
 display = ["matplotlib>=3.3"]
 
 [tool.setuptools.dynamic]
-version = {attr = "tfrc.__version__"}
+version = {attr = "ctfr.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["src"]

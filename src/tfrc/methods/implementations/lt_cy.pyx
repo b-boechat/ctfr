@@ -2,7 +2,7 @@ import numpy as np
 cimport cython
 from libc.math cimport INFINITY, sqrt, pow
 from warnings import warn
-from tfrc.warning import ArgumentChangeWarning
+from ctfr.warning import ArgumentChangeWarning
 
 def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 8.0):
     """ Calculate the "Lukin-Todd" (LT) combination of spectrograms. 

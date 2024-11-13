@@ -1,1 +1,1 @@
-include src/tfrc/methods/implementations/*.pyx
+include src/ctfr/methods/implementations/*.pyx
