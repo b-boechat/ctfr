@@ -3,7 +3,7 @@ from scipy.stats import gmean
 cimport cython
 from libc.math cimport exp
 from warnings import warn
-from tfrc.warning import ArgumentChangeWarning
+from ctfr.warning import ArgumentChangeWarning
 
 def _swgm_wrapper(X, beta = 0.3, max_gamma = 20.0):
     """ Calculate the "Sample-Weighted Geometric Mean" combination of spectrograms. 

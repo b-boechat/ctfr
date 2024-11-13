@@ -1,10 +1,10 @@
-# tfrc
+# ctfr
 
-[![PyPI](https://img.shields.io/pypi/v/tfrc-lib.svg)](https://pypi.python.org/pypi/tfrc-lib) [![Python Versions](https://img.shields.io/pypi/pyversions/tfrc.svg)](https://pypi.python.org/pypi/tfrc-lib) ![Licence](https://img.shields.io/github/license/b-boechat/tfrc-lib) 
+[![PyPI](https://img.shields.io/pypi/v/ctfr-lib.svg)](https://pypi.python.org/pypi/ctfr-lib) [![Python Versions](https://img.shields.io/pypi/pyversions/ctfr.svg)](https://pypi.python.org/pypi/ctfr-lib) ![Licence](https://img.shields.io/github/license/b-boechat/ctfr-lib) 
 
 #### Efficient toolbox for computing combined time-frequency representations of audio signals.
 
-Status: in construction. [Testpypi link](https://test.pypi.org/project/tfrc/).
+Status: in construction. [Testpypi link](https://test.pypi.org/project/ctfr/).
 
 # Table of Contents
 
@@ -25,21 +25,21 @@ Status: in construction. [Testpypi link](https://test.pypi.org/project/tfrc/).
 
 ---
 
-[Back to top ↥](#tfrc)
+[Back to top ↥](#ctfr)
 ## Quickstart
 
 Todo.
 
 ---
 
-[Back to top ↥](#tfrc)
+[Back to top ↥](#ctfr)
 ## Documentation
 
 Todo.
 
 ---
 
-[Back to top ↥](#tfrc)
+[Back to top ↥](#ctfr)
 ## Installation
 
 ### Using PyPI
@@ -47,18 +47,18 @@ Todo.
 The latest stable release is available on PyPI, and can be installed with the following command:
 
 ```shell
-pip install tfrc
+pip install ctfr
 ```
 
 This will install the package and its runtime dependencies. Note that this doesn't install the plotting dependencies, which are optional. To install with plotting included, run:
 
 ```shell
-pip install tfrc[display]
+pip install ctfr[display]
 ```
 
 ### Development mode
 
-If you want to make changes to tfrc, you can install it in editable mode with development dependencies by cloning or downloading the repository and running:
+If you want to make changes to ctfr, you can install it in editable mode with development dependencies by cloning or downloading the repository and running:
 
 ```shell
 make dev
@@ -81,51 +81,51 @@ When installing in this mode, Cython is a build dependency. If you have trouble 
 
 ---
 
-[Back to top ↥](#tfrc)
+[Back to top ↥](#ctfr)
 ### Citing
 
-If you use tfrc in your work, please cite the paper (TODO).
+If you use ctfr in your work, please cite the paper (TODO).
 
 ```
 "TODO" in TODO.
 ```
 
-Also, if you use a specific combination method, please cite the corresponding paper. You can find the citations in the documentation or by running ```tfrc.cite_method```,  with an optional ```mode``` argument set to ```doi``` (default if available) or ```citation``` (IEEE style).
+Also, if you use a specific combination method, please cite the corresponding paper. You can find the citations in the documentation or by running ```ctfr.cite_method```,  with an optional ```mode``` argument set to ```doi``` (default if available) or ```citation``` (IEEE style).
 
 ```python
->>> tfrc.cite_method("fls")
+>>> ctfr.cite_method("fls")
 https://doi.org/10.17743/jaes.2022.0036
->>> tfrc.cite_method("fls", mode="citation")
+>>> ctfr.cite_method("fls", mode="citation")
 M. V. M. da Costa and L. W. P. Biscainho, "The fast local sparsity method: a low-cost combination of time-frequency representations based on the Hoyer sparsity", Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, 09 2022.
->>> tfrc.cite_method("lt") # DOI not available
+>>> ctfr.cite_method("lt") # DOI not available
 A. Lukin and J. Todd, "Adaptive Time-Frequency Resolution for Analysis and Processing of Audio", in Proceedings of the 27th AES International Conference, 05 2006.
 ```
 
 ---
 
-[Back to top ↥](#tfrc)
+[Back to top ↥](#ctfr)
 ## Adding methods
 
-tfrc is designed to be easily extensible with new combination methods written in Python or Cython. This section explains how to do so.
+ctfr is designed to be easily extensible with new combination methods written in Python or Cython. This section explains how to do so.
 
 ### Installation
 
-First, make sure you've installed tfrc in editable mode with development dependencies. See [the installation guide](#development-mode) for more details.
+First, make sure you've installed ctfr in editable mode with development dependencies. See [the installation guide](#development-mode) for more details.
 
 ### Writing a simple method
 
-Let's create as an example a combination method *max* that computes a binwise maximum, written in Python using NumPy. First, create a file named ```max.py``` under ```src/tfrc/methods/implementations```:
+Let's create as an example a combination method *max* that computes a binwise maximum, written in Python using NumPy. First, create a file named ```max.py``` under ```src/ctfr/methods/implementations```:
 
 ```
 ├── src
-│   ├── tfrc
+│   ├── ctfr
 │   │   ├── methods
 │   |   │   ├── implementations
 │   |   │   |   ├── ...
 |   |   |   |   └── max.py
 ```
 
-Then, implement the combination algorithm in a function called ```_max```. We'll call it the *implementation function*. It must accept as first argument a TFRs tensor with the same specifications as ```tfrc_from_specs``` (see documentation for more details). We'll call this argument *X*, a convention used by this package's methods.
+Then, implement the combination algorithm in a function called ```_max```. We'll call it the *implementation function*. It must accept as first argument a TFRs tensor with the same specifications as ```ctfr_from_specs``` (see documentation for more details). We'll call this argument *X*, a convention used by this package's methods.
 
 ```python
 # content of max.py
@@ -135,7 +135,7 @@ def _max(X):
     return np.max(X, axis=0)
 ```
 
-Then, add this function to the methods dictionary. Open ```src/tfrc/methods/methods_dict.py```. Now, add a line to import your function:
+Then, add this function to the methods dictionary. Open ```src/ctfr/methods/methods_dict.py```. Now, add a line to import your function:
 
 ```python
 from .implementations.max import _max
@@ -155,13 +155,13 @@ _methods_dict = {
 }
 ```
 
-And its's done! Your combination method is fully integrated into the package. You can now use it just as any included method by calling ```tfrc.max``` or ```tfrc.max_from_specs``` or by providing ```method="max"``` to ```tfrc.tfrc``` or ```tfrc.tfrc_from_specs``` (see documentation for more details). You can verify that your method works by running the following code in an interactive Python session:
+And its's done! Your combination method is fully integrated into the package. You can now use it just as any included method by calling ```ctfr.max``` or ```ctfr.max_from_specs``` or by providing ```method="max"``` to ```ctfr.ctfr``` or ```ctfr.ctfr_from_specs``` (see documentation for more details). You can verify that your method works by running the following code in an interactive Python session:
 
 ```python
->>> import tfrc
+>>> import ctfr
 >>> import numpy as np
 >>> X = np.array([ [[0, 5], [5, 0]], [[10, 0], [0, 10]]  ])
->>> tfrc.max_from_specs(X, normalize_input=False, normalize_output=False)
+>>> ctfr.max_from_specs(X, normalize_input=False, normalize_output=False)
 array([[10,  5],
        [ 5, 10]])
 ```
@@ -207,7 +207,7 @@ Instead of raising an error when an invalid value for a parameter is provided, y
 
 ```python
 from warnings import warn
-from tfrc.warning import ArgumentChangeWarning
+from ctfr.warning import ArgumentChangeWarning
 ```
 
 and replace the Exception line:
@@ -221,7 +221,7 @@ if offset < 0.0:
 
 ### Adding Cython modules
 
-Most tfrc combination methods are written as Cython modules, resulting in significant performance improvements over pure Python. You can read more about Cython [here](https://cython.readthedocs.io/en/stable/index.html). Source ```[filename].pyx``` files located under ```src/tfrc/methods/implementations``` are automatically compiled during installation, and the built modules can be imported in ```methods_dict.py``` with
+Most ctfr combination methods are written as Cython modules, resulting in significant performance improvements over pure Python. You can read more about Cython [here](https://cython.readthedocs.io/en/stable/index.html). Source ```[filename].pyx``` files located under ```src/ctfr/methods/implementations``` are automatically compiled during installation, and the built modules can be imported in ```methods_dict.py``` with
 
 ```python
 from .implementations.[filename] import [wrapper_name]
@@ -244,12 +244,12 @@ python setup.py build_ext --inplace
 
 ### Note about names
 
-A combination method name (as specified by its key in ```methods_dict```) must not clash with other tfrc module-level function names. See documentation for a complete list of functions. They also must not start with a trailing underscore or end with *_from_specs*, as that could mean additional clashes.
+A combination method name (as specified by its key in ```methods_dict```) must not clash with other ctfr module-level function names. See documentation for a complete list of functions. They also must not start with a trailing underscore or end with *_from_specs*, as that could mean additional clashes.
 
-Parameter names (aside from the TFRs tensor) must not clash with ```tfrc``` or ```tfrc_from_specs``` parameter names, otherwise they will not be received by the combination function. See documentation for a complete list of those parameters.
+Parameter names (aside from the TFRs tensor) must not clash with ```ctfr``` or ```ctfr_from_specs``` parameter names, otherwise they will not be received by the combination function. See documentation for a complete list of those parameters.
 
 #### Validating methods
 
 TODO function to validate methods and parameter names.
 
-[Back to top ↥](#tfrc)
+[Back to top ↥](#ctfr)

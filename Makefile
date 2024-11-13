@@ -1,4 +1,4 @@
-PROJECT_NAME = tfrc
+PROJECT_NAME = ctfr
 
 SOURCE_BASE_FOLDER = src
 SOURCE_LOCATION = $(SOURCE_BASE_FOLDER)/$(PROJECT_NAME)
@@ -48,7 +48,7 @@ dist-pipeline: sdist-ship wheel-manylinux-pipeline
 
 publish-testpypi:
 	$(TWINE) upload --repository testpypi $(DIST)/*/*
-# Install with: pip install --extra-index-url https://test.pypi.org/simple/ tfrc
+# Install with: pip install --extra-index-url https://test.pypi.org/simple/ ctfr
 
 
 clean-dist:

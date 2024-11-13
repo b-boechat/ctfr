@@ -1,7 +1,7 @@
-from tfrc.exception import InvalidCombinationMethodError
+from ctfr.exception import InvalidCombinationMethodError
 from .methods_dict import _methods_dict
-from tfrc.exception import CitationNotImplementedError, InvalidCitationModeError
-from tfrc.warning import DoiNotAvailableWarning
+from ctfr.exception import CitationNotImplementedError, InvalidCitationModeError
+from ctfr.warning import DoiNotAvailableWarning
 from warnings import warn
 
 def _get_method_function(key):

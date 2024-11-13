@@ -6,9 +6,9 @@ from glob import glob
 
 from Cython.Build import cythonize
 
-# Define Cython extensions to build. The pyx files are assumed to be in src/tfrc/methods/implementations.
-IMPLEMENTATIONS_SOURCE_DIR = f"src{sep}tfrc{sep}methods{sep}implementations"
-IMPLEMENTATIONS_MODULE = "tfrc.methods.implementations"
+# Define Cython extensions to build. The pyx files are assumed to be in src/ctfr/methods/implementations.
+IMPLEMENTATIONS_SOURCE_DIR = f"src{sep}ctfr{sep}methods{sep}implementations"
+IMPLEMENTATIONS_MODULE = "ctfr.methods.implementations"
 
 def get_cy_extensions():
     method_cy_source_paths = glob(f"{IMPLEMENTATIONS_SOURCE_DIR}{sep}*.pyx")
@@ -47,6 +47,6 @@ else:
 
 
 setup(
-    name="tfrc",
+    name="ctfr",
     ext_modules=cythonize(ext_modules)
 )

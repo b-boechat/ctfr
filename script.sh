@@ -1,6 +1,6 @@
 #!/bin/bash
 
-project_name="tfrc"
+project_name="ctfr"
 python_versions="cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312"
 
 python_install_paths="/opt/python/cp310-cp310/bin/python3 /opt/python/cp311-cp311/bin/python3 /opt/python/cp312-cp312/bin/python3"

@@ -1,11 +1,11 @@
 import numpy as np
-from tfrc.exception import InvalidRepresentationTypeError, InvalidSpecError
-from tfrc.utils import stft_spec, cqt_spec
-from tfrc.utils.internal import _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
-from tfrc.methods.methods_utils import _get_method_function
+from ctfr.exception import InvalidRepresentationTypeError, InvalidSpecError
+from ctfr.utils import stft_spec, cqt_spec
+from ctfr.utils.internal import _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
+from ctfr.methods.methods_utils import _get_method_function
 from typing import List, Optional, Any
 
-def tfrc(
+def ctfr(
     signal: np.ndarray,
     sr: float,
     method: str,
@@ -29,7 +29,7 @@ def tfrc(
             hop_length = hop_length, 
             n_fft = n_fft
         )
-        return _tfrc_stfts(
+        return _ctfr_stfts(
             signal = signal,
             method = method,
             **params,
@@ -45,7 +45,7 @@ def tfrc(
             n_bins = n_bins,
             hop_length = hop_length
         )
-        return _tfrc_cqts(
+        return _ctfr_cqts(
             signal = signal,
             method = method,
             **params,
@@ -54,7 +54,7 @@ def tfrc(
 
     raise InvalidRepresentationTypeError(f"Invalid value for parameter 'representation_type': {representation_type}")
 
-def tfrc_from_specs(
+def ctfr_from_specs(
     specs: tuple[np.ndarray],
     method: str,
     *,
@@ -85,7 +85,7 @@ def tfrc_from_specs(
 
 # =============================================================================
 
-def _tfrc_stfts(
+def _ctfr_stfts(
     signal,
     method,
     win_length_list,
@@ -112,7 +112,7 @@ def _tfrc_stfts(
     _normalize_spec(comb_spec, input_energy)
     return comb_spec
 
-def _tfrc_cqts(
+def _ctfr_cqts(
     signal,
     method,
     filter_scale_list,
