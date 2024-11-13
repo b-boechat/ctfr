@@ -10,8 +10,23 @@ Add your content using ``reStructuredText`` syntax. See the
 `reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
 documentation for details.
 
+.. warning::
+   This is a warning
+
+.. note::
+   This is a note
+
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+
+Contributing
+------------
+
+If you would like to contribute to the project, do this.
+
+- Fork the repository
+
+- Make your changes
