@@ -1,4 +1,5 @@
 class Exception_(Exception):
+    """Base class for exceptions in this module."""
     pass
 
 class InvalidRepresentationTypeError(Exception_):

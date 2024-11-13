@@ -8,7 +8,7 @@ from ctfr.warning import FunctionNotBuiltWarning
 
 import ctfr.methods as methods
 from ctfr.methods.methods_dict import _methods_dict
-from ctfr.methods.methods_utils import get_methods, list_methods, validate_method, get_method_name
+from ctfr.methods.methods_utils import show_methods, get_methods_list, get_method_name
 
 
 def _export_all_method_functions(_methods_dict):

@@ -27,6 +27,7 @@ extensions = [
     'sphinx.ext.imgmath',
     'sphinx.ext.intersphinx',
     'sphinx.ext.doctest',
+    'sphinx.ext.napoleon',
     'sphinx_gallery.gen_gallery'
 ]
 
@@ -38,6 +39,9 @@ sphinx_gallery_conf = {
     "gallery_dirs": "gallery_examples",
     "filename_pattern": "/basic_usage.py",
 }
+
+add_module_names = True
+autodoc_member_order = 'bysource'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

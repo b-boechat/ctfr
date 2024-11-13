@@ -5,17 +5,37 @@ from ctfr import __version__
 def cite():
     """Prints the citation information for the package.
 
-    :raises ctfr.exception.CitationNotImplementedError: If the citation for the package is not available.
+    Raises
+    ------
+    ctfr.exception.CitationNotImplementedError 
+        If the citation for the package is not available.
+
+    See Also
+    --------
+    cite_method : Prints the citation information for a combination method.
     """
     raise CitationNotImplementedError("Package citation not available.")
 
-def cite_method(method, mode=None):
+def cite_method(method: str, mode: str = None):
     """Prints the citation information for a combination method.
 
-    :param method: The combination method to get the citation information.
-    :type method: str
-    :raises ctfr.exception.InvalidCombinationMethodError: If the combination method is invalid.
-    :raises ctfr.exception.CitationNotImplementedError: If a citation for the method is not available.
+    Parameters
+    ----------
+    method : str
+        The combination method to get the citation information.
+    mode : str, optional
+        The mode of the citation, by default None
+
+    Raises
+    ------
+    ctfr.exception.InvalidCombinationMethodError
+        If the combination method is invalid.
+    ctfr.exception.CitationNotImplementedError
+        If a citation for the method is not available.
+
+    See Also
+    --------
+    cite : Prints the citation information for the package.
     """
     print(_get_method_citation(method, mode=mode))
 

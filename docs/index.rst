@@ -13,11 +13,12 @@ ctfr
    :caption: User guide
 
    gallery_examples/index
+   api/api
 
 
 .. warning::
    This is a warning
-   still warning
+   
 
 .. note::
    This is a note

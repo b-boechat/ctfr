@@ -1,4 +1,5 @@
 class Warning_ (Warning):
+    """Base class for exceptions in this module."""
     pass
 
 class FunctionNotBuiltWarning(Warning_):

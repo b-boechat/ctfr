@@ -39,7 +39,6 @@ def convert_ipynb_to_gallery(file_name):
             if cell['cell_type'] == 'markdown':
                 md_source = ''.join(cell['source'])
                 rst_source = pdoc.convert_text(md_source, 'rst', 'md')
-                #Substitute pattern
                 rst_source = note_md_pattern.sub(".. note::\n   ", rst_source)
                 commented_source = '\n'.join(['# ' + x for x in
                                               rst_source.split('\n')])
@@ -54,5 +53,5 @@ def convert_ipynb_to_gallery(file_name):
 
 if __name__ == '__main__':
     import sys
-    download_pandoc()
+    download_pandoc() # This is a workaround for now.
     convert_ipynb_to_gallery(sys.argv[-1])
