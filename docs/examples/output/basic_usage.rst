@@ -48,8 +48,8 @@ compute and plot them using the ctfr package.
 
 .. GENERATED FROM PYTHON SOURCE LINES 21-24
 
-1) Loading the audio data
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Loading the audio data
+~~~~~~~~~~~~~~~~~~~~~~
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 27-36
@@ -72,7 +72,7 @@ audio data and plot it.
     # Load and print the audio signal.
     signal, sr = ctfr.load("audio/synthetic.wav")
     print(f"Sample rate: {sr} Hz")
-    plt.plot(signal)
+    plt.plot(signal);
 
 
 
@@ -90,7 +90,7 @@ audio data and plot it.
 
     Sample rate: 22050 Hz
 
-    [<matplotlib.lines.Line2D object at 0x75419836db50>]
+    [<matplotlib.lines.Line2D object at 0x753b1f8139d0>]
 
 
 
@@ -101,8 +101,8 @@ audio data and plot it.
 
 .. GENERATED FROM PYTHON SOURCE LINES 49-52
 
-2) Computing STFT spectrograms with different resolutions.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Computing STFT spectrograms with different resolutions.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 55-59
@@ -123,7 +123,7 @@ length of :math:`512` samples, and a FFT size of :math:`2048` samples.
     # Plot the spectrogram.
     img = ctfr.specshow(ctfr.power_to_db(spec_512, ref=np.max), sr=sr, hop_length=256, x_axis='time', y_axis='linear', cmap='inferno')
     plt.ylim(0, 1000)
-    plt.colorbar(img, format="%+2.0f dB")
+    plt.colorbar(img, format="%+2.0f dB");
 
 
 
@@ -140,7 +140,7 @@ length of :math:`512` samples, and a FFT size of :math:`2048` samples.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x75419824bc50>
+    <matplotlib.colorbar.Colorbar object at 0x753b1f96f850>
 
 
 
@@ -166,7 +166,7 @@ Now, let’s increase the window length to :math:`L = 1024` samples (~
     # Plot the spectrogram.
     img = ctfr.specshow(ctfr.power_to_db(spec_1024, ref=np.max), sr=sr, hop_length=256, x_axis='time', y_axis='linear', cmap='inferno')
     plt.ylim(0, 1000)
-    plt.colorbar(img, format="%+2.0f dB")
+    plt.colorbar(img, format="%+2.0f dB");
 
 
 
@@ -183,7 +183,7 @@ Now, let’s increase the window length to :math:`L = 1024` samples (~
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7541981aa990>
+    <matplotlib.colorbar.Colorbar object at 0x753b1d743550>
 
 
 
@@ -208,7 +208,7 @@ resulting spectrogram.
     # Plot the spectrogram.
     img = ctfr.specshow(ctfr.power_to_db(spec_2048, ref=np.max), sr=sr, hop_length=256, x_axis='time', y_axis='linear', cmap='inferno')
     plt.ylim(0, 1000)
-    plt.colorbar(img, format="%+2.0f dB")
+    plt.colorbar(img, format="%+2.0f dB");
 
 
 
@@ -225,7 +225,7 @@ resulting spectrogram.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x754198a0bc50>
+    <matplotlib.colorbar.Colorbar object at 0x753b1d7d7850>
 
 
 
@@ -243,8 +243,8 @@ offset are not well delineated.
 
 .. GENERATED FROM PYTHON SOURCE LINES 119-122
 
-3) Computing a combined TFR
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Computing a combined TFR
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 125-135
@@ -262,8 +262,8 @@ Let’s see how we can do this using this package.
 
 .. GENERATED FROM PYTHON SOURCE LINES 138-141
 
-3.1) Using ctfr.ctfr_from_specs
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Using ctfr.ctfr_from_specs
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 144-150
@@ -353,7 +353,7 @@ compute the combined TFR and plot it.
     # Plot the combined spectrogram.
     img = ctfr.specshow(ctfr.power_to_db(swgm_spec, ref=np.max), sr=sr, hop_length=256, x_axis='time', y_axis='linear', cmap='inferno')
     plt.ylim(0, 1000)
-    plt.colorbar(img, format="%+2.0f dB")
+    plt.colorbar(img, format="%+2.0f dB");
 
 
 
@@ -370,7 +370,7 @@ compute the combined TFR and plot it.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x75419801d3d0>
+    <matplotlib.colorbar.Colorbar object at 0x753b1d393650>
 
 
 
@@ -388,8 +388,8 @@ component well resolved.
 
 .. GENERATED FROM PYTHON SOURCE LINES 192-195
 
-3.2) Using ctfr.ctfr
-^^^^^^^^^^^^^^^^^^^^
+Using ctfr.ctfr
+^^^^^^^^^^^^^^^
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 198-206
@@ -414,7 +414,7 @@ Let’s do this for our signal, using the same parameters as before.
     # Plot the combined spectrogram.
     img = ctfr.specshow(ctfr.power_to_db(swgm_spec_2, ref=np.max), sr=sr, hop_length=512, x_axis='time', y_axis='linear', cmap='inferno')
     plt.ylim(0, 1000)
-    plt.colorbar(img, format="%+2.0f dB")
+    plt.colorbar(img, format="%+2.0f dB");
 
 
 
@@ -431,7 +431,7 @@ Let’s do this for our signal, using the same parameters as before.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x754198c03c50>
+    <matplotlib.colorbar.Colorbar object at 0x753b1cf4f850>
 
 
 
@@ -463,7 +463,7 @@ same:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 10.770 seconds)
+   **Total running time of the script:** (0 minutes 1.380 seconds)
 
 
 .. _sphx_glr_download_examples_output_basic_usage.py:

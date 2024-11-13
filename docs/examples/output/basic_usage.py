@@ -18,8 +18,8 @@ import matplotlib.pyplot as plt
 
 
 ######################################################################
-# 1) Loading the audio data
-# ~~~~~~~~~~~~~~~~~~~~~~~~~
+# Loading the audio data
+# ~~~~~~~~~~~~~~~~~~~~~~
 # 
 
 
@@ -37,7 +37,7 @@ import matplotlib.pyplot as plt
 # Load and print the audio signal.
 signal, sr = ctfr.load("audio/synthetic.wav")
 print(f"Sample rate: {sr} Hz")
-plt.plot(signal)
+plt.plot(signal);
 
 
 ######################################################################
@@ -46,8 +46,8 @@ plt.plot(signal)
 
 
 ######################################################################
-# 2) Computing STFT spectrograms with different resolutions.
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Computing STFT spectrograms with different resolutions.
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
 
@@ -63,7 +63,7 @@ spec_512 = ctfr.stft_spec(signal, win_length=512, n_fft=2048, hop_length=256)
 # Plot the spectrogram.
 img = ctfr.specshow(ctfr.power_to_db(spec_512, ref=np.max), sr=sr, hop_length=256, x_axis='time', y_axis='linear', cmap='inferno')
 plt.ylim(0, 1000)
-plt.colorbar(img, format="%+2.0f dB")
+plt.colorbar(img, format="%+2.0f dB");
 
 
 ######################################################################
@@ -82,7 +82,7 @@ spec_1024 = ctfr.stft_spec(signal, win_length=1024, n_fft=2048, hop_length=256)
 # Plot the spectrogram.
 img = ctfr.specshow(ctfr.power_to_db(spec_1024, ref=np.max), sr=sr, hop_length=256, x_axis='time', y_axis='linear', cmap='inferno')
 plt.ylim(0, 1000)
-plt.colorbar(img, format="%+2.0f dB")
+plt.colorbar(img, format="%+2.0f dB");
 
 
 ######################################################################
@@ -100,7 +100,7 @@ spec_2048 = ctfr.stft_spec(signal, win_length=2048, n_fft=2048, hop_length=256)
 # Plot the spectrogram.
 img = ctfr.specshow(ctfr.power_to_db(spec_2048, ref=np.max), sr=sr, hop_length=256, x_axis='time', y_axis='linear', cmap='inferno')
 plt.ylim(0, 1000)
-plt.colorbar(img, format="%+2.0f dB")
+plt.colorbar(img, format="%+2.0f dB");
 
 
 ######################################################################
@@ -116,8 +116,8 @@ plt.colorbar(img, format="%+2.0f dB")
 
 
 ######################################################################
-# 3) Computing a combined TFR
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Computing a combined TFR
+# ~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
 
@@ -135,8 +135,8 @@ plt.colorbar(img, format="%+2.0f dB")
 
 
 ######################################################################
-# 3.1) Using ctfr.ctfr_from_specs
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# Using ctfr.ctfr_from_specs
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^
 # 
 
 
@@ -173,7 +173,7 @@ swgm_spec = ctfr.ctfr_from_specs((spec_512, spec_1024, spec_2048), method='swgm'
 # Plot the combined spectrogram.
 img = ctfr.specshow(ctfr.power_to_db(swgm_spec, ref=np.max), sr=sr, hop_length=256, x_axis='time', y_axis='linear', cmap='inferno')
 plt.ylim(0, 1000)
-plt.colorbar(img, format="%+2.0f dB")
+plt.colorbar(img, format="%+2.0f dB");
 
 
 ######################################################################
@@ -189,8 +189,8 @@ plt.colorbar(img, format="%+2.0f dB")
 
 
 ######################################################################
-# 3.2) Using ctfr.ctfr
-# ^^^^^^^^^^^^^^^^^^^^
+# Using ctfr.ctfr
+# ^^^^^^^^^^^^^^^
 # 
 
 
@@ -210,7 +210,7 @@ swgm_spec_2 = ctfr.ctfr(signal, sr = sr, method = "swgm", win_length_list=[512, 
 # Plot the combined spectrogram.
 img = ctfr.specshow(ctfr.power_to_db(swgm_spec_2, ref=np.max), sr=sr, hop_length=512, x_axis='time', y_axis='linear', cmap='inferno')
 plt.ylim(0, 1000)
-plt.colorbar(img, format="%+2.0f dB")
+plt.colorbar(img, format="%+2.0f dB");
 
 
 ######################################################################
