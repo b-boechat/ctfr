@@ -31,6 +31,12 @@ extensions = [
     'sphinx_gallery.gen_gallery'
 ]
 
+intersphinx_mapping = {
+    "librosa": ('https://librosa.org/doc/latest', None),
+    "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
+}
+intersphinx_disabled_reftypes = ["*"]
+
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '*/GALLERY_HEADER.rst']
 

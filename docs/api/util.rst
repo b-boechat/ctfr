@@ -15,8 +15,8 @@ Audio and spectrogram utilities
 .. autofunction:: power_to_db
 
 
-Methods' utilities
-------------------
+Combination method utilities
+----------------------------
 
 .. currentmodule:: ctfr
 

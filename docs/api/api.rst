@@ -2,7 +2,7 @@ API reference
 =============
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
 
    util
    meta

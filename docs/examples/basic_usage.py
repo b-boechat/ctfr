@@ -158,7 +158,7 @@ print(spec_2048.shape)
 # methods:
 # 
 
-ctfr.list_methods()
+ctfr.show_methods()
 
 
 ######################################################################
