@@ -7,6 +7,11 @@ Examples
 
     These examples are designed to demonstrate the capabilities of the toolbox. For a full list of available functions and classes, please refer to the API reference.
 
+.. toctree::
+    :maxdepth: 1
+
+    basic_usage
+
 
 .. raw:: html
 
@@ -20,10 +25,10 @@ Examples
 
 .. only:: html
 
-  .. image:: /examples/output/images/thumb/sphx_glr_basic_usage_thumb.png
+  .. image:: /gallery_examples/images/thumb/sphx_glr_basic_usage_thumb.png
     :alt:
 
-  :ref:`sphx_glr_examples_output_basic_usage.py`
+  :ref:`sphx_glr_gallery_examples_basic_usage.py`
 
 .. raw:: html
 
@@ -41,7 +46,7 @@ Examples
 .. toctree::
    :hidden:
 
-   /examples/output/basic_usage
+   /gallery_examples/basic_usage
 
 
 .. only:: html
@@ -50,11 +55,11 @@ Examples
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
-      :download:`Download all examples in Python source code: output_python.zip </examples/output/output_python.zip>`
+      :download:`Download all examples in Python source code: gallery_examples_python.zip </gallery_examples/gallery_examples_python.zip>`
 
     .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-      :download:`Download all examples in Jupyter notebooks: output_jupyter.zip </examples/output/output_jupyter.zip>`
+      :download:`Download all examples in Jupyter notebooks: gallery_examples_jupyter.zip </gallery_examples/gallery_examples_jupyter.zip>`
 
 
 .. only:: html

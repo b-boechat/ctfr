@@ -10,20 +10,13 @@ ctfr
 
 .. toctree::
    :maxdepth: 2
-   :caption: User guide:
+   :caption: User guide
 
-   examples/output/index
+   gallery_examples/index
+
 
 .. warning::
    This is a warning
 
 .. note::
    This is a note
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
