@@ -27,12 +27,17 @@ extensions = [
     'sphinx.ext.imgmath',
     'sphinx.ext.intersphinx',
     'sphinx.ext.doctest',
+    'sphinx_gallery.gen_gallery'
 ]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-
+sphinx_gallery_conf = {
+    "examples_dirs": "examples",
+    "gallery_dirs": "examples/output",
+    "filename_pattern": "/basic_usage.py",
+}
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

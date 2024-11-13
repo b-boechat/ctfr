@@ -3,28 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ctfr's docs! 
+ctfr
 ==========================
 
-``ctfr`` is a Python library etc.
+``ctfr`` is an efficient toolbox for computing combined time-frequency representations of audio signals.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: User guide:
 
-   ctfr
-
+   examples/output/index
 
 .. warning::
    This is a warning
 
 .. note::
    This is a note
-
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
 
 
 Indices and tables
