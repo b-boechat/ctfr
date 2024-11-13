@@ -1,6 +1,6 @@
 # ctfr
 
-[![PyPI](https://img.shields.io/pypi/v/ctfr-lib.svg)](https://pypi.python.org/pypi/ctfr-lib) [![Python Versions](https://img.shields.io/pypi/pyversions/ctfr.svg)](https://pypi.python.org/pypi/ctfr-lib) ![Licence](https://img.shields.io/github/license/b-boechat/ctfr-lib) 
+[![PyPI](https://img.shields.io/pypi/v/ctfr.svg)](https://pypi.python.org/pypi/ctfr) [![Python Versions](https://img.shields.io/pypi/pyversions/ctfr.svg)](https://pypi.python.org/pypi/ctfr) ![Licence](https://img.shields.io/github/license/b-boechat/ctfr) 
 
 #### Efficient toolbox for computing combined time-frequency representations of audio signals.
 
