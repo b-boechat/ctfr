@@ -3,30 +3,20 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-ctfr documentation
-==================
+ctfr
+==========================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+``ctfr`` is an efficient toolbox for computing combined time-frequency representations of audio signals.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User guide
+
+   gallery_examples/index
+
 
 .. warning::
    This is a warning
 
 .. note::
    This is a note
-
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-
-Contributing
-------------
-
-If you would like to contribute to the project, do this.
-
-- Fork the repository
-
-- Make your changes

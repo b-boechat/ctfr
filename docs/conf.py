@@ -6,7 +6,7 @@
 # -- Path setup --------------------------------------------------------------
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../src/ctfr'))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -27,12 +27,17 @@ extensions = [
     'sphinx.ext.imgmath',
     'sphinx.ext.intersphinx',
     'sphinx.ext.doctest',
+    'sphinx_gallery.gen_gallery'
 ]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '*/GALLERY_HEADER.rst']
 
-
+sphinx_gallery_conf = {
+    "examples_dirs": "examples",
+    "gallery_dirs": "gallery_examples",
+    "filename_pattern": "/basic_usage.py",
+}
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
