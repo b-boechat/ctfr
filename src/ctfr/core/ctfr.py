@@ -1,6 +1,6 @@
 import numpy as np
 from ctfr.exception import InvalidRepresentationTypeError, InvalidSpecError
-from ctfr.utils import stft_spec, cqt_spec
+from ctfr.utils.external import stft_spec, cqt_spec
 from ctfr.utils.internal import _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
 from ctfr.methods.methods_utils import _get_method_function
 from typing import List, Optional, Any

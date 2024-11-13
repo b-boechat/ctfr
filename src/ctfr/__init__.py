@@ -1,13 +1,13 @@
 __version__ = "0.0.0.7"
 
 from warnings import warn as _warn
-from ctfr.utils import load, stft, cqt, stft_spec, cqt_spec, specshow, power_to_db
-from ctfr.core import ctfr, ctfr_from_specs
+from ctfr.utils.external import load, stft, cqt, stft_spec, cqt_spec, specshow, power_to_db
+from ctfr.core.ctfr import ctfr, ctfr_from_specs
 from ctfr.meta import cite, cite_method, show_version
 from ctfr.warning import FunctionNotBuiltWarning
 
 from ctfr.methods.methods_dict import _methods_dict
-from ctfr.methods import get_methods, list_methods, validate_method, get_method_name
+from ctfr.methods.methods_utils import get_methods, list_methods, validate_method, get_method_name
 
 def _export_all_method_functions(_methods_dict):
     for key in _methods_dict:

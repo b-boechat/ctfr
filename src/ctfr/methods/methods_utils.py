@@ -1,6 +1,9 @@
-from ctfr.exception import InvalidCombinationMethodError
+from ctfr.exception import (
+    InvalidCombinationMethodError,
+    CitationNotImplementedError, 
+    InvalidCitationModeError
+)
 from .methods_dict import _methods_dict
-from ctfr.exception import CitationNotImplementedError, InvalidCitationModeError
 from ctfr.warning import DoiNotAvailableWarning
 from warnings import warn
 
