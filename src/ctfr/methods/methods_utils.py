@@ -12,7 +12,7 @@ def show_methods():
     
     See Also
     --------
-    get_methods_list : Instead of printing, returns a list of combination methods' keys.
+    get_methods_list
     """
     print("Available combination methods:")
     for key, val in _methods_dict.items():
@@ -30,7 +30,7 @@ def get_methods_list():
 
     See Also
     --------
-    show_methods : Instead of returning, prints information for all installed combination methods.
+    show_methods
     """
     return list(_methods_dict.keys())
 

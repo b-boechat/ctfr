@@ -31,10 +31,6 @@ extensions = [
     'sphinx_gallery.gen_gallery'
 ]
 
-intersphinx_mapping = {
-    "librosa": ('https://librosa.org/doc/latest', None),
-    "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
-}
 intersphinx_disabled_reftypes = ["*"]
 
 templates_path = ['_templates']
@@ -59,7 +55,10 @@ html_static_path = ['_static']
 # https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html#configuration
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3', None),
+    "librosa": ('https://librosa.org/doc/latest', None),
+    "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
+    "python": ("https://docs.python.org/3", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
 }
 
 # -- Options for todo extension ----------------------------------------------

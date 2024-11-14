@@ -12,7 +12,7 @@ def cite():
 
     See Also
     --------
-    cite_method : Prints the citation information for a combination method.
+    cite
     """
     raise CitationNotImplementedError("Package citation not available.")
 
@@ -35,7 +35,7 @@ def cite_method(method: str, mode: str = None):
 
     See Also
     --------
-    cite : Prints the citation information for the package.
+    cite
     """
     print(_get_method_citation(method, mode=mode))
 

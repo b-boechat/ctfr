@@ -8,6 +8,8 @@ ctfr
 
 ``ctfr`` is an efficient toolbox for computing combined time-frequency representations of audio signals.
 
+.. Link :external+python:ref:`comparison manual <comparisons>`
+
 .. toctree::
    :maxdepth: 2
    :caption: User guide
