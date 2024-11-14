@@ -7,7 +7,7 @@ pypandoc: install using `pip install pypandoc`
 """
 
 IPYNB_BASE_DIR = "../examples"
-OUTPUT_PY_DIR = "examples"
+OUTPUT_PY_DIR = "getting_started/examples"
 
 import pypandoc as pdoc
 from pypandoc.pandoc_download import download_pandoc

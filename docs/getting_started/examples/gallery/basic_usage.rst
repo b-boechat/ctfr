@@ -90,7 +90,7 @@ audio data and plot it.
 
     Sample rate: 22050 Hz
 
-    [<matplotlib.lines.Line2D object at 0x776e5fe79890>]
+    [<matplotlib.lines.Line2D object at 0x74f13d99a9d0>]
 
 
 
@@ -140,7 +140,7 @@ length of :math:`512` samples, and a FFT size of :math:`2048` samples.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x776e5ffb1c50>
+    <matplotlib.colorbar.Colorbar object at 0x74f13d9d4a50>
 
 
 
@@ -183,7 +183,7 @@ Now, let’s increase the window length to :math:`L = 1024` samples (~
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x776e5d90dd50>
+    <matplotlib.colorbar.Colorbar object at 0x74f13d574a50>
 
 
 
@@ -225,7 +225,7 @@ resulting spectrogram.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x776e5d9a9750>
+    <matplotlib.colorbar.Colorbar object at 0x74f13d1d84d0>
 
 
 
@@ -369,7 +369,7 @@ compute the combined TFR and plot it.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x776e5d594cd0>
+    <matplotlib.colorbar.Colorbar object at 0x74f13cd92150>
 
 
 
@@ -416,7 +416,7 @@ Let’s do this for our signal, using the same parameters as before.
 
 
     # Compute the combined spectrogram using ctfr.ctfr and the SWGM method,
-    swgm_spec_2 = ctfr.ctfr(signal, sr = sr, method = "swgm", win_length_list=[512, 1024, 2048], hop_length=256, n_fft=2048)
+    swgm_spec_2 = ctfr.ctfr(signal, sr = sr, method = "swgm", win_lengths=[512, 1024, 2048], hop_length=256, n_fft=2048)
 
     # Plot the combined spectrogram.
     img = ctfr.specshow(ctfr.power_to_db(swgm_spec_2, ref=np.max), sr=sr, hop_length=512, x_axis='time', y_axis='linear', cmap='inferno')
@@ -438,7 +438,7 @@ Let’s do this for our signal, using the same parameters as before.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x776e5d15da90>
+    <matplotlib.colorbar.Colorbar object at 0x74f13c965e90>
 
 
 
@@ -477,7 +477,7 @@ same:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.407 seconds)
+   **Total running time of the script:** (0 minutes 1.419 seconds)
 
 
 .. _sphx_glr_download_getting_started_examples_gallery_basic_usage.py:

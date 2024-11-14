@@ -4,7 +4,6 @@ CTFRs from a waveform signal
 .. currentmodule:: ctfr
 
 .. autofunction:: ctfr
-
 .. autofunction:: ctfr.methods.mean
 .. autofunction:: ctfr.methods.median
 .. autofunction:: ctfr.methods.min

@@ -213,7 +213,7 @@ plt.colorbar(img, format="%+2.0f dB");
 # 
 
 # Compute the combined spectrogram using ctfr.ctfr and the SWGM method,
-swgm_spec_2 = ctfr.ctfr(signal, sr = sr, method = "swgm", win_length_list=[512, 1024, 2048], hop_length=256, n_fft=2048)
+swgm_spec_2 = ctfr.ctfr(signal, sr = sr, method = "swgm", win_lengths=[512, 1024, 2048], hop_length=256, n_fft=2048)
 
 # Plot the combined spectrogram.
 img = ctfr.specshow(ctfr.power_to_db(swgm_spec_2, ref=np.max), sr=sr, hop_length=512, x_axis='time', y_axis='linear', cmap='inferno')
