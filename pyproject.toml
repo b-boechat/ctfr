@@ -28,7 +28,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Multimedia :: Sound/Audio",
 ]
-keywords = ["audio", "music", "sound", "time-frequency representations"]
+keywords = ["audio", "music", "sound", "music information retrieval", "time-frequency representations"]
 
 [project.urls]
 Homepage = "https://github.com/b-boechat/ctfr"

@@ -5,8 +5,9 @@ API reference
    This is a description of every function in ``ctfr``. For a guided introduction to the package, see :doc:`/getting_started/index` and :doc:`/getting_started/examples/gallery/index`.
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 2
 
+   core/index
    util
    meta
    exception

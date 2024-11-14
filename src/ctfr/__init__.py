@@ -23,16 +23,20 @@ def _from_audio_function_export(key):
     function_name = key
     if not validate_function_name(function_name):
         _warn(f"Function name already exists in module ctfr.methods and thus was not built: {function_name}.", FunctionNotBuiltWarning)
-    #globals()[function_name] = lambda signal, **kwargs: ctfr(signal, method = key, **kwargs)
-    setattr(methods, function_name, lambda signal, sr, **kwargs: ctfr(signal, sr = sr, method = key, **kwargs))
+    def _func(signal, sr, **kwargs):
+        return ctfr(signal, sr = sr, method = key, **kwargs)
+    _func.__doc__ = f"Alias for ``ctfr.ctfr(signal, method={key}, sr=sr, **kwargs)``."
+    setattr(methods, function_name, _func)
 
 def _from_specs_function_export(key):
     """Export a method function that takes an iterable of spectrograms as input."""
     function_name = key + "_from_specs"
     if not validate_function_name(function_name):
         _warn(f"Function name already exists in module ctfr.methods and thus was not built: {function_name}.", FunctionNotBuiltWarning)
-    #globals()[function_name] = lambda specs_tensor, **kwargs: ctfr_from_specs(specs_tensor, method = key, **kwargs)
-    setattr(methods, function_name, lambda specs_tensor, **kwargs: ctfr_from_specs(specs_tensor, method = key, **kwargs))
+    def _func(specs_tensor, **kwargs):
+        return ctfr_from_specs(specs_tensor, method = key, **kwargs)
+    _func.__doc__ = f"Alias for ``ctfr.ctfr_from_specs(specs_tensor, method={key}, **kwargs)``."
+    setattr(methods, function_name, _func)
 
 def validate_function_name(function_name):
     return not function_name in globals()
