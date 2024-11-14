@@ -7,8 +7,8 @@ from glob import glob
 from Cython.Build import cythonize
 
 # Define Cython extensions to build. The pyx files are assumed to be in src/ctfr/methods/implementations.
-IMPLEMENTATIONS_SOURCE_DIR = f"src{sep}ctfr{sep}methods{sep}implementations"
-IMPLEMENTATIONS_MODULE = "ctfr.methods.implementations"
+IMPLEMENTATIONS_SOURCE_DIR = f"src{sep}ctfr{sep}implementations"
+IMPLEMENTATIONS_MODULE = "ctfr.implementations"
 
 def get_cy_extensions():
     method_cy_source_paths = glob(f"{IMPLEMENTATIONS_SOURCE_DIR}{sep}*.pyx")

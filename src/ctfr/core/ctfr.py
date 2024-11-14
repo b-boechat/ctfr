@@ -1,8 +1,13 @@
 import numpy as np
 from ctfr.exception import InvalidRepresentationTypeError, InvalidSpecError
-from ctfr.utils.external import stft_spec, cqt_spec
-from ctfr.utils.internal import _normalize_spec, _normalize_specs_tensor, _get_specs_tensor_energy_array, _round_to_power_of_two
-from ctfr.methods.methods_utils import _get_method_function
+from ctfr.utils.audio import stft_spec, cqt_spec
+from ctfr.utils.private import (
+    _normalize_spec, 
+    _normalize_specs_tensor, 
+    _get_specs_tensor_energy_array, 
+    _round_to_power_of_two, 
+    _get_method_function
+)
 from typing import List, Optional, Any, Iterable
 
 def ctfr(
@@ -230,22 +235,22 @@ def _get_stft_params(sr, win_lengths, hop_length, n_fft):
             top_length = min(_round_to_power_of_two(int(sr * 0.1), mode="round"), n_fft)
         else:
             top_length =  _round_to_power_of_two(int(sr * 0.1), mode="round")
-        win_length = [top_length // 4, top_length // 2, top_length]
+        win_lengths = [top_length // 4, top_length // 2, top_length]
 
     else:
-        win_length = sorted(win_length)
+        win_lengths = sorted(win_lengths)
 
     if hop_length is None:
-        hop_length = win_length[0] // 2
+        hop_length = win_lengths[0] // 2
 
     if n_fft is None:
-        n_fft = win_length[-1]
+        n_fft = win_lengths[-1]
     else:
-        if n_fft < win_length[-1]:
+        if n_fft < win_lengths[-1]:
             raise ValueError("n_fft must be greater than or equal to the largest window length.")
 
     return {
-        "win_length": win_length,
+        "win_length": win_lengths,
         "hop_length": hop_length,
         "n_fft": n_fft,
     }

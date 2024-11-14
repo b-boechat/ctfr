@@ -1,1 +1,2 @@
-include src/ctfr/methods/implementations/*.pyx
+include src/ctfr/implementations/*.pyx
+include src/ctfr/assets/*

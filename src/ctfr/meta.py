@@ -1,5 +1,6 @@
-from .methods.methods_utils import _get_method_citation, get_method_name
-from .exception import CitationNotImplementedError
+from ctfr.utils.private import _get_method_citation
+from ctfr.utils.methods import get_method_name
+from ctfr.exception import CitationNotImplementedError
 from ctfr import __version__
 
 def cite():

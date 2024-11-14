@@ -1,10 +1,7 @@
 from ctfr.exception import (
     InvalidCombinationMethodError,
-    CitationNotImplementedError, 
-    InvalidCitationModeError
 )
-from .methods_dict import _methods_dict
-from ctfr.warning import DoiNotAvailableWarning
+from ctfr.methods_dict import _methods_dict
 from warnings import warn
 
 def show_methods():
@@ -58,35 +55,3 @@ def get_method_name(key):
         return _methods_dict[key]["name"]
     except KeyError:
         raise InvalidCombinationMethodError(f"Invalid combination method: {key}")
-
-def _get_method_function(key):
-    try:
-        return _methods_dict[key]["function"]
-    except KeyError:
-        raise InvalidCombinationMethodError(f"Invalid combination method: {key}")
-
-def _get_method_citation(method, mode):
-    try:
-        entry = _methods_dict[method]
-    except KeyError:
-        raise InvalidCombinationMethodError(f"Invalid combination method: {method}")
-
-    if mode is None or mode == "doi":
-        try:
-            return entry["doi"]
-        except KeyError:
-            if mode == "doi":
-                warn(DoiNotAvailableWarning(f"DOI not available for method '{entry['name']}'. Trying citation instead."))
-            mode = "citation"
-    
-    if mode == "citation":
-        try:
-            citation = entry["citation"]
-            if citation is None:
-                return f"No citation available for method '{entry['name']}'."
-            else:
-                return citation
-        except KeyError:
-            raise CitationNotImplementedError(f"Citation for method '{method}' not implemented")
-
-    raise InvalidCitationModeError(f"Invalid citation mode: {mode}")
