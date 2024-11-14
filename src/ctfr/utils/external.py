@@ -75,7 +75,7 @@ def specshow(data, *, x_coords=None, y_coords=None, x_axis=None, y_axis=None, sr
 
     Notes
     -----
-    This function is not installed with `ctfr` by default. To use it, you must install ``ctfr`` with the ``[display]`` extra. See the installation instructions for more information.
+    This function is not installed with `ctfr` by default. To use it, you must install ``ctfr`` with the ``[display]`` extra. See installation for more information.
     """
     return specshow_librosa(data, x_coords=x_coords, y_coords=y_coords, x_axis=x_axis, y_axis=y_axis, sr=sr, hop_length=hop_length, n_fft=n_fft, win_length=win_length, fmin=fmin, fmax=fmax, tempo_min=tempo_min, tempo_max=tempo_max, tuning=tuning, bins_per_octave=bins_per_octave, key=key, Sa=Sa, mela=mela, thaat=thaat, auto_aspect=auto_aspect, htk=htk, unicode=unicode, intervals=intervals, unison=unison, ax=ax, **kwargs)
 

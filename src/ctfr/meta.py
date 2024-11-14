@@ -12,7 +12,7 @@ def cite():
 
     See Also
     --------
-    cite
+    cite_method
     """
     raise CitationNotImplementedError("Package citation not available.")
 

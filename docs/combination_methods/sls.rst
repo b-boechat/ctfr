@@ -1,0 +1,2 @@
+Smoothed local sparsity
+=======================

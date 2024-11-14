@@ -1,0 +1,2 @@
+Sample-weighted geometric mean
+===============================

@@ -1,0 +1,2 @@
+Simple binwise methods
+======================

@@ -12,15 +12,21 @@ ctfr
 
 .. toctree::
    :maxdepth: 2
-   :caption: User guide
+   :caption: Contents
 
+   getting_started/index
    gallery_examples/index
-   api/api
-
+   combination_methods/index
+   api/index
 
 .. warning::
    This is a warning
    
-
 .. note::
    This is a note
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Other links
+
+   Github <https://github.com/b-boechat/ctfr>
