@@ -49,7 +49,7 @@ def stft_spec(signal, *, n_fft=2048, hop_length=None, win_length=None, window="h
     --------
     stft
     """
-    return np.square(np.abs(stft(signal, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=center, stft_dtype=stft_dtype, pad_mode=pad_mode, out=None), dtype=dtype))
+    return np.square(np.abs(stft(signal, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=center, dtype=stft_dtype, pad_mode=pad_mode, out=None), dtype=dtype))
 
 def cqt_spec(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=84, bins_per_octave=12, tuning=0.0, filter_scale=1, norm=1, sparsity=0.01, window='hann', scale=True, pad_mode='constant', res_type='soxr_hq', dtype=None, cqt_dtype=None):
     """Computes the squared magnitude of the constant-Q transform (CQT) of a signal.
