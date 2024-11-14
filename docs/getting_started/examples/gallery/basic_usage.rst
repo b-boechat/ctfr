@@ -90,7 +90,7 @@ audio data and plot it.
 
     Sample rate: 22050 Hz
 
-    [<matplotlib.lines.Line2D object at 0x7b311f0c2d10>]
+    [<matplotlib.lines.Line2D object at 0x776e5fe79890>]
 
 
 
@@ -140,7 +140,7 @@ length of :math:`512` samples, and a FFT size of :math:`2048` samples.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7b311f0d7110>
+    <matplotlib.colorbar.Colorbar object at 0x776e5ffb1c50>
 
 
 
@@ -183,7 +183,7 @@ Now, let’s increase the window length to :math:`L = 1024` samples (~
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7b311cb2ea50>
+    <matplotlib.colorbar.Colorbar object at 0x776e5d90dd50>
 
 
 
@@ -225,7 +225,7 @@ resulting spectrogram.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7b311cb77110>
+    <matplotlib.colorbar.Colorbar object at 0x776e5d9a9750>
 
 
 
@@ -369,7 +369,7 @@ compute the combined TFR and plot it.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7b311cb012d0>
+    <matplotlib.colorbar.Colorbar object at 0x776e5d594cd0>
 
 
 
@@ -438,7 +438,7 @@ Let’s do this for our signal, using the same parameters as before.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x7b311c7112d0>
+    <matplotlib.colorbar.Colorbar object at 0x776e5d15da90>
 
 
 
@@ -477,7 +477,7 @@ same:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.461 seconds)
+   **Total running time of the script:** (0 minutes 1.407 seconds)
 
 
 .. _sphx_glr_download_getting_started_examples_gallery_basic_usage.py:

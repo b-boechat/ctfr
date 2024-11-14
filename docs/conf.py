@@ -69,4 +69,4 @@ intersphinx_mapping = {
 # -- Options for todo extension ----------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/extensions/todo.html#configuration
 
-todo_include_todos = True
+todo_include_todos = False

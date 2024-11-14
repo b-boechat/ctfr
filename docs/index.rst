@@ -18,12 +18,6 @@ ctfr
    combination_methods/index
    api/index
 
-.. warning::
-   This is a warning
-   
-.. note::
-   This is a note
-
 .. toctree::
    :maxdepth: 2
    :caption: Other links
