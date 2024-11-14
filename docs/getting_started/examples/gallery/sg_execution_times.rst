@@ -1,12 +1,12 @@
 
 :orphan:
 
-.. _sphx_glr_gallery_examples_sg_execution_times:
+.. _sphx_glr_getting_started_examples_gallery_sg_execution_times:
 
 
 Computation times
 =================
-**00:01.415** total execution time for 1 file **from gallery_examples**:
+**00:01.461** total execution time for 1 file **from getting_started/examples/gallery**:
 
 .. container::
 
@@ -32,6 +32,6 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_gallery_examples_basic_usage.py` (``basic_usage.py``)
-     - 00:01.415
+   * - :ref:`sphx_glr_getting_started_examples_gallery_basic_usage.py` (``basic_usage.py``)
+     - 00:01.461
      - 0.0

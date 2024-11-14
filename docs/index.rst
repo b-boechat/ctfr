@@ -15,7 +15,6 @@ ctfr
    :caption: Contents
 
    getting_started/index
-   gallery_examples/index
    combination_methods/index
    api/index
 

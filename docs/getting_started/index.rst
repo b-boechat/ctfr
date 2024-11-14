@@ -5,3 +5,4 @@ Getting started
    :maxdepth: 3
 
    installation
+   examples/gallery/index

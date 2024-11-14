@@ -34,11 +34,16 @@ extensions = [
 intersphinx_disabled_reftypes = ["*"]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '*/GALLERY_HEADER.rst']
+exclude_patterns = [
+    '_build', 
+    'Thumbs.db', 
+    '.DS_Store', 
+    'getting_started/examples/GALLERY_HEADER.rst'
+]
 
 sphinx_gallery_conf = {
-    "examples_dirs": "examples",
-    "gallery_dirs": "gallery_examples",
+    "examples_dirs": "getting_started/examples",
+    "gallery_dirs": "getting_started/examples/gallery",
     "filename_pattern": "/basic_usage.py",
 }
 

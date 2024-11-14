@@ -20,10 +20,10 @@ Examples
 
 .. only:: html
 
-  .. image:: /gallery_examples/images/thumb/sphx_glr_basic_usage_thumb.png
+  .. image:: /getting_started/examples/gallery/images/thumb/sphx_glr_basic_usage_thumb.png
     :alt:
 
-  :ref:`sphx_glr_gallery_examples_basic_usage.py`
+  :ref:`sphx_glr_getting_started_examples_gallery_basic_usage.py`
 
 .. raw:: html
 
@@ -41,7 +41,7 @@ Examples
 .. toctree::
    :hidden:
 
-   /gallery_examples/basic_usage
+   /getting_started/examples/gallery/basic_usage
 
 
 .. only:: html
@@ -50,11 +50,11 @@ Examples
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
-      :download:`Download all examples in Python source code: gallery_examples_python.zip </gallery_examples/gallery_examples_python.zip>`
+      :download:`Download all examples in Python source code: gallery_python.zip </getting_started/examples/gallery/gallery_python.zip>`
 
     .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-      :download:`Download all examples in Jupyter notebooks: gallery_examples_jupyter.zip </gallery_examples/gallery_examples_jupyter.zip>`
+      :download:`Download all examples in Jupyter notebooks: gallery_jupyter.zip </getting_started/examples/gallery/gallery_jupyter.zip>`
 
 
 .. only:: html
