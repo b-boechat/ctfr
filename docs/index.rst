@@ -11,15 +11,16 @@ ctfr
 .. Link :external+python:ref:`comparison manual <comparisons>`
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents
 
    getting_started/index
    combination_methods/index
+   adding_methods
    api/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Other links
 
    Github <https://github.com/b-boechat/ctfr>

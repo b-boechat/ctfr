@@ -14,6 +14,9 @@ This will install the package and its runtime dependencies. Note that this doesn
 
    pip install ctfr[display]
 
+
+.. _development mode:
+
 Development mode
 ----------------
 
@@ -31,3 +34,6 @@ on a Linux system. On Windows, you can run instead::
    pip install -e .[dev]
 
 When installing in this mode, Cython is a build dependency. If you have trouble running Cython, see this guide.
+
+.. note::
+   When developing, ``.pyx`` files need to be recompiled in order for changes to take place. This can be done by running ``make ext`` or ``python setup.py build_ext --inplace``.
