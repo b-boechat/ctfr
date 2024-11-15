@@ -6,18 +6,7 @@ from warnings import warn
 from ctfr.warning import ArgumentChangeWarning
 
 def _swgm_wrapper(X, beta = 0.3, max_gamma = 20.0):
-    """ Calculate the "Sample-Weighted Geometric Mean" combination of spectrograms. 
-        
-        :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 
-            Dimensions: spectrograms P x frequency bins K x time frames M.
-        :param beta (Double >= 0): Parameter for calculating combination weights. Typically in range [0, 0.5].
-            with beta = 0: geometric mean combination;
-            with beta -> inf: minimax combination.
-        :param max_gamma <Double >= 1): Maximum weight. Example value: max_gamma = 20.0. 
-        :return combined_tfr (Ndarray <double> [K x M]): Combined spectrogram, not yet with normalized energy.
-        
-        References: (Placeholder)
-    """
+    
     beta = float(beta)
     if beta < 0:
         beta = 0.0

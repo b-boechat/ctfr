@@ -1,3 +1,5 @@
+.. _adding methods:
+
 Adding methods
 ==============
 

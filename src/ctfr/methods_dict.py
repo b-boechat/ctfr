@@ -23,7 +23,14 @@ _methods_dict = {
     "swgm": {
         "name": "Sample Weighted Geometric Mean (SWGM)",
         "function": _swgm_wrapper,
-        "citation": "M. V. M. da Costa and L. W. P. Biscainho, \"Combining time-frequency representations for music information retrieval\", in 15o Congresso de Engenharia de Áudio da AES-Brasil, 10 2017, pp. 12–18."
+        "citation": "M. V. M. da Costa and L. W. P. Biscainho, \"Combining time-frequency representations for music information retrieval\", in 15o Congresso de Engenharia de Áudio da AES-Brasil, 10 2017, pp. 12–18.",
+        "parameters": {
+            "beta": {
+                "type_and_info": r"float, range: [0, 1]",
+                "default": 0.5,
+                "description": r"Weighting factor for computing the weights for the geometric mean. When ``beta = 0``, the SWGM is equivalent to an unweighted geometric mean. When ``beta = 1``, the SWGM is equivalent to the minimum combination."
+            }
+        }
     },
     "fls": {
         "name": "Fast Local Sparsity (FLS)",

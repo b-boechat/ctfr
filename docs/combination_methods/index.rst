@@ -1,3 +1,5 @@
+.. _combination methods:
+
 Combination methods
 ===================
 
@@ -5,7 +7,7 @@ Combination methods
    :maxdepth: 3
 
    binwise
-   swgm
+   swgm/index
    lt
    sls
    fls

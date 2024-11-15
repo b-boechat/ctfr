@@ -12,9 +12,9 @@ from typing import List, Optional, Any, Iterable
 
 def ctfr(
     signal: np.ndarray,
-    *,
     sr: float,
     method: str,
+    *,
     representation_type: str = "stft",
     win_lengths: Iterable[int] = None,
     hop_length: int = None,
@@ -36,25 +36,25 @@ def ctfr(
     sr : float
         sampling rate of the input signal.
     method : str
-        combination method to use, as specified by their id string. See :doc:`/combination_methods/index`. User-defined methods are also supported if they are properly installed (see xx). A list of all available methods can also be obtained with :func:`ctfr.show_methods` or :func:`ctfr.get_methods_list`.
+        combination method to use, as specified by their id string. See :ref:`combination methods`. User-defined methods are also supported if they are properly installed (see :ref:`adding methods`). A list of all available methods can also be obtained with :func:`ctfr.show_methods` or :func:`ctfr.get_methods_list`.
     representation_type : {"stft", "cqt"}
         type of time-frequency representation to use, by default `"stft"`.
     win_lengths : Iterable[int], optional
         iterable of window lengths in samples to use for the STFTs. If ``representation_type`` is `"stft"` and this parameter is not provided, the default window lengths are ``[top_length // 4, top_length // 2, top_length]``, where ``top_length`` is either 100ms in samples, rounded to the nearest power of 2, or ``n_fft`` (if provided), whichever is the lowest. If ``representation_type`` is `"cqt"`, this parameter is ignored. 
-    hop_length : int, optional
+    hop_length : int > 0, optional
         the hop length in samples to use for the TFRs. If not provided when ``representation_type`` is `"stft"`, defaults to half of the smallest window length. If not provided when ``representation_type`` is `"cqt"`, defaults to 12.5ms in samples, rounded to the nearest power of 2.
-    n_fft : Optional[int], optional
+    n_fft : int > 0, optional
         number of FFT points to use for the STFTs. If not provided when ``representation_type`` is `"stft"`, defaults to the largest window length. If both ``n_fft`` and ``win_lengths`` are provided, ``n_fft`` must be greater than or equal to the largest window length. If ``representation_type`` is `"cqt"`, this parameter is ignored.
-    filter_scales : Iterable[float], 0 < filter_scale <= 1, optional
+    filter_scales : Iterable[float], values in range (0, 1], optional
         iterable of filter scales to use for the CQTs. If ``representation_type`` is `"cqt"` and this parameter is not provided, the default filter scales are ``[1/3, 2/3, 1]``. If ``representation_type`` is `"stft"`, this parameter is ignored.
-    bins_per_octave : int, optional
+    bins_per_octave : int > 0, optional
         number of bins per octave to use for the CQTs. If ``representation_type`` is `"cqt"` and this parameter is not provided, the default number of bins per octave is 36. If ``representation_type`` is `"stft"`, this parameter is ignored.
-    fmin : Optional[float], optional
+    fmin : float > 0, optional
         minimum frequency to use for the CQTs. If ``representation_type`` is `"cqt"` and this parameter is not provided, the default minimum frequency is 32.7 Hz. If ``representation_type`` is `"stft"`, this parameter is ignored.
-    n_bins : Optional[int], optional
+    n_bins : int > 0, optional
         number of frequency bins to use for the CQTs. If ``representation_type`` is `"cqt"` and this parameter is not provided, the default number of bins is ``bins_per_octave * 8``. If ``representation_type`` is `"stft"`, this parameter is ignored.
     **kwargs
-        additional keyword arguments to pass to the combination method function.
+        additional keyword arguments to pass to the combination method function. These are specified in their respective pages in :ref:`combination methods`.
 
     Returns
     -------
@@ -123,16 +123,18 @@ def ctfr_from_specs(
 
     Parameters
     ----------
-    specs : Iterable[np.ndarray]
-        _description_
+    specs : Iterable[np.ndarray [shape=(K, M)], non-negative]
+        input spectrograms, assumed to be magnitude-squared time-frequency representations (TFRs) of the same signal and with the same shape and time-frequency alignment.
     method : str
-        combination method to use, as specified by their id string. See :doc:`/combination_methods/index`. User-defined methods are also supported if they are properly installed (see xx). A list of all available methods can also be obtained with :func:`ctfr.show_methods` or :func:`ctfr.get_methods_list`.
+        combination method to use, as specified by their id string. See :ref:`combination methods`. User-defined methods are also supported if they are properly installed (see :ref:`adding methods`). A list of all available methods can also be obtained with :func:`ctfr.show_methods` or :func:`ctfr.get_methods_list`.
     normalize_input : bool, default=True
         whether to normalize the input spectrograms to have the same total energy. This is highly recommended for a quality CTFR.
     input_energy : float, optional
         total energy of the input spectrograms after normalization, if ``normalize_input`` is set to ``True``. If not provided, defaults to the mean total energy of the input spectrograms.
     normalize_output : bool, default=True
         whether to normalize the output CTFR's total energy to ``input_energy``. 
+    **kwargs
+        additional keyword arguments to pass to the combination method function. These are specified in their respective pages in :ref:`combination methods`.
 
     Returns
     -------
