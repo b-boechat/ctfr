@@ -27,8 +27,11 @@ _methods_dict = {
         "parameters": {
             "beta": {
                 "type_and_info": r"float, range: [0, 1]",
-                "default": 0.5,
-                "description": r"Weighting factor for computing the weights for the geometric mean. When ``beta = 0``, the SWGM is equivalent to an unweighted geometric mean. When ``beta = 1``, the SWGM is equivalent to the minimum combination."
+                "description": r"Weighting factor for computing the weights for the geometric mean. When ``beta = 0``, the SWGM is equivalent to an unweighted geometric mean. When ``beta = 1``, the SWGM is equivalent to the minimum combination. Defaults to 0.3."
+            },
+            "max_gamma": {
+                "type_and_info": r"float >= 1",
+                "description": r"Maximum weight for the geometric mean. This parameter is used to avoid numerical instability when the weights are too large. Defaults to 20."
             }
         }
     },

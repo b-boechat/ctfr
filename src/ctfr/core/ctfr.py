@@ -45,7 +45,7 @@ def ctfr(
         the hop length in samples to use for the TFRs. If not provided when ``representation_type`` is `"stft"`, defaults to half of the smallest window length. If not provided when ``representation_type`` is `"cqt"`, defaults to 12.5ms in samples, rounded to the nearest power of 2.
     n_fft : int > 0, optional
         number of FFT points to use for the STFTs. If not provided when ``representation_type`` is `"stft"`, defaults to the largest window length. If both ``n_fft`` and ``win_lengths`` are provided, ``n_fft`` must be greater than or equal to the largest window length. If ``representation_type`` is `"cqt"`, this parameter is ignored.
-    filter_scales : Iterable[float], values in range (0, 1], optional
+    filter_scales : Iterable[float], values in range: (0, 1], optional
         iterable of filter scales to use for the CQTs. If ``representation_type`` is `"cqt"` and this parameter is not provided, the default filter scales are ``[1/3, 2/3, 1]``. If ``representation_type`` is `"stft"`, this parameter is ignored.
     bins_per_octave : int > 0, optional
         number of bins per octave to use for the CQTs. If ``representation_type`` is `"cqt"` and this parameter is not provided, the default number of bins per octave is 36. If ``representation_type`` is `"stft"`, this parameter is ignored.
@@ -123,7 +123,7 @@ def ctfr_from_specs(
 
     Parameters
     ----------
-    specs : Iterable[np.ndarray [shape=(K, M)], non-negative]
+    specs : Iterable[np.ndarray [shape=(K, M)], values >= 0]
         input spectrograms, assumed to be magnitude-squared time-frequency representations (TFRs) of the same signal and with the same shape and time-frequency alignment.
     method : str
         combination method to use, as specified by their id string. See :ref:`combination methods`. User-defined methods are also supported if they are properly installed (see :ref:`adding methods`). A list of all available methods can also be obtained with :func:`ctfr.show_methods` or :func:`ctfr.get_methods_list`.
