@@ -1,5 +1,8 @@
 import librosa
-from librosa.display import specshow as specshow_librosa
+try:
+    from librosa.display import specshow as specshow_librosa
+except ImportError:
+    _has_display = False
 import numpy as np
 #from librosa.display import specshow
 
@@ -77,6 +80,8 @@ def specshow(data, *, x_coords=None, y_coords=None, x_axis=None, y_axis=None, sr
     -----
     This function is not installed with `ctfr` by default. To use it, you must install ``ctfr`` with the ``[display]`` extra. See :doc:`/getting_started/installation` for more information.
     """
+    if not _has_display:
+        raise ImportError("Matplotlib is not available. Please reinstall ctfr with the 'display' extra by running:\n\npip install ctfr[display]")
     return specshow_librosa(data, x_coords=x_coords, y_coords=y_coords, x_axis=x_axis, y_axis=y_axis, sr=sr, hop_length=hop_length, n_fft=n_fft, win_length=win_length, fmin=fmin, fmax=fmax, tempo_min=tempo_min, tempo_max=tempo_max, tuning=tuning, bins_per_octave=bins_per_octave, key=key, Sa=Sa, mela=mela, thaat=thaat, auto_aspect=auto_aspect, htk=htk, unicode=unicode, intervals=intervals, unison=unison, ax=ax, **kwargs)
 
 def power_to_db(S, ref=1.0, amin=1e-10, top_db=80.0):
