@@ -4,7 +4,7 @@ Combination methods
 ===================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    binwise
    swgm/index
