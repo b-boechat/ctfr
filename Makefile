@@ -29,6 +29,9 @@ uninstall:
 
 clean: clean-dist clean-build clean-cache clean-cy
 
+wheel:
+	CYTHONIZE=1 $(BUILD) --wheel
+
 publish-testpypi:
 	$(TWINE) upload --repository testpypi $(DIST)/*/*
 # Install with: pip install --extra-index-url https://test.pypi.org/simple/ ctfr
