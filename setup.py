@@ -1,50 +1,23 @@
 from setuptools import Extension, setup
-from os import getenv
 from os import sep
-from os.path import splitext
 from glob import glob
 
 from Cython.Build import cythonize
 
-# Define Cython extensions to build. The pyx files are assumed to be in src/ctfr/methods/implementations.
+# Define Cython extensions to build. The pyx files are assumed to be in src/ctfr/implementations.
 IMPLEMENTATIONS_SOURCE_DIR = f"src{sep}ctfr{sep}implementations"
 IMPLEMENTATIONS_MODULE = "ctfr.implementations"
 
 def get_cy_extensions():
     method_cy_source_paths = glob(f"{IMPLEMENTATIONS_SOURCE_DIR}{sep}*.pyx")
     return [Extension(f"{IMPLEMENTATIONS_MODULE}.{path.split(sep)[-1].split('.')[0]}", [path]) for path in method_cy_source_paths]
-
-# Function to call when building from C code (no cythonization)
-# https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
-def no_cythonize(extensions, **_ignore):
-    for extension in extensions:
-        sources = []
-        for sfile in extension.sources:
-            path, ext = splitext(sfile)
-            if ext in (".pyx", ".py"):
-                if extension.language == "c++":
-                    ext = ".cpp"
-                else:
-                    ext = ".c"
-                sfile = path + ext
-            sources.append(sfile)
-        extension.sources[:] = sources
-    return extensions
-
-CYTHONIZE = bool(int(getenv("CYTHONIZE", 0)))
-
+    
 extensions = get_cy_extensions()
 
-if CYTHONIZE:
-    print("Building from .pyx files.")
-    from Cython.Build import cythonize
-    compiler_directives = {"language_level": 3}
-    ext_modules = cythonize(extensions, compiler_directives=compiler_directives)
-    
-else:
-    print("Building from .c files.")
-    ext_modules = no_cythonize(extensions)
-
+print("Building from .pyx files.")
+from Cython.Build import cythonize
+compiler_directives = {"language_level": 3}
+ext_modules = cythonize(extensions, compiler_directives=compiler_directives)
 
 setup(
     name="ctfr",

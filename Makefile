@@ -19,10 +19,10 @@ install:
 	$(PIP) install .
 
 dev:
-	CYTHONIZE=1 $(PIP) install --editable .[dev]
+	$(PIP) install --editable .[dev]
 
 ext:
-	CYTHONIZE=1 $(SETUP) build_ext --inplace
+	$(SETUP) build_ext --inplace
 
 uninstall:
 	$(PIP) uninstall $(PROJECT_NAME)
