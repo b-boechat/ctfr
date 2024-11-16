@@ -4,6 +4,6 @@
 
 #### Efficient toolbox for computing combined time-frequency representations of audio signals.
 
-Status: in construction. [Current documentation available here.](https://ctfr.readthedocs.io/en/latest/).
+Status: in construction. [Current documentation available here.](https://ctfr.readthedocs.io/en/latest/)
 
 [Back to top ↥](#ctfr)
