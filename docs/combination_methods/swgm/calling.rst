@@ -1,19 +1,19 @@
 Calling signature
 =================
 
-.. function:: ctfr.ctfr(<other parameters>, method=swgm, beta, max_gamma)
+.. function:: ctfr.ctfr(signal, sr, method=swgm, *, <other parameters>, beta, max_gamma)
    :noindex:
 
-.. function:: ctfr.ctfr_from_specs(<other parameters>, method=swgm, beta, max_gamma)
+.. function:: ctfr.ctfr_from_specs(specs, method=swgm, *, <other parameters>, beta, max_gamma)
    :noindex:
 
-.. function:: ctfr.methods.swgm(<other parameters>, beta, max_gamma)
+.. function:: ctfr.methods.swgm(signal, sr, *, <other parameters>, beta, max_gamma)
    :noindex:
 
-.. function:: ctfr.methods.swgm_from_specs(<other parameters>, beta, max_gamma)
+.. function:: ctfr.methods.swgm_from_specs(specs, *, <other parameters>, beta, max_gamma)
    :noindex:
 
-See :func:`ctfr.ctfr` and :func:`ctfr.ctfr_from_specs` for more details on the general parameters. The parameters specific to this method (passed as keyword arguments) are described below.
+See :func:`ctfr.ctfr` and :func:`ctfr.ctfr_from_specs` for more details on the general parameters for computing CTFRs. The parameters specific to this method (passed as keyword arguments) are described below.
 
 Parameters
 ----------
