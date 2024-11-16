@@ -3,6 +3,9 @@ try:
     from librosa.display import specshow as specshow_librosa
 except ImportError:
     _has_display = False
+else:
+    _has_display = True
+
 import numpy as np
 #from librosa.display import specshow
 
