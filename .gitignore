@@ -156,3 +156,4 @@ wheelhouse/
 *.so
 _todo.txt
 /src/ctfr/_test
+docs/*.deb

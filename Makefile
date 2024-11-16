@@ -18,15 +18,6 @@ WHEELHOUSE = wheelhouse
 install:
 	$(PIP) install .
 
-sdist: clean
-	CYTHONIZE=1 $(BUILD) --sdist
-
-sdist-ship: sdist
-	mv dist/* $(WHEELHOUSE)
-
-wheel:
-	CYTHONIZE=1 $(BUILD) --wheel
-
 dev:
 	CYTHONIZE=1 $(PIP) install --editable .[dev]
 
@@ -38,18 +29,9 @@ uninstall:
 
 clean: clean-dist clean-build clean-cache clean-cy
 
-wheel-manylinux-pipeline: clean
-	docker run -ti -v $(shell pwd):/io quay.io/pypa/manylinux_2_28_x86_64 /io/script.sh
-#	docker run -ti -v $(shell pwd):/io quay.io/pypa/manylinux_2_28_aarch64 /io/script.sh
-#	docker run -ti -v $(shell pwd):/io quay.io/pypa/manylinux_2_28_ppc64le /io/script.sh
-#	docker run -ti -v $(shell pwd):/io quay.io/pypa/manylinux_2_28_s390x /io/script.sh
-
-dist-pipeline: sdist-ship wheel-manylinux-pipeline
-
 publish-testpypi:
 	$(TWINE) upload --repository testpypi $(DIST)/*/*
 # Install with: pip install --extra-index-url https://test.pypi.org/simple/ ctfr
-
 
 clean-dist:
 	$(RMR) $(DIST)
@@ -60,7 +42,7 @@ clean-build:
 clean-cache:
 	find . -name __pycache__ -exec $(RMR) {} +
 
-clean-cy: # TODO rewrite this using the .pyx files as reference, so it's possible to add .c extensions.
+clean-cy: # Note: this could be rewriten using the .pyx files as reference, so it's possible to add .c extensions in the future.
 	$(RMR) $(CY_IMPLEMENTATIONS_LOCATIONS)/*.c
 	$(RMR) $(CY_IMPLEMENTATIONS_LOCATIONS)/*.so
 	$(RMR) $(CY_IMPLEMENTATIONS_LOCATIONS)/*.html
