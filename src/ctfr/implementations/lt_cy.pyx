@@ -5,17 +5,6 @@ from warnings import warn
 from ctfr.warning import ArgumentChangeWarning
 
 def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 8.0):
-    """ Calculate the "Lukin-Todd" (LT) combination of spectrograms. 
-        
-        :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 
-            Dimensions: spectrograms P x frequency bins K x time frames M.
-        :param freq_width (Odd integer): Smearing window length in frequency.
-        :param time_width (Odd integer): Smearing window length in time.
-        :param eta (Double >= 0): Parameter for calculating combination weights. Example value: eta = 8.0.
-        :return combined_tfr (Ndarray <double> [K x M]): Combined spectrogram, not yet with normalized energy.
-        
-        References: (Placeholder)
-    """
     freq_width = int(freq_width)
     if freq_width < 0:
         freq_width = 21

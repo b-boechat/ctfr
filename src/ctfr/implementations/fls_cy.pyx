@@ -6,17 +6,6 @@ from ctfr.warning import ArgumentChangeWarning
 cimport cython
 
 def _fls_wrapper(X, freq_width = 21, time_width = 11, gamma = 20.0):
-    """ Calculate the "Fast Local Sparsity" (FLS) combination of spectrograms. 
-        
-        :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 
-            Dimensions: spectrograms P x frequency bins K x time frames M.
-        :param freq_width (Odd integer): Local sparsity window length in frequency.
-        :param time_width (Odd integer): Local sparsity window length in time.
-        :param gamma (Double >= 0): Parameter for calculating combination weights. Example value: gamma = 20.0.
-        :return combined_tfr (Ndarray <double> [K x M]): Combined spectrogram, not yet with normalized energy.
-        
-        References: (Placeholder)
-    """
     freq_width = int(freq_width)
     if freq_width < 0:
         freq_width = 21

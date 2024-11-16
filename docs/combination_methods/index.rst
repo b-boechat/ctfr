@@ -6,8 +6,8 @@ Combination methods
 .. toctree::
    :maxdepth: 1
 
-   binwise
+   binwise/index
    swgm/index
-   lt
-   sls
-   fls
+   lt/index
+   sls/index
+   fls/index
