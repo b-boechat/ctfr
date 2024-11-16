@@ -7,7 +7,7 @@ from libc.math cimport INFINITY, exp, log10
 
 
 # Currently only hybrid.
-def _ls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-50):
+def _sls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-50):
     """ Calculate the "Hybrid Local Sparsity" (LS-H) combination of spectrograms. In low-energy regions the combination defaults to binwise minimax, in order to reduce the computational cost.
         
         :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 
@@ -22,13 +22,13 @@ def _ls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_ener
         
         References: (Placeholder)
     """
-    return local_sparsity_hybrid(X, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, energy_criterium_db)
+    return smoothed_local_sparsity_hybrid(X, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, energy_criterium_db)
 
 @cython.boundscheck(False)
 @cython.wraparound(False) 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef local_sparsity_hybrid(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t freq_width_sparsity, Py_ssize_t time_width_energy, Py_ssize_t time_width_sparsity, double beta, double energy_criterium_db):
+cdef smoothed_local_sparsity_hybrid(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t freq_width_sparsity, Py_ssize_t time_width_energy, Py_ssize_t time_width_sparsity, double beta, double energy_criterium_db):
 
     cdef:
         Py_ssize_t P = X_orig.shape[0] # Spectrograms axis
