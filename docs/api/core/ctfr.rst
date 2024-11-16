@@ -9,5 +9,5 @@ CTFRs from a waveform signal
 .. autofunction:: ctfr.methods.min
 .. autofunction:: ctfr.methods.swgm
 .. autofunction:: ctfr.methods.lt
-.. autofunction:: ctfr.methods.ls
+.. autofunction:: ctfr.methods.sls
 .. autofunction:: ctfr.methods.fls
