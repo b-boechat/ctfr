@@ -155,3 +155,4 @@ wheelhouse/
 *.c
 *.so
 _todo.txt
+/src/ctfr/_test
