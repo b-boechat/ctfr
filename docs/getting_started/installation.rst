@@ -10,10 +10,9 @@ The latest stable release is available on PyPI, and can be installed with the fo
 
    pip install ctfr
 
-This will install the package and its runtime dependencies. Note that this doesn't install the plotting dependencies, which are optional. To install with plotting included, run::
+Note that this doesn't install the plotting dependencies. To install with plotting included, run::
 
    pip install ctfr[display]
-
 
 .. _development mode:
 
@@ -26,14 +25,9 @@ If you want to make changes to ctfr, you can install it in editable mode with de
 
 or::
 
-   CYTHONIZE=1 pip install -e .[dev]
-
-on a Linux system. On Windows, you can run instead::
-
-   set CYTHONIZE=1
    pip install -e .[dev]
 
 When installing in this mode, Cython is a build dependency. If you have trouble running Cython, see this guide.
 
 .. note::
-   When developing, ``.pyx`` files need to be recompiled in order for changes to take place. This can be done by running ``make ext`` or ``python setup.py build_ext --inplace``.
+   When developing, ``.pyx`` files need to be recompiled in order for changes in them to take place. This can be done by running ``make ext`` or ``python setup.py build_ext --inplace``.
