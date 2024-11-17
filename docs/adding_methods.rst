@@ -125,7 +125,10 @@ If the method is published, the ``citations`` field should contain a list of str
 Parameters field
 ~~~~~~~~~~~~~~~~
 
-If the method has any specific parameters, the ``parameters`` field should contain a dictionary. Each key must be a parameter name, and the value should be a dictionary with the fields ``type_and_info`` and ``description``. The ``type_and_info`` field should contain a string with the parameter type and possibly additional information (following the `NumPy docstrings style <https://numpydoc.readthedocs.io/en/latest/format.html#parameters>`_), and the ``description`` field should contain a string with a brief description of the parameter. If the method has no parameters, this field should be set to an empty dictionary. If this field is omitted, a lack of parameters is not inferred, and :func:`ctfr.show_method_params` will indicate that no information is available.
+The ``parameters`` field should contain a dictionary, which should be empty if the method has no specific parameters. Otherwise, each key must be a parameter name, and the value should be a dictionary with the fields ``type_and_info`` and ``description``. The ``type_and_info`` field should contain a string with the parameter type and possibly additional information (following the `NumPy docstrings style <https://numpydoc.readthedocs.io/en/latest/format.html#parameters>`_), and the ``description`` field should contain a string with a brief description of the parameter. 
+
+.. Note::
+   If this field is omitted, a lack of parameters is not inferred, and :func:`ctfr.show_method_params` will indicate instead that no information is available.
 
 Example
 ~~~~~~~~
