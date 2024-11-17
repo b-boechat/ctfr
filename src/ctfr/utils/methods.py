@@ -1,6 +1,7 @@
 from ctfr.exception import (
     InvalidCombinationMethodError,
 )
+from ctfr.utils.private import _get_method_citations, _get_method_parameters
 from ctfr.methods_dict import _methods_dict
 from warnings import warn
 
@@ -14,6 +15,51 @@ def show_methods():
     print("Available combination methods:")
     for key, val in _methods_dict.items():
         print(f"- {val['name']} -- {key}")
+
+def show_method_params(method: str):
+    """Prints parameters' information for a combination method.
+    
+    Parameters
+    ----------
+    method : str
+        The combination method to get the parameter information.
+        
+    Raises
+    ------
+    ctfr.exception.InvalidCombinationMethodError
+        If the combination method is invalid.
+    """
+    parameters = _get_method_parameters(method)
+    if parameters is None:
+        print("Parameter information is not available for this method.")
+    elif parameters:
+        for key, val in parameters.items():
+            print(f"- {key} ({val['type_and_info']}, optional): {val['description']}")
+    else:
+        print(f"Method '{_methods_dict[method]['name']}' has no parameters.")
+
+def cite_method(method: str):
+    """Prints the citation information for a combination method.
+
+    Parameters
+    ----------
+    method : str
+        The combination method to get the citation information.
+
+    Raises
+    ------
+    ctfr.exception.InvalidCombinationMethodError
+        If the combination method is invalid.
+
+    See Also
+    --------
+    cite
+    """
+    citations = _get_method_citations(method)
+    if citations:
+        print("\n".join(citations))
+    else:
+        print(f"No citation available for method '{_methods_dict[method]['name']}'.")
 
 def get_methods_list():
     """Returns a list of all installed combination methods' keys.

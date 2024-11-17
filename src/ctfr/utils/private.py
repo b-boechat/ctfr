@@ -1,15 +1,8 @@
 import numpy as np
-from warnings import warn
-from ctfr.exception import (
-    InvalidCombinationMethodError,
-    CitationNotImplementedError,
-    InvalidCitationModeError,
-)
-from ctfr.warning import DoiNotAvailableWarning
+from ctfr.exception import InvalidCombinationMethodError
 from ctfr.methods_dict import _methods_dict
 
 def _normalize_specs_tensor(specs_tensor, target_energy):
-    # TODO better normalization.
     specs_tensor = specs_tensor * target_energy / _get_specs_tensor_energy_array(specs_tensor)
 
 def _get_signal_energy(signal):
@@ -22,7 +15,6 @@ def _get_specs_tensor_energy_array(specs_tensor):
     return np.sum(specs_tensor, axis=(1, 2), keepdims=True)
 
 def _normalize_spec(spec, target_energy):
-    # TODO better normalization.
     spec = spec * target_energy / np.sum(spec)
 
 def _round_to_power_of_two(number, mode):
@@ -35,34 +27,18 @@ def _round_to_power_of_two(number, mode):
     else:
         raise ValueError(f"Invalid mode: {mode}")
 
-def _get_method_function(key):
+def _get_method_entry(key):
     try:
-        return _methods_dict[key]["function"]
+        return _methods_dict[key]
     except KeyError:
         raise InvalidCombinationMethodError(f"Invalid combination method: {key}")
 
-def _get_method_citation(method, mode):
-    try:
-        entry = _methods_dict[method]
-    except KeyError:
-        raise InvalidCombinationMethodError(f"Invalid combination method: {method}")
 
-    if mode is None or mode == "doi":
-        try:
-            return entry["doi"]
-        except KeyError:
-            if mode == "doi":
-                warn(DoiNotAvailableWarning(f"DOI not available for method '{entry['name']}'. Trying citation instead."))
-            mode = "citation"
-    
-    if mode == "citation":
-        try:
-            citation = entry["citation"]
-            if citation is None:
-                return f"No citation available for method '{entry['name']}'."
-            else:
-                return citation
-        except KeyError:
-            raise CitationNotImplementedError(f"Citation for method '{method}' not implemented")
+def _get_method_function(key):
+    return _get_method_entry(key)["function"]
 
-    raise InvalidCitationModeError(f"Invalid citation mode: {mode}")
+def _get_method_citations(method):
+    return _get_method_entry(method).get("citations", [])
+
+def _get_method_parameters(method):
+    return _get_method_entry(method).get("parameters", None)

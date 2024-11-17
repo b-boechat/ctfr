@@ -124,7 +124,7 @@ class CombinationParametersDoc:
                 f.write(self.doc_parameter(parameter) + "\n\n")
 
 exclude_methods_from_param_doc = [
-    "mean", "median", "min", "gmean"
+    "mean", "hmean", "gmean", "min"
 ]
 for method_key in _methods_dict.keys():
     if method_key not in exclude_methods_from_param_doc:

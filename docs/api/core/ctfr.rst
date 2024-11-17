@@ -5,7 +5,8 @@ CTFRs from a waveform signal
 
 .. autofunction:: ctfr
 .. autofunction:: ctfr.methods.mean
-.. autofunction:: ctfr.methods.median
+.. autofunction:: ctfr.methods.hmean
+.. autofunction:: ctfr.methods.gmean
 .. autofunction:: ctfr.methods.min
 .. autofunction:: ctfr.methods.swgm
 .. autofunction:: ctfr.methods.lt

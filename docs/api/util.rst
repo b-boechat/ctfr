@@ -23,3 +23,5 @@ Combination method utilities
 .. autofunction:: show_methods
 .. autofunction:: get_methods_list
 .. autofunction:: get_method_name
+.. autofunction:: cite_method
+.. autofunction:: show_method_params

@@ -59,19 +59,6 @@ And its's done! Your combination method is fully integrated into the package. Yo
 
    A combination method key (as specified in ``methods_dict``) must be unique from other methods. They also must not start with a trailing underscore or end with *_from_specs*.
 
-Adding citation information
----------------------------
-
-Entries in ``_methods_dict`` should have a ``citation`` field, which can be set to ``None`` if the method is not published. Otherwise, it should be a string with a citation for the method in IEEE citation style. Additionally, if a DOI is available, it can be optionally added as an url in a ``doi`` field.
-
-For example, the entry for the *fls* method is as follows::
-
-   "fls": {
-      ... # name and function fields
-      "citation": "M. V. M. da Costa and L. W. P. Biscainho, \"The fast local sparsity method: a low-cost combination of time-frequency representations based on the Hoyer sparsity\", Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, 09 2022."
-      "doi": "https://doi.org/10.17743/jaes.2022.0036"
-   }
-
 Adding parameters
 -----------------
 
@@ -123,3 +110,44 @@ Cython's "pure Python" mode is not yet supported.
 
 .. note::
    When developing, ``.pyx`` files need to be recompiled in order for changes to take place. This can be done by running ``make ext`` or ``python setup.py build_ext --inplace``.
+
+
+Improving the method entry
+--------------------------
+
+For a combination method to be functional, only the ``name`` and ``function`` fields are required in the entry in ``_methods_dict``. However, a method fully integrated into the package should have two additional fields: ``citations`` and ``parameters``. Both these fields are used to populate the method's documentation and to provide information to the user through the functions :func:`ctfr.cite_method` and :func:`ctfr.show_method_param`.
+
+Citations field
+~~~~~~~~~~~~~~~
+
+If the method is published, the ``citations`` field should contain a list of strings with citations for one or more papers describing the method. The strings should be in IEEE citation style. If the method is not published, this field can be omitted or set to an empty list.
+
+Parameters field
+~~~~~~~~~~~~~~~~
+
+If the method has any specific parameters, the ``parameters`` field should contain a dictionary. Each key must be a parameter name, and the value should be a dictionary with the fields ``type_and_info`` and ``description``. The ``type_and_info`` field should contain a string with the parameter type and possibly additional information (following the `NumPy docstrings style <https://numpydoc.readthedocs.io/en/latest/format.html#parameters>`_), and the ``description`` field should contain a string with a brief description of the parameter. If the method has no parameters, this field should be set to an empty dictionary. If this field is omitted, a lack of parameters is not inferred, and :func:`ctfr.show_method_params` will indicate that no information is available.
+
+Example
+~~~~~~~~
+
+Here is an example of a complete entry in ``_methods_dict``::
+
+   "fls": {
+         "name": "Fast local sparsity (FLS)",
+         "function": _fls_wrapper,
+         "citations": ['M. d. V. M. da Costa and L. W. P. Biscainho, “The fast local sparsity method: A low-cost combination of time-frequency representations based on the hoyer sparsity,” Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, Sep. 2022.'],
+         "parameters": {
+               "freq_width": {
+                  "type_and_info": r"int > 0, odd",
+                  "description": r"Width in frequency bins of the analysis window used in the local sparsity computation. Defaults to 21."
+               },
+               "time_width": {
+                  "type_and_info": r"int > 0, odd",
+                  "description": r"Width in time frames of the analysis window used in the local sparsity computation. Defaults to 11."
+               },
+               "gamma": {
+                  "type_and_info": r"float >= 0",
+                  "description": r"Factor used in the computation of combination weights. Defaults to 20."
+               }
+         }
+      },
