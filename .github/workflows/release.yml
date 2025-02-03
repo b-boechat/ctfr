@@ -1,0 +1,69 @@
+name: Release version to TestPyPI
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+.dev[0-9]+"
+
+      
+jobs:
+  save_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version_setter.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set output
+        id: version_setter
+        run: echo "version=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_OUTPUT
+
+      - name: Check output
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ steps.version_setter.outputs.version }}
+          
+  call_build_workflow:
+    uses: ./.github/workflows/build.yml
+
+  # upload_pypi:
+  #   needs: [call_build_workflow]
+  #   runs-on: ubuntu-latest
+  #   environment: pypi
+  #   permissions:
+  #     id-token: write
+  #   steps:
+  #     - uses: actions/download-artifact@v4
+  #       with:
+  #         pattern: cibw-*
+  #         path: dist
+  #         merge-multiple: true
+
+  #     - uses: pypa/gh-action-pypi-publish@release/v1
+  #       with:
+  #         repository-url: https://test.pypi.org/legacy/ # to testpypi
+
+  github_release:
+    needs: [save_version, call_build_workflow]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          path: dist
+          merge-multiple: true
+
+      - name: "Create GitHub release"
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          echo ${{ needs.save_version.outputs.version }}
+          gh release create ${{ needs.save_version.outputs.version }} dist/* --title ${{ needs.save_version.outputs.version }} --draft
