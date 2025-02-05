@@ -3,11 +3,11 @@
 import numpy as np
 from scipy.signal import correlate
 cimport cython
-from libc.math cimport INFINITY, exp, log10
+from libc.math cimport INFINITY, exp, pow
 
 
 # Currently only hybrid.
-def _sls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-50):
+def _sls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-40):
     """ Calculate the "Hybrid Local Sparsity" (LS-H) combination of spectrograms. In low-energy regions the combination defaults to binwise minimax, in order to reduce the computational cost.
         
         :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 
@@ -95,14 +95,20 @@ cdef smoothed_local_sparsity_hybrid(double[:,:,::1] X_orig, Py_ssize_t freq_widt
     # Variable related to energy criterium.
     cdef double max_local_energy_db
 
-    ############ Calculate local energy {{{ 
+    ############ Calculate local energy and maximum local energy along dimension p {{{ 
 
     for p in range(P):
-        energy_ndarray[p] = correlate(X_orig_ndarray[p], hamming_energy, mode='same')
+        energy_ndarray[p] = correlate(X_orig_ndarray[p], hamming_energy, mode='same')/np.sum(hamming_energy, axis=None)
+
+    max_local_energy_ndarray = np.max(energy_ndarray, axis=0)
 
     energy = energy_ndarray
+    max_local_energy = max_local_energy_ndarray
 
     ############ }}}
+
+    # Energy criterium in regular units.
+    cdef double energy_criterium = pow(10.0, energy_criterium_db/10.0)
 
     ############ Hybrid combination {{{
 
@@ -110,15 +116,9 @@ cdef smoothed_local_sparsity_hybrid(double[:,:,::1] X_orig, Py_ssize_t freq_widt
     for k in range(max_freq_width_lobe, K + max_freq_width_lobe):
         for m in range(time_width_sparsity_lobe, M + time_width_sparsity_lobe):
             red_k, red_m = k - max_freq_width_lobe, m - time_width_sparsity_lobe
-
-            # Find the highest local energy in dB.
-            max_local_energy_db = -INFINITY
-            for p in range(P):
-                if 10*log10(energy[p, red_k, red_m]) > max_local_energy_db:
-                    max_local_energy_db = 10*log10(energy[p, red_k, red_m])
             
             # If this energy is below threshold, use binwise minimax.
-            if max_local_energy_db < energy_criterium_db:
+            if max_local_energy[red_k, red_m] < energy_criterium:
                 result[red_k, red_m] = INFINITY
                 for p in range(P):
                     if X[p, k, m] < result[red_k, red_m]:
