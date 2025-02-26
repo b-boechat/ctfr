@@ -1,5 +1,5 @@
 from setuptools import Extension, setup
-from os import sep
+from os import sep, getenv
 from glob import glob
 
 from Cython.Build import cythonize
@@ -14,10 +14,16 @@ def get_cy_extensions():
     
 extensions = get_cy_extensions()
 
+annotate = bool(int(getenv("ANNOTATE", 0)))
+
 print("Building from .pyx files.")
 from Cython.Build import cythonize
 compiler_directives = {"language_level": 3}
-ext_modules = cythonize(extensions, compiler_directives=compiler_directives)
+ext_modules = cythonize(
+    extensions,
+    annotate=annotate,
+    compiler_directives=compiler_directives
+)
 
 setup(
     name="ctfr",

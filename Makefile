@@ -24,6 +24,9 @@ dev:
 ext:
 	$(SETUP) build_ext --inplace
 
+annotate:
+	ANNOTATE=1 $(SETUP) build_ext --inplace
+
 uninstall:
 	$(PIP) uninstall $(PROJECT_NAME)
 
