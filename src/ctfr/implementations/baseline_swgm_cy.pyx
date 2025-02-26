@@ -2,7 +2,6 @@ import numpy as np
 from warnings import warn
 from ctfr.warning import ArgumentChangeWarning
 cimport cython
-from libc.math cimport pow
 
 def _baseline_swgm_wrapper(X, beta = 0.3, max_gamma = 20.0): 
     beta = float(beta)
@@ -14,8 +13,6 @@ def _baseline_swgm_wrapper(X, beta = 0.3, max_gamma = 20.0):
     if max_gamma < 1.0:
         max_gamma = 1.0
         warn("Max_gamma parameter must be >= 1. Setting max_gamma = 1.", ArgumentChangeWarning)
-
-    return _baseline_swgm_cy(X, beta, max_gamma)
 
 @cython.boundscheck(False)
 @cython.wraparound(False) 
@@ -41,13 +38,13 @@ cdef _baseline_swgm_cy(double[:,:,::1] X, double beta, double max_gamma):
             for p in range(P):
                 for l in range(P):
                     if l != p:
-                        gammas[p, k, m] = gammas[p, k, m] * pow(X[l, k, m], (1./(P - 1))) 
+                        gammas[p, k, m] = gammas[p, k, m] * X[l, k, m] ** (1./(<double> P - 1)) 
                 gammas[p, k, m] = (gammas[p, k, m]/X[p, k, m]) ** beta
                 if gammas[p, k, m] > max_gamma:
                     gammas[p, k, m] = max_gamma
             weights_sum = 0.0
             for p in range(P):
-                result[k, m] = result[k, m] * pow(X[p, k, m], gammas[p, k, m])
+                result[k, m] = result[k, m] * X[p, k, m] ** gammas[p, k, m]
                 weights_sum = weights_sum + gammas[p, k, m]
             result[k, m] = result[k, m] ** (1./weights_sum)
 
