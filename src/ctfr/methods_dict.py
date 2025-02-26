@@ -92,3 +92,14 @@ _methods_dict = {
         "parameters": {}
     }
 }
+
+from ctfr.implementations.baseline_swgm_cy import _baseline_swgm_wrapper
+
+_baseline_methods_dict = {
+    "baseline_swgm": {
+        "name": "Sample-weighted geometric mean (SWGM) [Baseline]",
+        "function": _baseline_swgm_wrapper,
+    }
+}
+
+_methods_dict.update(_baseline_methods_dict)
