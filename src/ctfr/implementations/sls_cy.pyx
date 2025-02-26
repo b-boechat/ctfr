@@ -7,7 +7,7 @@ from libc.math cimport INFINITY, exp, pow
 
 
 # Currently only hybrid.
-def _sls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-40):
+def _sls_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-50):
     """ Calculate the "Hybrid Local Sparsity" (LS-H) combination of spectrograms. In low-energy regions the combination defaults to binwise minimax, in order to reduce the computational cost.
         
         :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 
