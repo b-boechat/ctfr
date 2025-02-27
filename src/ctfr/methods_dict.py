@@ -94,11 +94,16 @@ _methods_dict = {
 }
 
 from ctfr.implementations.baseline_swgm_cy import _baseline_swgm_wrapper
+from ctfr.implementations.baseline_lt_cy import _baseline_lt_wrapper
 
 _baseline_methods_dict = {
     "baseline_swgm": {
         "name": "Sample-weighted geometric mean (SWGM) [Baseline]",
         "function": _baseline_swgm_wrapper,
+    },
+    "baseline_lt": {
+        "name": "Lukin-Todd (LT) [Baseline]",
+        "function": _baseline_lt_wrapper,
     }
 }
 
