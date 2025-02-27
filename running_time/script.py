@@ -41,3 +41,15 @@ if __name__ == "__main__":
         method='baseline_swgm',
         num_iter=5
     )
+
+    time_method(
+        load_function=load_placeholder,
+        method='lt',
+        num_iter=5
+    )
+
+    time_method(
+        load_function=load_placeholder,
+        method='baseline_lt',
+        num_iter=5
+    )
