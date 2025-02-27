@@ -1,4 +1,5 @@
 import numpy as np
+from time import perf_counter
 from ctfr.exception import InvalidRepresentationTypeError, InvalidSpecError
 from ctfr.utils.audio import stft_spec, cqt_spec
 from ctfr.utils.private import (
@@ -162,12 +163,16 @@ def ctfr_from_specs(
     if normalize_input: 
         _normalize_specs_tensor(specs_tensor, input_energy)
 
+    time_i = perf_counter() # Start timer.
+
     comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
 
     if normalize_output:
         _normalize_spec(comb_spec, input_energy)
 
-    return comb_spec
+    time_o = perf_counter() # Stop timer.
+
+    return comb_spec, time_o - time_i # Return the CTFR and the time taken to compute it.
 
 
 # =============================================================================
