@@ -8,6 +8,13 @@ def _enforce_nonnegative(value, name, default):
         return default
     return value
 
+def _enforce_greater_or_equal(value, name, target, default):
+    value = float(value)
+    if value < target:
+        warn(f"The '{name}' parameter should be greater than or equal to {target}. Setting {name} = {default}.", ArgumentChangeWarning)
+        return default
+    return value
+
 def _enforce_nonnegative_integer(value, name, default):
     value = int(value)
     if value < 0:
