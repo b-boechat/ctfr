@@ -1,7 +1,7 @@
 from ctfr.implementations.swgm_cy import _swgm_wrapper
 from ctfr.implementations.fls_cy import _fls_wrapper
 from ctfr.implementations.lt_cy import _lt_wrapper
-from ctfr.implementations.sls_cy import _sls_wrapper
+from ctfr.implementations.sls_h_cy import _sls_h_wrapper
 from ctfr.implementations.binwise_np import _mean_wrapper, _hmean_wrapper, _gmean_wrapper, _min_wrapper
 
 _methods_dict = {
@@ -82,9 +82,9 @@ _methods_dict = {
             }
         }
     },
-    "sls": {
-        "name": "Smoothed local sparsity (LS)",
-        "function": _sls_wrapper,
+    "sls_h": {
+        "name": "Hybrid smoothed local sparsity (SLS-H)",
+        "function": _sls_h_wrapper,
         "citations": [
             'M. d. V. M. da Costa and L. W. P. Biscainho, “Combining time-frequency representations via local sparsity criterion,” in 2nd AES Latin American Congress of Audio Engineering, Montevideo, Uruguay, Sep. 2018, pp. 78–85.',
             'M. d. V. M. da Costa, I. Apolinário, and L. W. P. Biscainho, “Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms,” Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, Nov. 2019.'
