@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from ctfr import lt_from_specs
+from ctfr.methods import lt_from_specs
 from ctfr.warning import ArgumentChangeWarning
 from tests.utils.base import BaseTestParameterValidation
 
