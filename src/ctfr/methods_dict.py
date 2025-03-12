@@ -89,6 +89,31 @@ _methods_dict = {
             'M. d. V. M. da Costa and L. W. P. Biscainho, “Combining time-frequency representations via local sparsity criterion,” in 2nd AES Latin American Congress of Audio Engineering, Montevideo, Uruguay, Sep. 2018, pp. 78–85.',
             'M. d. V. M. da Costa, I. Apolinário, and L. W. P. Biscainho, “Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms,” Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, Nov. 2019.'
         ],
-        "parameters": {}
+        "parameters": {
+            "freq_width_energy": {
+                "type_and_info": r"int > 0, odd",
+                "description": r"Width in frequency bins of the analysis window used in the local energy computation. Defaults to 21."
+            },
+            "freq_width_sparsity": {
+                "type_and_info": r"int > 0, odd",
+                "description": r"Width in frequency bins of the analysis window used in the local sparsity computation. Defaults to 21."
+            },
+            "time_width_energy": {
+                "type_and_info": r"int > 0, odd",
+                "description": r"Width in time frames of the analysis window used in the local energy computation. Defaults to 11."
+            },
+            "time_width_sparsity": {
+                "type_and_info": r"int > 0, odd",
+                "description": r"Width in time frames of the analysis window used in the local sparsity computation. Defaults to 11."
+            },
+            "beta": {
+                "type_and_info": r"float >= 0",
+                "description": r"Factor used in the computation of combination weights. Defaults to 0.3."
+            },
+            "energy_criterium_db": {
+                "type_and_info": r"float",
+                "description": r"Local energy criterium (in decibels) that distinguishes high-energy regions (where LS is computed) from low-energy regions (where binwise minimum is computed). Defaults to -20."
+            }
+        }
     }
 }

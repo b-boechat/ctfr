@@ -5,20 +5,6 @@ from libc.math cimport INFINITY, exp, pow
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_nonnegative_integer, _enforce_odd_positive_integer
 
 def _sls_h_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-50):
-    """ Calculate the "Hybrid Smoothed Local Sparsity" (SLS-H) combination of spectrograms. In low-energy regions the combination defaults to binwise minimax, in order to reduce the computational cost.
-        
-        :param X (Ndarray <double> [P x K x M]): Spectrograms tensor. 
-            Dimensions: spectrograms P x frequency bins K x time frames M.
-        :param freq_width_energy (Odd integer): Local energy window length in frequency.
-        :param freq_width_sparsity (Odd integer): Local sparsity window length in frequency.
-        :param time_width_energy (Odd integer): Local energy window length in time.
-        :param time_width_sparsity (Odd integer): Local sparsity window length in time.
-        :param beta (Double >= 0): Parameter for calculating combination weights.
-        :param energy_criterium_db (Double): Local energy criterium that distinguishes high-energy regions (where LS is computed) from low-energy regions (where binwise minimax is computed).
-        :return combined_tfr (Ndarray <double> [K x M]): Combined spectrogram, not yet with normalized energy.
-        
-        References: (Placeholder)
-    """
 
     freq_width_energy = _enforce_odd_positive_integer(freq_width_energy, "freq_width_energy", 11)
     freq_width_sparsity = _enforce_odd_positive_integer(freq_width_sparsity, "freq_width_sparsity", 21)
