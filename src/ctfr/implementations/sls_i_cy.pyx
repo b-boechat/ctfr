@@ -5,8 +5,6 @@ cimport cython
 from libc.math cimport INFINITY, exp, pow
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
 
-DEF DEBUGPRINT = 1
-
 def _sls_i_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80):
 
     freq_width_energy = _enforce_odd_positive_integer(freq_width_energy, "freq_width_energy", 11)
@@ -15,13 +13,15 @@ def _sls_i_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_e
     time_width_sparsity = _enforce_odd_positive_integer(time_width_sparsity, "time_width_sparsity", 11)
     beta = _enforce_nonnegative(beta, "beta", 80.0)
 
-    return _sls_i_cy(X, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta)
+    interp_steps = np.array([[4, 1], [2, 2], [1, 4]], dtype=np.int)
+
+    return _sls_i_cy(X, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, interp_steps)
 
 @cython.boundscheck(False)
 @cython.wraparound(False) 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t freq_width_sparsity, Py_ssize_t time_width_energy, Py_ssize_t time_width_sparsity, double beta):
+cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t freq_width_sparsity, Py_ssize_t time_width_energy, Py_ssize_t time_width_sparsity, double beta, int[:,::1] interp_steps):
 
     cdef:
         Py_ssize_t P = X_orig.shape[0] # Spectrograms axis
@@ -32,7 +32,7 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
         Py_ssize_t freq_width_sparsity_lobe = (freq_width_sparsity-1)//2
         Py_ssize_t time_width_sparsity_lobe = (time_width_sparsity-1)//2
         Py_ssize_t time_width_energy_lobe = (time_width_energy-1)//2
-        Py_ssize_t p, m, k, i, j
+        Py_ssize_t p, m, k, i, j, red_k, red_m
 
         double epsilon = 1e-10
         Py_ssize_t combined_size_sparsity = time_width_sparsity * freq_width_sparsity
@@ -63,7 +63,7 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     cdef double[:, :] result = result_ndarray
 
     # Containers and variables related to local sparsity calculation.
-    sparsity_ndarray = np.zeros((P, K, M), dtype=np.double)
+    sparsity_ndarray = np.zeros((P, K, M), dtype=np.double) # TODO change to empty.
     cdef double[:,:,:] sparsity = sparsity_ndarray
     cdef double arr_norm, gini
 
@@ -71,18 +71,14 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     energy_ndarray = np.empty((P, K, M), dtype=np.double)
     cdef double[:,:,:] energy = energy_ndarray
 
-    # ----------- CHANGE THIS <<
 
     # Armazena o passo de interpolação em cada direção. i_steps[i, j] -> Interpolações para p = i. j = 0: na frequência; j = 1: no tempo
-    i_steps_ndarray = np.array([[4, 1], [2, 2], [1, 4]], dtype=np.intp)
-    cdef Py_ssize_t[:,:] i_steps = i_steps_ndarray
+    i_steps_ndarray = np.asarray(interp_steps)
+    cdef int[:,:] i_steps = i_steps_ndarray
 
-    # Variáveis referentes à combinação dos espectrogramas.
-    cdef double[:,:] min_energy
-    cdef Py_ssize_t[:,:] choosen_p
+    # Variables related to the last step (spectrograms combination).
     cdef double[:, :, :] log_sparsity
     cdef double[:, :] sum_log_sparsity
-
     combination_weight_ndarray = np.empty((P, K, M), dtype=np.double)
     cdef double[:, :, :] combination_weight = combination_weight_ndarray
 
@@ -97,7 +93,8 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
 
     ############ }}}
 
-    ############ Compute local sparsity in non-interpolated region. {{{
+
+    ############ Compute local sparsity {{{
 
     for p in range(P):
     
@@ -130,66 +127,49 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
                 sparsity[p, red_k, red_m] = epsilon + gini
 
         # First interpolation (along k axis).
-        for red_k in range(0, K, i_steps[p, 0]):
+        red_k = 0
+        while red_k < K: # Loop equivalent to "for red_k in range(0, K, i_steps[p, 0])". The current variant produces a faster code in Cython.
             for red_m in chain(
                     range(0, M, i_steps[p, 1]),
                     range( (M - 1) // i_steps[p, 1] * i_steps[p, 1] + 1, M)
             ):
                 sparsity_step = (sparsity[p, red_k + i_steps[p, 0], red_m] - sparsity[p, red_k, red_m]) / i_steps[p, 0]
                 for i in range(1, i_steps[p, 0]):
-                    sparsity[p, red_k + i, red_m] = sparsity[p, red_k, red_m] + i * sparsity_step
+                    sparsity[p, red_k + i, red_m] = sparsity[p, red_k + i - 1, red_m] + sparsity_step
+            
+            red_k = red_k + i_steps[p, 0]
 
         # Second interpolation (along m axis).
-        for red_m in range(0, M, i_steps[p, 1]):
+
+        red_m = 0
+        while red_m < M: # Loop equivalent to "for red_m in range(0, M, i_steps[p, 1])". The current variant produces a faster code in Cython.
             for red_k in range(K):
                 sparsity_step = (sparsity[p, red_k, red_m + i_steps[p, 1]] - sparsity[p, red_k, red_m]) / i_steps[p, 1]
                 for j in range(1, i_steps[p, 1]):
-                    sparsity[p, red_k, red_m + j] = sparsity[p, red_k, red_m] + j * sparsity_step  
+                    sparsity[p, red_k, red_m + j] = sparsity[p, red_k, red_m + j - 1] + sparsity_step  
+
+            red_m = red_m + i_steps[p, 1]
+
 
     ############ }}}
 
-    ### COMPLETE THIS FUNCTION AND CHECK BELOW. ###
-
-    # ############ Combinação por Esparsidade Local e compensação por Energia Local {{
+    ############ Smoothed local sparsity combination {{
      
-    if beta < 0: # Local Sparsity Method (not smoothed)
-        
-        min_energy_ndarray = np.min(energy_ndarray, axis=0)
-        min_energy = min_energy_ndarray
 
-        choosen_p_ndarray = np.argmax(sparsity_ndarray, axis=0)
-        choosen_p = choosen_p_ndarray
+    log_sparsity_ndarray = np.log(sparsity_ndarray)
+    sum_log_sparsity_ndarray = np.sum(log_sparsity_ndarray, axis=0)
 
+    log_sparsity = log_sparsity_ndarray
+    sum_log_sparsity = sum_log_sparsity_ndarray
+
+    for p in range(P):
         for k in range(K): 
             for m in range(M):
-                result[k, m] = X_orig[choosen_p[k, m], k, m] * min_energy[k, m] / energy[p, k, m]
+                combination_weight[p, k, m] = exp( (2*log_sparsity[p, k, m] - sum_log_sparsity[k, m]) * beta)
 
-    else: # Smoothed Local Sparsity Method
-
-        log_sparsity_ndarray = np.log(sparsity_ndarray)
-        sum_log_sparsity_ndarray = np.sum(log_sparsity_ndarray, axis=0)
-
-        log_sparsity = log_sparsity_ndarray
-        sum_log_sparsity = sum_log_sparsity_ndarray
-
-        for p in range(P):
-            for k in range(K): 
-                for m in range(M):
-                    combination_weight[p, k, m] = exp( (2*log_sparsity[p, k, m] - sum_log_sparsity[k, m]) * beta)
-
-        result_ndarray = np.average(X_orig_ndarray * np.min(energy_ndarray, axis=0)/energy_ndarray, axis=0, weights=combination_weight_ndarray)
+    result_ndarray = np.average(X_orig_ndarray * np.min(energy_ndarray, axis=0)/energy_ndarray, axis=0, weights=combination_weight_ndarray)
 
     ############ }} Combinação por Esparsidade Local e compensação por Energia Local
-
-    IF DEBUGPRINT:
-        print("Energia")
-        for p in range(P):
-            print(f"Energia. p = {p}")
-            print_arr(energy_ndarray[p])
-
-
-    IF DEBUGTIMER:
-        print(f"Time copy: {timer_copy/CLOCKS_PER_SEC}\nTime sort: {timer_sort/CLOCKS_PER_SEC}")
 
     return result_ndarray
                 

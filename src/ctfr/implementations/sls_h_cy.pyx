@@ -69,7 +69,7 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     cdef double[:,:,:] energy = energy_ndarray
 
 
-    # Variables referring to the last step (spectrograms combination).
+    # Variables related to the last step (spectrograms combination).
     cdef double[:] log_sparsity
     cdef double sum_log_sparsity
     combination_weight_ndarray = np.empty(P, dtype=np.double)
