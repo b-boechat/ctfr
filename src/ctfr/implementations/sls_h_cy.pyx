@@ -2,7 +2,7 @@ import numpy as np
 from scipy.signal import correlate
 cimport cython
 from libc.math cimport INFINITY, exp, pow
-from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_nonnegative_integer, _enforce_odd_positive_integer
+from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
 
 def _sls_h_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-50):
 
@@ -27,21 +27,16 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
         
         Py_ssize_t freq_width_energy_lobe = (freq_width_energy-1)//2
         Py_ssize_t freq_width_sparsity_lobe = (freq_width_sparsity-1)//2
-        Py_ssize_t max_freq_width_lobe
         Py_ssize_t time_width_sparsity_lobe = (time_width_sparsity-1)//2
         Py_ssize_t time_width_energy_lobe = (time_width_energy-1)//2
         Py_ssize_t p, m, k, i, j
 
         double epsilon = 1e-10
         Py_ssize_t combined_size_sparsity = time_width_sparsity * freq_width_sparsity
-
-    max_freq_width_lobe = freq_width_energy_lobe
-    if freq_width_sparsity_lobe > max_freq_width_lobe:
-        max_freq_width_lobe = freq_width_sparsity_lobe  
     
     X_orig_ndarray = np.asarray(X_orig)
     # Zero-pad spectrograms for windowing.
-    X_ndarray = np.pad(X_orig, ((0, 0), (max_freq_width_lobe, max_freq_width_lobe), (time_width_sparsity_lobe, time_width_sparsity_lobe)))
+    X_ndarray = np.pad(X_orig, ((0, 0), (freq_width_sparsity_lobe, freq_width_sparsity_lobe), (time_width_sparsity_lobe, time_width_sparsity_lobe)))
     cdef double[:, :, :] X = X_ndarray
 
     # Containers for the hamming window (local sparsity) and the asymmetric hamming window (local energy)
@@ -65,12 +60,12 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     cdef double[:, :] result = result_ndarray
 
     # Containers and variables related to local sparsity calculation.
-    sparsity_ndarray = epsilon * np.ones(P, dtype=np.double) # Note that only one bin of sparsity information is stored each time.
+    sparsity_ndarray = np.empty(P, dtype=np.double) # Note that only one bin of sparsity information is stored each time.
     cdef double[:] sparsity = sparsity_ndarray
     cdef double arr_norm, gini
 
     # Container for the local energy.
-    energy_ndarray = epsilon * np.ones((P, K, M), dtype=np.double)
+    energy_ndarray = np.empty((P, K, M), dtype=np.double)
     cdef double[:,:,:] energy = energy_ndarray
 
 
@@ -103,9 +98,9 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     ############ Hybrid combination {{{
 
     # Iterates through bins.
-    for k in range(max_freq_width_lobe, K + max_freq_width_lobe):
+    for k in range(freq_width_sparsity_lobe, K + freq_width_sparsity_lobe):
         for m in range(time_width_sparsity_lobe, M + time_width_sparsity_lobe):
-            red_k, red_m = k - max_freq_width_lobe, m - time_width_sparsity_lobe
+            red_k, red_m = k - freq_width_sparsity_lobe, m - time_width_sparsity_lobe
             
             # If this energy is below threshold, use binwise minimax.
             if max_local_energy[red_k, red_m] < energy_criterium:
@@ -117,25 +112,22 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
             # Otherwise, calculate LS combination.
             else:
                 for p in range(P):
-                    # Copies the windowed region to the calculation vector, multiplying by the Hamming windows (horizontal and vertical).
+                    # Copy the windowed region to the calculation vector, multiplying by the Hamming windows (horizontal and vertical).
                     for i in range(freq_width_sparsity):
                         for j in range(time_width_sparsity):
                             calc_vector[i*time_width_sparsity + j] = X[p, k - freq_width_sparsity_lobe + i, m - time_width_sparsity_lobe + j] * \
                                     hamming_freq_sparsity[i] * hamming_time[j]        
 
+                    # Calculate the local sparsity (Gini index).
                     calc_vector_ndarray.sort()
-
-                    # Calculates the local sparsity (Gini index).
                     arr_norm = 0.0
                     gini = 0.0
                     
                     for i in range(combined_size_sparsity):
                         arr_norm = arr_norm + calc_vector[i]
                         gini = gini - 2*calc_vector[i] * (combined_size_sparsity - i - 0.5)/ (<double> combined_size_sparsity)
-
                     gini = 1 + gini/(arr_norm + epsilon)
 
-                    # Index for the local sparsity matrix must be adjusted because it has no zero-padding.
                     sparsity[p] = epsilon + gini
 
                 # Combination by smoothed local sparsity:
