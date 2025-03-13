@@ -2,20 +2,12 @@ import numpy as np
 from scipy.stats import gmean
 cimport cython
 from libc.math cimport exp
-from warnings import warn
-from ctfr.warning import ArgumentChangeWarning
+from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_greater_or_equal
 
 def _swgm_wrapper(X, beta = 0.3, max_gamma = 20.0):
-    
-    beta = float(beta)
-    if beta < 0:
-        beta = 0.0
-        warn("Beta parameter must be >= 0. Setting beta = 0.", ArgumentChangeWarning)
 
-    max_gamma = float(max_gamma)
-    if max_gamma < 1.0:
-        max_gamma = 1.0
-        warn("Max_gamma parameter must be >= 1. Setting max_gamma = 1.", ArgumentChangeWarning)
+    beta = _enforce_nonnegative(beta, "beta", default=0.3)
+    max_gamma = _enforce_greater_or_equal(max_gamma, "max_gamma", target=1.0, default=20.0)
 
     return _swgm_cy(X, beta, max_gamma)
 

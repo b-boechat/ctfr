@@ -1,30 +1,13 @@
 import numpy as np
 cimport cython
 from libc.math cimport INFINITY, sqrt, pow
-from warnings import warn
-from ctfr.warning import ArgumentChangeWarning
+from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_nonnegative_integer, _enforce_odd_positive_integer
 
 def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 8.0):
-    freq_width = int(freq_width)
-    if freq_width < 0:
-        freq_width = 21
-        warn(f"The 'freq_width' parameter should be a positive integer. Setting freq_width = {freq_width}.", ArgumentChangeWarning)
-    if freq_width % 2 == 0:
-        freq_width += 1
-        warn(f"The 'freq_width' parameter should be an odd integer. Setting freq_width = {freq_width}.", ArgumentChangeWarning)
-
-    time_width = int(time_width)
-    if time_width < 0:
-        time_width = 11
-        warn(f"The 'time_width' parameter should be a positive integer. Setting time_width = {time_width}.", ArgumentChangeWarning)
-    if time_width % 2 == 0:
-        time_width += 1
-        warn(f"The 'time_width' parameter should be an odd integer. Setting time_width = {time_width}.", ArgumentChangeWarning)
     
-    eta = float(eta)
-    if eta < 0.0:
-        eta = 8.0
-        warn(f"The 'eta' parameter should be a non-negative float. Setting eta = {eta}.", ArgumentChangeWarning)
+    freq_width = _enforce_odd_positive_integer(freq_width, 'freq_width', 21)
+    time_width = _enforce_odd_positive_integer(time_width, 'time_width', 11)
+    eta = _enforce_nonnegative(eta, 'eta', 8.0)
 
     return _lt_cy(X, freq_width, time_width, eta)
 

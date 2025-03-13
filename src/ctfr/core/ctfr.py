@@ -175,7 +175,7 @@ def ctfr_from_specs(
 def _ctfr_stfts(
     signal,
     method,
-    win_length,
+    win_lengths,
     hop_length,
     n_fft,
     **kwargs
@@ -190,7 +190,7 @@ def _ctfr_stfts(
                 win_length = win_length,
                 center = True
             )
-            for win_length in win_length
+            for win_length in win_lengths
         ]
     )
     input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
@@ -252,7 +252,7 @@ def _get_stft_params(sr, win_lengths, hop_length, n_fft):
             raise ValueError("n_fft must be greater than or equal to the largest window length.")
 
     return {
-        "win_length": win_lengths,
+        "win_lengths": win_lengths,
         "hop_length": hop_length,
         "n_fft": n_fft,
     }

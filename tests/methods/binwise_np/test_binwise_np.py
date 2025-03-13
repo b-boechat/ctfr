@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from ctfr import mean_from_specs, median_from_specs, min_from_specs
+from ctfr.methods import mean_from_specs, hmean_from_specs, gmean_from_specs, min_from_specs
 from tests.utils.base import BaseTestParameterValidation
 
 class TestParameterValidationMean(BaseTestParameterValidation):
@@ -18,13 +18,27 @@ class TestParameterValidationMean(BaseTestParameterValidation):
         assert True
 
 
-class TestParameterValidationMedian(BaseTestParameterValidation):
+class TestParameterValidationHmean(BaseTestParameterValidation):
     def test_correct_arguments(self):
-        assert np.allclose(median_from_specs(self.X), self.X)
+        assert np.allclose(hmean_from_specs(self.X), self.X)
 
     def test_invalid_arguments(self):
         with pytest.raises(TypeError):
-            median_from_specs(self.X, _invalid_argument = 5)
+            hmean_from_specs(self.X, _invalid_argument = 5)
+
+    def test_incorrect_arguments(self):
+        assert True
+
+    def test_parameter_changes(self):
+        assert True
+
+class TestParameterValidationGmean(BaseTestParameterValidation):
+    def test_correct_arguments(self):
+        assert np.allclose(gmean_from_specs(self.X), self.X)
+
+    def test_invalid_arguments(self):
+        with pytest.raises(TypeError):
+            gmean_from_specs(self.X, _invalid_argument = 5)
 
     def test_incorrect_arguments(self):
         assert True

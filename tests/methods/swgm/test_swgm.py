@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from ctfr import swgm_from_specs
+from ctfr.methods import swgm_from_specs
 from ctfr.warning import ArgumentChangeWarning
 from tests.utils.base import BaseTestParameterValidation
 
