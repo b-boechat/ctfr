@@ -22,7 +22,7 @@ cdef _swgm_cy(double[:,:,::1] X, double beta, double max_gamma):
         Py_ssize_t M = X.shape[2] # Time axis.
 
         Py_ssize_t p, k, m
-        double epsilon = 1e-10
+        double epsilon = 1e-15
 
     # Calculate spectrograms logarithm tensor.
     log_X_ndarray = np.log(np.asarray(X) + epsilon, dtype=np.double)

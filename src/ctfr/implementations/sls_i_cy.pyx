@@ -34,7 +34,7 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
         Py_ssize_t time_width_energy_lobe = (time_width_energy-1)//2
         Py_ssize_t p, m, k, i, j, red_k, red_m
 
-        double epsilon = 1e-10
+        double epsilon = 1e-15
         Py_ssize_t combined_size_sparsity = time_width_sparsity * freq_width_sparsity
     
     X_orig_ndarray = np.asarray(X_orig)

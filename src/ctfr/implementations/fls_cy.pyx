@@ -23,7 +23,7 @@ cdef _fls_cy(double[:,:,::1] X, Py_ssize_t freq_width, Py_ssize_t time_width, do
         Py_ssize_t K = X.shape[1] # Frequency axis.
         Py_ssize_t M = X.shape[2] # Time axis.
 
-        double epsilon = 1e-10 # Small value used to avoid 0 in some computations.
+        double epsilon = 1e-15 # Small value used to avoid 0 in some computations.
         double window_size_sqrt = sqrt(<double> freq_width * time_width)
 
     X_ndarray = np.asarray(X)

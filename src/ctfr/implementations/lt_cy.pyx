@@ -27,7 +27,7 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
         Py_ssize_t p, m, k, i_sort, j_sort, i, j
         double key
 
-        double epsilon = 1e-10 # Small value used to avoid 0 in some computations.
+        double epsilon = 1e-15 # Small value used to avoid 0 in some computations.
 
     # Zero-pad spectrograms for windowing.
     X_ndarray = np.pad(X_orig, ((0, 0), (freq_width_lobe, freq_width_lobe), (time_width_lobe, time_width_lobe)))
