@@ -43,7 +43,7 @@ cdef _baseline_lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t t
         Py_ssize_t time_width_lobe = (time_width-1)//2
         Py_ssize_t p, m, k, i, j
 
-        double epsilon = 1e-10
+        double epsilon = 1e-15
         Py_ssize_t combined_size = time_width * freq_width
 
     X_ndarray = np.pad(X_orig, ((0, 0), (freq_width_lobe, freq_width_lobe), (time_width_lobe, time_width_lobe)))
