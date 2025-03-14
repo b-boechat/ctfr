@@ -1,0 +1,83 @@
+import numpy as np
+from scipy.signal import correlate
+from libc.math cimport sqrt
+from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
+cimport cython
+
+def _baseline_fls_wrapper(X, freq_width = 21, time_width = 11, gamma = 20.0):
+
+    freq_width = _enforce_odd_positive_integer(freq_width, 'freq_width', 21)
+    time_width = _enforce_odd_positive_integer(time_width, 'time_width', 11)
+    gamma = _enforce_nonnegative(gamma, 'gamma', 20.0)
+
+    return _baseline_fls_cy(X, freq_width, time_width, gamma)
+
+@cython.boundscheck(False)
+@cython.wraparound(False) 
+@cython.nonecheck(False)
+@cython.cdivision(True)
+cdef _baseline_fls_cy(double[:,:,::1] X, Py_ssize_t freq_width, Py_ssize_t time_width, double gamma):
+
+    cdef:
+        Py_ssize_t P = X.shape[0] # Spectrograms axis.
+        Py_ssize_t K = X.shape[1] # Frequency axis.
+        Py_ssize_t M = X.shape[2] # Time axis.
+
+        double epsilon = 1e-15 # Small value used to avoid 0 in some computations.
+        double window_size_sqrt = sqrt(<double> freq_width * time_width)
+
+    X_ndarray = np.asarray(X)
+
+    # Local energy containers.
+    cdef: 
+        double[:,:] local_energy_l1
+        double[:,:] local_energy_l2
+        double[:,:] local_energy_l1_sqrt
+
+    # Local suitability container.
+    suitability_ndarray = np.empty((P, K, M), dtype=np.double)
+    cdef double[:,:,:] suitability = suitability_ndarray
+
+    # Containers related to combination.
+    combination_weight_ndarray = np.empty((P, K, M), dtype=np.double)
+    cdef double[:, :, :] combination_weight = combination_weight_ndarray
+
+    cdef double[:, :] suitability_product
+
+    # Generate the 2D window for local sparsity calculation.
+    hamming_window = np.outer(np.hamming(freq_width), np.hamming(time_width))
+
+    ############ Local suitability calculation (using local Hoyer sparsity): {{{
+
+    for p in range(P):
+        # Calculate L1 and L2 local energy matrixes and element-wise square root of the L1 matrix.
+        local_energy_l1_ndarray = correlate(X_ndarray[p], hamming_window, mode='same') + epsilon
+        local_energy_l2_ndarray = np.sqrt(correlate(X_ndarray[p] * X_ndarray[p], hamming_window * hamming_window, mode='same') + epsilon)
+        local_energy_l1_sqrt_ndarray = np.sqrt(local_energy_l1_ndarray)
+
+        # Point Cython memview to the calculated matrixes.
+        local_energy_l1 = local_energy_l1_ndarray
+        local_energy_l2 = local_energy_l2_ndarray
+        local_energy_l1_sqrt = local_energy_l1_sqrt_ndarray
+
+        # Calculate local suitability.
+        for k in range(K):
+            for m in range(M):
+                suitability[p, k, m] = (window_size_sqrt - local_energy_l1[k, m]/local_energy_l2[k, m])/ \
+                                        ((window_size_sqrt - 1) * local_energy_l1_sqrt[k, m]) + epsilon
+
+    ############ }}}
+
+    ############ Spectrograms combination {{{
+
+    suitability_product_ndarray = np.prod(suitability_ndarray, axis=0, dtype=np.double)
+    suitability_product = suitability_product_ndarray
+    for p in range(P):
+        for k in range(K): 
+            for m in range(M):
+                combination_weight[p, k, m] = (suitability[p, k, m] * suitability[p, k, m] / suitability_product[k, m]) ** gamma
+    
+    # Calculate spectrogram as a binwise weighted arithmetic mean.
+    return np.average(X_ndarray, axis=0, weights=combination_weight_ndarray)
+
+    ############ Spectrograms combination }}}

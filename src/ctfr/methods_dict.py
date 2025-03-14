@@ -160,6 +160,7 @@ _methods_dict = {
 
 from ctfr.implementations.baseline_swgm_cy import _baseline_swgm_wrapper
 from ctfr.implementations.baseline_lt_cy import _baseline_lt_wrapper
+from ctfr.implementations.baseline_fls_cy import _baseline_fls_wrapper
 
 _baseline_methods_dict = {
     "baseline_swgm": {
@@ -169,6 +170,10 @@ _baseline_methods_dict = {
     "baseline_lt": {
         "name": "Lukin-Todd (LT) [Baseline]",
         "function": _baseline_lt_wrapper,
+    },
+    "baseline_fls": {
+        "name": "Fast local sparsity (FLS) [Baseline]",
+        "function": _baseline_fls_wrapper,
     }
 }
 
