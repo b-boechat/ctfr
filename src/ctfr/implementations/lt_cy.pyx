@@ -1,6 +1,6 @@
 import numpy as np
 cimport cython
-from libc.math cimport INFINITY, sqrt, pow
+from libc.math cimport INFINITY, sqrt
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_nonnegative_integer, _enforce_odd_positive_integer
 
 def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 8.0):
@@ -34,11 +34,11 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
     cdef double[:, :, :] X = X_ndarray
 
     # Container that stores an horizontal segment of a spectrogram, with all frequency bins. Used to calculate smearing. 
-    calc_region_ndarray = np.zeros((K + 2*freq_width_lobe, time_width), dtype = np.double)
+    calc_region_ndarray = np.empty((K + 2*freq_width_lobe, time_width), dtype = np.double)
     cdef double[:, :] calc_region = calc_region_ndarray 
 
     # Container that stores the result.
-    result_ndarray = np.zeros((K, M), dtype=np.double)
+    result_ndarray = np.empty((K, M), dtype=np.double)
     cdef double[:, :] result = result_ndarray
 
     # Variables related to creating and merging calculation vectors.
@@ -77,7 +77,7 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
     # }
 
     # Container that stores the local smearing.
-    smearing_ndarray = np.zeros((P, K, M), dtype=np.double)
+    smearing_ndarray = np.empty((P, K, M), dtype=np.double)
     cdef double[:,:,:] smearing = smearing_ndarray
 
     # Variables related to smearing calculation.
@@ -245,7 +245,7 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
             weights_sum = 0.0
             result_acc = 0.0
             for p in range(P):
-                weight = 1./(pow(smearing[p, k, m], eta) + epsilon)
+                weight = 1./(smearing[p, k, m] ** eta + epsilon)
                 result_acc = result_acc + weight * X_orig[p, k, m]
                 weights_sum = weights_sum + weight
             result[k, m] = result_acc / weights_sum

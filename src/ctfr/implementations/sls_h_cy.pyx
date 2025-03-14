@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.signal import correlate
 cimport cython
-from libc.math cimport INFINITY, exp, pow
+from libc.math cimport INFINITY, exp
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
 
 def _sls_h_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-50):
@@ -52,11 +52,11 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     
     
     # Container that stores a spectrogram windowed region flattened to a vector.
-    calc_vector_ndarray = np.zeros(combined_size_sparsity, dtype = np.double)
+    calc_vector_ndarray = np.empty(combined_size_sparsity, dtype = np.double)
     cdef double[:] calc_vector = calc_vector_ndarray 
 
     # Container that stores the result.
-    result_ndarray = np.zeros((K, M), dtype=np.double)
+    result_ndarray = np.empty((K, M), dtype=np.double)
     cdef double[:, :] result = result_ndarray
 
     # Containers and variables related to local sparsity calculation.
@@ -93,7 +93,7 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     ############ }}}
 
     # Energy criterium in regular units.
-    cdef double energy_criterium = pow(10.0, energy_criterium_db/10.0)
+    cdef double energy_criterium = 10.0 ** (energy_criterium_db/10.0)
 
     ############ Hybrid combination {{{
 
