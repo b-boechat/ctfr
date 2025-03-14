@@ -1,6 +1,6 @@
 import numpy as np
 cimport cython
-from libc.math cimport INFINITY, sqrt
+from libc.math cimport INFINITY, sqrt, pow
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_nonnegative_integer, _enforce_odd_positive_integer
 
 def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 8.0):
@@ -245,7 +245,7 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
             weights_sum = 0.0
             result_acc = 0.0
             for p in range(P):
-                weight = 1./(smearing[p, k, m] ** eta + epsilon)
+                weight = 1./(pow(smearing[p, k, m], eta) + epsilon)
                 result_acc = result_acc + weight * X_orig[p, k, m]
                 weights_sum = weights_sum + weight
             result[k, m] = result_acc / weights_sum
