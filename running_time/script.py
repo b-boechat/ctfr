@@ -30,19 +30,6 @@ def time_all_pipeline(num_iter):
 
     print("Execution time for each method and implementation:")
 
-
-    print("\n==== FLS ====\n")
-    cspec_base, average_time_base = time_method(specs, method='baseline_fls', num_iter=num_iter)
-    print(f"Baseline: {average_time_base:0.3f} s")
-    cspec_ctfr, average_time_ctfr = time_method(specs, method='fls', num_iter=num_iter)
-    print(f"ctfr: {average_time_ctfr:0.3f} s")
-
-    print(np.sum(np.isclose(cspec_base, cspec_ctfr)))
-    print(cspec_base.flatten().shape - np.sum(np.isclose(cspec_base, cspec_ctfr)))
-
-    assert np.allclose(cspec_base, cspec_ctfr)
-
-
     print("\n==== Binwise minimum ====\n")
     _, average_time_ctfr = time_method(specs, method='min', num_iter=num_iter)
     print(f"ctfr: {average_time_ctfr:0.3f} s")
@@ -51,6 +38,13 @@ def time_all_pipeline(num_iter):
     cspec_base, average_time_base = time_method(specs, method='baseline_swgm', num_iter=num_iter)
     print(f"Baseline: {average_time_base:0.3f} s")
     cspec_ctfr, average_time_ctfr = time_method(specs, method='swgm', num_iter=num_iter)
+    print(f"ctfr: {average_time_ctfr:0.3f} s")
+    assert np.allclose(cspec_base, cspec_ctfr)
+
+    print("\n==== FLS ====\n")
+    cspec_base, average_time_base = time_method(specs, method='baseline_fls', num_iter=num_iter)
+    print(f"Baseline: {average_time_base:0.3f} s")
+    cspec_ctfr, average_time_ctfr = time_method(specs, method='fls', num_iter=num_iter)
     print(f"ctfr: {average_time_ctfr:0.3f} s")
     assert np.allclose(cspec_base, cspec_ctfr)
 
