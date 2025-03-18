@@ -34,11 +34,11 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
     cdef double[:, :, :] X = X_ndarray
 
     # Container that stores an horizontal segment of a spectrogram, with all frequency bins. Used to calculate smearing. 
-    calc_region_ndarray = np.empty((K + 2*freq_width_lobe, time_width), dtype = np.double)
+    calc_region_ndarray = np.zeros((K + 2*freq_width_lobe, time_width), dtype = np.double)
     cdef double[:, :] calc_region = calc_region_ndarray 
 
     # Container that stores the result.
-    result_ndarray = np.empty((K, M), dtype=np.double)
+    result_ndarray = np.zeros((K, M), dtype=np.double)
     cdef double[:, :] result = result_ndarray
 
     # Variables related to creating and merging calculation vectors.
@@ -55,19 +55,19 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
     # Containers related to the "merging" of sorted vectors using a heap. {
 
     # Heap that stores the smallest "nonconsumed" element of each vector in the merging.
-    heap_elements_ndarray = np.empty(num_vectors, dtype=np.double)
+    heap_elements_ndarray = np.zeros(num_vectors, dtype=np.double)
     cdef double[:] heap_elements = heap_elements_ndarray 
     # Stores the vector of origin for each corresponding element in the heap.
-    heap_origins_ndarray = np.empty(num_vectors, dtype=np.intp)
+    heap_origins_ndarray = np.zeros(num_vectors, dtype=np.intp)
     cdef Py_ssize_t[:] heap_origins = heap_origins_ndarray 
     # Stores current index for each vector.
-    array_indices_ndarray = np.empty(num_vectors, dtype=np.intp)
+    array_indices_ndarray = np.zeros(num_vectors, dtype=np.intp)
     cdef Py_ssize_t[:] array_indices = array_indices_ndarray 
     # Stores the combined vector on even iterations.
-    combined_even_ndarray = np.empty(combined_size, dtype=np.double)  
+    combined_even_ndarray = np.zeros(combined_size, dtype=np.double)  
     cdef double[:] combined_even = combined_even_ndarray
     # Stores the combined vector on odd iterations.
-    combined_odd_ndarray = np.empty(combined_size, dtype=np.double)  
+    combined_odd_ndarray = np.zeros(combined_size, dtype=np.double)  
     cdef double[:] combined_odd = combined_odd_ndarray 
 
     # Memviews that point to either combined_even or combined_odd, alternating every iteration.
@@ -77,7 +77,7 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
     # }
 
     # Container that stores the local smearing.
-    smearing_ndarray = np.empty((P, K, M), dtype=np.double)
+    smearing_ndarray = np.zeros((P, K, M), dtype=np.double)
     cdef double[:,:,:] smearing = smearing_ndarray
 
     # Variables related to smearing calculation.

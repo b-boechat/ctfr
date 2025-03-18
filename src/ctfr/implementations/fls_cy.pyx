@@ -35,13 +35,13 @@ cdef _fls_cy(double[:,:,::1] X, Py_ssize_t freq_width, Py_ssize_t time_width, do
         double[:,:] local_energy_l1_sqrt
 
     # Local suitability container.
-    suitability_ndarray = np.empty((P, K, M), dtype=np.double)
+    suitability_ndarray = np.zeros((P, K, M), dtype=np.double)
     cdef double[:,:,:] suitability = suitability_ndarray
 
     # Containers related to combination.
     cdef double[:, :, :] log_suitability
     cdef double[:, :] sum_log_suitability
-    combination_weight_ndarray = np.empty((P, K, M), dtype=np.double)
+    combination_weight_ndarray = np.zeros((P, K, M), dtype=np.double)
     cdef double[:, :, :] combination_weight = combination_weight_ndarray
 
     # Generate the 2D window for local sparsity calculation.

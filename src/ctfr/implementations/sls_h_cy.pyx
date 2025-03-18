@@ -52,27 +52,27 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     
     
     # Container that stores a spectrogram windowed region flattened to a vector.
-    calc_vector_ndarray = np.empty(combined_size_sparsity, dtype = np.double)
+    calc_vector_ndarray = np.zeros(combined_size_sparsity, dtype = np.double)
     cdef double[:] calc_vector = calc_vector_ndarray 
 
     # Container that stores the result.
-    result_ndarray = np.empty((K, M), dtype=np.double)
+    result_ndarray = np.zeros((K, M), dtype=np.double)
     cdef double[:, :] result = result_ndarray
 
     # Containers and variables related to local sparsity calculation.
-    sparsity_ndarray = np.empty(P, dtype=np.double) # Note that only one bin of sparsity information is stored each time.
+    sparsity_ndarray = np.zeros(P, dtype=np.double) # Note that only one bin of sparsity information is stored each time.
     cdef double[:] sparsity = sparsity_ndarray
     cdef double arr_norm, gini
 
     # Container for the local energy.
-    energy_ndarray = np.empty((P, K, M), dtype=np.double)
+    energy_ndarray = np.zeros((P, K, M), dtype=np.double)
     cdef double[:,:,:] energy = energy_ndarray
 
 
     # Variables related to the last step (spectrograms combination).
     cdef double[:] log_sparsity
     cdef double sum_log_sparsity
-    combination_weight_ndarray = np.empty(P, dtype=np.double)
+    combination_weight_ndarray = np.zeros(P, dtype=np.double)
     cdef double[:] combination_weight = combination_weight_ndarray
     cdef double min_local_energy
     cdef double weights_sum

@@ -33,7 +33,7 @@ cdef _swgm_cy(double[:,:,::1] X, double beta, double max_gamma):
     cdef double[:, :] sum_log_X = sum_log_X_ndarray
 
     # Calculate weights tensor.
-    gammas_ndarray = np.empty((P, K, M), dtype=np.double)
+    gammas_ndarray = np.zeros((P, K, M), dtype=np.double)
     cdef double[:,:,:] gammas = gammas_ndarray
     
     # Calculate combination weights.
