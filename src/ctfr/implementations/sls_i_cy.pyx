@@ -4,8 +4,17 @@ from itertools import chain
 cimport cython
 from libc.math cimport exp
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
+from ctfr.exception import InvalidArgumentError, ArgumentRequiredError
 
-def _sls_i_wrapper(X, _info, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80):
+def _sls_i_wrapper(
+        X, _info, 
+        freq_width_energy=11, 
+        freq_width_sparsity=21, 
+        time_width_energy=11, 
+        time_width_sparsity=11, 
+        beta = 80,
+        interp_steps = None
+):
 
     freq_width_energy = _enforce_odd_positive_integer(freq_width_energy, "freq_width_energy", 11)
     freq_width_sparsity = _enforce_odd_positive_integer(freq_width_sparsity, "freq_width_sparsity", 21)
@@ -13,15 +22,44 @@ def _sls_i_wrapper(X, _info, freq_width_energy=11, freq_width_sparsity=21, time_
     time_width_sparsity = _enforce_odd_positive_integer(time_width_sparsity, "time_width_sparsity", 11)
     beta = _enforce_nonnegative(beta, "beta", 80.0)
 
-    interp_steps = np.array([[4, 1], [2, 2], [1, 4]], dtype=np.int)
+    interp_steps = _get_interp_steps(X.shape[0], _info, interp_steps)
+    print(interp_steps)
 
     return _sls_i_cy(X, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, interp_steps)
+
+def _get_interp_steps(num_specs, _info, user_interp_steps):
+
+    if user_interp_steps is not None:
+        interp_steps = np.ascontiguousarray(user_interp_steps, dtype=int)
+        if interp_steps.shape[0] != num_specs or interp_steps.shape[1] != 2:
+            raise InvalidArgumentError("The dimensions of 'interp_steps' must be P x 2, where P is the number of spectrograms to combine.")
+        return interp_steps
+
+    if _info is not None:
+        if _info["representation_type"] == "stft":
+            n_fft, hop_length = _info["n_fft"], _info["hop_length"]
+            return np.clip(
+                np.array(
+                    [[n_fft//l, l//(2*hop_length)] for l in _info["win_lengths"]], 
+                    dtype=int
+                ), 
+            a_min=1, a_max=None)
+        else: # "cqt"
+            # This might change in the future.
+            raise ArgumentRequiredError("When performing SLS-I with CQT spectrograms, specifying 'interp_steps' is required. Note that SLS-I is not recommended for combining CQT spectrograms and you should probably use another combination method.")
+            
+    raise ArgumentRequiredError("When calling SLS-I directly from spectrograms, specifying 'interp_steps' is required.")
+
+
+            
+
+
 
 @cython.boundscheck(False)
 @cython.wraparound(False) 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t freq_width_sparsity, Py_ssize_t time_width_energy, Py_ssize_t time_width_sparsity, double beta, int[:,::1] interp_steps):
+cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t freq_width_sparsity, Py_ssize_t time_width_energy, Py_ssize_t time_width_sparsity, double beta, long[:,::1] interp_steps):
 
     cdef:
         Py_ssize_t P = X_orig.shape[0] # Spectrograms axis
@@ -72,8 +110,7 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
 
 
     # Armazena o passo de interpolação em cada direção. i_steps[i, j] -> Interpolações para p = i. j = 0: na frequência; j = 1: no tempo
-    i_steps_ndarray = np.asarray(interp_steps)
-    cdef int[:,:] i_steps = i_steps_ndarray
+    cdef long[:,:] i_steps = interp_steps
 
     # Variables related to the last step (spectrograms combination).
     cdef double[:, :, :] log_sparsity
@@ -91,7 +128,6 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     energy = energy_ndarray
 
     ############ }}}
-
 
     ############ Compute local sparsity {{{
 
@@ -126,26 +162,25 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
                 sparsity[p, red_k, red_m] = epsilon + gini
 
         # First interpolation (along k axis).
-        red_k = 0
-        while red_k < K: # Loop equivalent to "for red_k in range(0, K, i_steps[p, 0])". The current variant produces a faster code in Cython.
+        red_k = i_steps[p, 0]
+        while red_k < K: # Loop equivalent to "for red_k in range(i_steps[p, 0], K, i_steps[p, 0])". The current variant produces a faster code in Cython.
             for red_m in chain(
                     range(0, M, i_steps[p, 1]),
                     range( (M - 1) // i_steps[p, 1] * i_steps[p, 1] + 1, M)
             ):
-                sparsity_step = (sparsity[p, red_k + i_steps[p, 0], red_m] - sparsity[p, red_k, red_m]) / i_steps[p, 0]
+                sparsity_step = (sparsity[p, red_k, red_m] - sparsity[p, red_k - i_steps[p, 0], red_m]) / i_steps[p, 0]
                 for i in range(1, i_steps[p, 0]):
-                    sparsity[p, red_k + i, red_m] = sparsity[p, red_k + i - 1, red_m] + sparsity_step
+                    sparsity[p, red_k - i, red_m] = sparsity[p, red_k - i + 1, red_m] - sparsity_step
             
             red_k = red_k + i_steps[p, 0]
 
         # Second interpolation (along m axis).
-
-        red_m = 0
-        while red_m < M: # Loop equivalent to "for red_m in range(0, M, i_steps[p, 1])". The current variant produces a faster code in Cython.
+        red_m = i_steps[p, 1]
+        while red_m < M: # Loop equivalent to "for red_m in range(i_steps[p, 1], M, i_steps[p, 1])". The current variant produces a faster code in Cython.
             for red_k in range(K):
-                sparsity_step = (sparsity[p, red_k, red_m + i_steps[p, 1]] - sparsity[p, red_k, red_m]) / i_steps[p, 1]
+                sparsity_step = (sparsity[p, red_k, red_m] - sparsity[p, red_k, red_m - i_steps[p, 1]]) / i_steps[p, 1]
                 for j in range(1, i_steps[p, 1]):
-                    sparsity[p, red_k, red_m + j] = sparsity[p, red_k, red_m + j - 1] + sparsity_step  
+                    sparsity[p, red_k, red_m - j] = sparsity[p, red_k, red_m - j + 1] - sparsity_step  
 
             red_m = red_m + i_steps[p, 1]
 
