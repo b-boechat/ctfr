@@ -113,13 +113,14 @@ _methods_dict = {
             },
             "energy_criterium_db": {
                 "type_and_info": r"float",
-                "description": r"Local energy criterium (in decibels) that distinguishes high-energy regions (where LS is computed) from low-energy regions (where binwise minimum is computed). Defaults to -20."
+                "description": r"Local energy criterium (in decibels) that distinguishes high-energy regions (where LS is computed) from low-energy regions (where binwise minimum is computed). Defaults to -40."
             }
         }
     },
     "sls_i": {
         "name": "Smoothed local sparsity with interpolation (SLS-I)",
         "function": _sls_i_wrapper,
+        "request_tfrs_info": True,
         "citations": [
             'M. d. V. M. da Costa and L. W. P. Biscainho, “Combining time-frequency representations via local sparsity criterion,” in 2nd AES Latin American Congress of Audio Engineering, Montevideo, Uruguay, Sep. 2018, pp. 78–85.',
             'M. d. V. M. da Costa, I. Apolinário, and L. W. P. Biscainho, “Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms,” Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, Nov. 2019.'
