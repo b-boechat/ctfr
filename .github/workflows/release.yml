@@ -27,22 +27,22 @@ jobs:
   call_build_workflow:
     uses: ./.github/workflows/build.yml
 
-  # upload_pypi:
-  #   needs: [call_build_workflow]
-  #   runs-on: ubuntu-latest
-  #   environment: pypi
-  #   permissions:
-  #     id-token: write
-  #   steps:
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         pattern: cibw-*
-  #         path: dist
-  #         merge-multiple: true
+  upload_pypi:
+    needs: [call_build_workflow]
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          path: dist
+          merge-multiple: true
 
-  #     - uses: pypa/gh-action-pypi-publish@release/v1
-  #       with:
-  #         repository-url: https://test.pypi.org/legacy/ # to testpypi
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/ # to testpypi
 
   github_release:
     needs: [save_version, call_build_workflow]
