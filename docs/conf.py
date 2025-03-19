@@ -7,6 +7,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../src/ctfr'))
+sys.path.append(os.path.relpath("./conf_extras"))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -73,63 +74,8 @@ todo_include_todos = False
 
 # -- Document methods' calling signature and parameters ------------------------------------------
 
-import os
-from ctfr import _methods_dict
-
-PAGE_TITLE = "Calling signature"
-PARAMETERS_SUBTITLE = "Parameters"
-COMBINATION_METHODS_DOC_FOLDER = "combination_methods"
-FILE_NAME = "calling.rst"
-
-class CombinationParametersDoc:
-    def __init__(self, method_key) -> None:
-        self.method_key = method_key
-        self.method_entry = _methods_dict[method_key]
-        method_parameters = self.method_entry.get("parameters", {})
-        self.parameter_names = list(method_parameters.keys())
-        self.output_path = os.path.join(COMBINATION_METHODS_DOC_FOLDER, self.method_key, FILE_NAME)
-
-    def signature_end(self):
-        if self.parameter_names:
-            segment = ", " + ", ".join(self.parameter_names)
-        else:
-            segment = ""
-        return segment + ")"
-
-    def doc_parameter(self, parameter):
-        parameter_entry = self.method_entry["parameters"][parameter]
-        first_line = f"**{parameter}** (`{parameter_entry['type_and_info']}, optional`)"
-        second_line = f"   {parameter_entry['description']}"
-        return first_line + "\n\n" + second_line
-
-    def run(self, verbose=False):
-        if verbose:
-            print(f"Documenting {self.method_key} parameters to {self.output_path}")
-        with open(self.output_path, "w") as f:
-            f.write(PAGE_TITLE + "\n")
-            f.write("-" * len(PAGE_TITLE) + "\n\n")
-            #f.write(".. currentmodule:: ctfr" + "\n\n")
-            f.write(f'.. function:: ctfr.ctfr(signal, sr, method="{self.method_key}", *, <shared parameters>')
-            f.write(self.signature_end() + "\n" + "   :noindex:" + "\n\n")
-            f.write(f'.. function:: ctfr.ctfr_from_specs(specs, method="{self.method_key}", *, <shared parameters>')
-            f.write(self.signature_end() + "\n" + "   :noindex:" + "\n\n")
-            f.write(f'.. function:: ctfr.methods.{self.method_key}(signal, sr, *, <shared parameters>')
-            f.write(self.signature_end() + "\n" + "   :noindex:" + "\n\n")
-            f.write(f'.. function:: ctfr.methods.{self.method_key}_from_specs(specs, *, <shared parameters>')
-            f.write(self.signature_end() + "\n" + "   :noindex:" + "\n\n")
-            f.write("See :func:`ctfr.ctfr` and :func:`ctfr.ctfr_from_specs` for more details on the shared parameters for computing CTFRs with this package. The parameters specific to this method (passed as keyword arguments) are described below." + "\n\n")
-            f.write(PARAMETERS_SUBTITLE + "\n")
-            f.write("~" * len(PARAMETERS_SUBTITLE) + "\n\n")
-            for parameter in self.parameter_names:
-                f.write(self.doc_parameter(parameter) + "\n\n")
-
-exclude_methods_from_param_doc = [
-    "mean", "hmean", "gmean", "min"
-]
-for method_key in _methods_dict.keys():
-    if method_key not in exclude_methods_from_param_doc:
-        doc = CombinationParametersDoc(method_key)
-        doc.run(verbose=True)
+from combination_methods_doc import combination_methods_doc_main
+combination_methods_doc_main()
 
 # -- Generate gallery .py files from .ipynb ------------------------------------------
 

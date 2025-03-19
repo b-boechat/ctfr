@@ -65,7 +65,7 @@ Adding parameters
 You can freely add parameters to your implementation function, as long as the iterable of TFRs remains as the first parameter. Any additional parameters will be treated as keyword-only parameters, and it's highly recommended for default values to be implemented.
 
 .. note::
-   Parameter names (aside from the TFRs tensor) must not clash with :func:`ctfr.ctfr` or :func:`ctfr.ctfr_from_specs` parameter names, otherwise they will not be received by the combination function.
+   Parameter names (aside from the TFRs tensor) must not clash with :func:`ctfr.ctfr` or :func:`ctfr.ctfr_from_specs` parameter names, otherwise they will not be received by the combination function. They should also not begin with an underscore, as this is reserved for internal use.
 
 Parameter validation
 ~~~~~~~~~~~~~~~~~~~~
@@ -112,10 +112,10 @@ Cython's "pure Python" mode is not yet supported.
    When developing, ``.pyx`` files need to be recompiled in order for changes to take place. This can be done by running ``make ext`` or ``python setup.py build_ext --inplace``.
 
 
-Improving the method entry
+Advanced method entry
 --------------------------
 
-For a combination method to be functional, only the ``name`` and ``function`` fields are required in the entry in ``_methods_dict``. However, a method fully integrated into the package should have two additional fields: ``citations`` and ``parameters``. Both these fields are used to populate the method's documentation and to provide information to the user through the functions :func:`ctfr.cite_method` and :func:`ctfr.show_method_param`.
+For a combination method to be functional, only the ``name`` and ``function`` fields are required in the entry in ``_methods_dict``. However, a method fully integrated into the package should have two additional fields: ``citations`` and ``parameters``. Both these fields are used to populate the method's documentation and to provide information to the user through the functions :func:`ctfr.cite_method` and :func:`ctfr.show_method_param`. Optionally, a field ``request_tfrs_info`` can be added, which is discussed below.
 
 Citations field
 ~~~~~~~~~~~~~~~
@@ -125,10 +125,21 @@ If the method is published, the ``citations`` field should contain a list of str
 Parameters field
 ~~~~~~~~~~~~~~~~
 
-The ``parameters`` field should contain a dictionary, which should be empty if the method has no specific parameters. Otherwise, each key must be a parameter name, and the value should be a dictionary with the fields ``type_and_info`` and ``description``. The ``type_and_info`` field should contain a string with the parameter type and possibly additional information (following the `NumPy docstrings style <https://numpydoc.readthedocs.io/en/latest/format.html#parameters>`_), and the ``description`` field should contain a string with a brief description of the parameter. 
+The ``parameters`` field should contain a dictionary, which should be empty if the method has no specific parameters. Otherwise, each key must be a parameter name, and the value should be a dictionary with the fields ``type_and_info`` and ``description``. The ``type_and_info`` field should contain a string with the parameter type and possibly additional information (following the `NumPy docstrings style <https://numpydoc.readthedocs.io/en/latest/format.html#parameters>`_), and the ``description`` field should contain a string with a brief description of the parameter.
 
-.. Note::
-   If this field is omitted, a lack of parameters is not inferred, and :func:`ctfr.show_method_params` will indicate instead that no information is available.
+Request TFRs info field
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Typically, the combination method receives only receives its parameters the TFRs tensor as input. However, when calling :func:`ctfr.ctfr` (or its `ctfr.methods` equivalent), methods can also receive additional data about the TFRs. This is done by setting the ``request_tfrs_info`` field to ``True`` (it's assumed to be ``False`` otherwise) and adding an argument named ``_info`` to the wrapper function, such as follows:
+
+.. code-block:: diff
+
+   - def _max_wrapper(X, offset=0.0):
+   + def _max_wrapper(X, _info, offset=0.0):
+
+The ``_info`` argument will be passed internally as a dictionary containing the key ``r_type`` with the value ``"stft"`` or ``"cqt"`` depending on the type of TFRs provided, and additional keys depending on the TFRs type. For ``_info["r_type"] == "stft"``, the keys ``"win_lengths"``, ``"hop_length"``, and ``"n_fft"`` will be present. For ``_info["r_type"] == "cqt"``, the keys ``"filter_scales"``, ``"bins_per_octave"``, ``"fmin"``, ``"n_bins"``, and ``"hop_length"`` will be present. These keys are compatible with their respective arguments in :func:`ctfr.ctfr`.
+
+If ``request_tfrs_info`` is set to ``True`` and the method is called from :func:`ctfr.ctfr_from_specs` (or its `ctfr.methods` equivalent), ``_info`` will be passed as ``None``. In that case, the method should either provide a default behavior or raise `class:ctfr.exception.ArgumentRequiredError` if the information is necessary.
 
 Example
 ~~~~~~~~

@@ -330,8 +330,8 @@ methods:
     - Sample Weighted Geometric Mean (SWGM) -- swgm
     - Fast Local Sparsity (FLS) -- fls
     - Lukin-Todd (LT) -- lt
-    - Smoothed Local Sparsity (LS) -- sls
-
+    - Hybrid Smoothed Local Sparsity (SLS-H) -- sls_h
+    - Smoothed Local Sparsity with Interpolation (SLS-I) -- sls_i
 
 
 
