@@ -37,8 +37,11 @@ def _get_method_entry(key):
 def _get_method_function(key):
     return _get_method_entry(key)["function"]
 
-def _get_method_citations(method):
-    return _get_method_entry(method).get("citations", [])
+def _get_method_citations(key):
+    return _get_method_entry(key).get("citations", [])
 
-def _get_method_parameters(method):
-    return _get_method_entry(method).get("parameters", None)
+def _get_method_parameters(key):
+    return _get_method_entry(key).get("parameters", None)
+
+def _request_tfrs_info(key):
+    return _get_method_entry(key).get("request_tfrs_info", False)

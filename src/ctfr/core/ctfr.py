@@ -6,7 +6,8 @@ from ctfr.utils.private import (
     _normalize_specs_tensor, 
     _get_specs_tensor_energy_array, 
     _round_to_power_of_two, 
-    _get_method_function
+    _get_method_function,
+    _request_tfrs_info
 )
 from typing import List, Optional, Any, Iterable
 
@@ -161,8 +162,11 @@ def ctfr_from_specs(
 
     if normalize_input: 
         _normalize_specs_tensor(specs_tensor, input_energy)
-
-    comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
+    
+    if _request_tfrs_info(method):
+        comb_spec = _get_method_function(method)(specs_tensor, _info = None, **kwargs)
+    else:
+        comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
 
     if normalize_output:
         _normalize_spec(comb_spec, input_energy)
@@ -195,7 +199,17 @@ def _ctfr_stfts(
     )
     input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
     _normalize_specs_tensor(specs_tensor, input_energy)
-    comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
+
+    if _request_tfrs_info(method):
+        info = {
+            "representation_type": "stft",
+            "win_lengths": win_lengths,
+            "hop_length": hop_length,
+            "n_fft": n_fft
+        }
+        comb_spec = _get_method_function(method)(specs_tensor, _info = info, **kwargs)
+    else:
+        comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
     _normalize_spec(comb_spec, input_energy)
     return comb_spec
 
@@ -224,7 +238,19 @@ def _ctfr_cqts(
     )
     input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
     _normalize_specs_tensor(specs_tensor, input_energy)
-    comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
+
+    if _request_tfrs_info(method):
+        info = {
+            "representation_type": "cqt",
+            "filter_scales": filter_scales,
+            "bins_per_octave": bins_per_octave,
+            "fmin": fmin,
+            "n_bins": n_bins,
+            "hop_length": hop_length
+        }
+        comb_spec = _get_method_function(method)(specs_tensor, _info = info, **kwargs)
+    else:
+        comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
     _normalize_spec(comb_spec, input_energy)
     return comb_spec
 
