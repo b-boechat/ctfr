@@ -31,7 +31,7 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
         Py_ssize_t time_width_energy_lobe = (time_width_energy-1)//2
         Py_ssize_t p, m, k, i, j
 
-        double epsilon = 1e-15
+        double epsilon = 1e-10
         Py_ssize_t combined_size_sparsity = time_width_sparsity * freq_width_sparsity
     
     X_orig_ndarray = np.asarray(X_orig)
@@ -83,7 +83,7 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     ############ Calculate local energy and maximum local energy along dimension p {{{ 
 
     for p in range(P):
-        energy_ndarray[p] = correlate(X_orig_ndarray[p], hamming_energy, mode='same')/np.sum(hamming_energy, axis=None)
+        energy_ndarray[p] = np.clip(correlate(X_orig_ndarray[p], hamming_energy, mode='same')/np.sum(hamming_energy, axis=None), a_min=epsilon, a_max=None)
 
     max_local_energy_ndarray = np.max(energy_ndarray, axis=0)
 
