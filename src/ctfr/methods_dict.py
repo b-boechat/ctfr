@@ -146,6 +146,10 @@ _methods_dict = {
                 "type_and_info": r"float >= 0",
                 "description": r"Factor used in the computation of combination weights. Defaults to 0.3."
             },
+            "interp_steps": {
+                "type_and_info": r"ndarray of int, shape P x 2",
+                "description": r"Interpolation steps to use when computing the local sparsity. interp_steps[p, i] refers to the interpolation step of axis i (frequency is 0, time is 1) for spectrogram p. When calling :func:`ctfr.ctfr` (or :func:`ctfr.methods.sls_i`), ``interp_steps[p]`` defaults to ``[n_fft // l, l // (2 * hop_length)]``. When calling :func:`ctfr.ctfr_from_specs` (or :func:`ctfr.methods.sls_i_from_specs`), this argument must the provided by the user."
+            }
         }
     }
 }
