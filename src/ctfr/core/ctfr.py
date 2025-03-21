@@ -163,10 +163,7 @@ def ctfr_from_specs(
     if normalize_input: 
         _normalize_specs_tensor(specs_tensor, input_energy)
     
-    if _request_tfrs_info(method):
-        comb_spec = _get_method_function(method)(specs_tensor, _info = None, **kwargs)
-    else:
-        comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
+    comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
 
     if normalize_output:
         _normalize_spec(comb_spec, input_energy)

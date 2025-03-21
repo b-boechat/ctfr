@@ -7,13 +7,14 @@ from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positi
 from ctfr.exception import InvalidArgumentError, ArgumentRequiredError
 
 def _sls_i_wrapper(
-        X, _info, 
-        freq_width_energy=11, 
-        freq_width_sparsity=21, 
-        time_width_energy=11, 
-        time_width_sparsity=11, 
+        X, 
+        freq_width_energy = 11, 
+        freq_width_sparsity = 21, 
+        time_width_energy = 11, 
+        time_width_sparsity = 11, 
         beta = 80,
-        interp_steps = None
+        interp_steps = None,
+        _info = None
 ):
 
     freq_width_energy = _enforce_odd_positive_integer(freq_width_energy, "freq_width_energy", 11)
@@ -48,11 +49,6 @@ def _get_interp_steps(num_specs, _info, user_interp_steps):
             raise ArgumentRequiredError("When performing SLS-I with CQT spectrograms, specifying 'interp_steps' is required. Note that SLS-I is not recommended for combining CQT spectrograms and you should probably use another combination method.")
             
     raise ArgumentRequiredError("When calling SLS-I directly from spectrograms, specifying 'interp_steps' is required.")
-
-
-            
-
-
 
 @cython.boundscheck(False)
 @cython.wraparound(False) 

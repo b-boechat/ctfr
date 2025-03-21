@@ -29,7 +29,7 @@ Then, implement the combination algorithm in a function called ``_max``. We'll c
    import numpy as np
 
    def _max(X):
-      return np.max(X, axis=0)
+      return np.max(X, axis = 0)
 
 Now, we need to install this function to the methods dictionary. Open ``src/ctfr/methods_dict.py``. First, add a line to import your function::
 
@@ -75,13 +75,13 @@ If you add parameters to your method, it is good practice to create a `wrapper` 
    # content of max.py
    import numpy as np
 
-   def _max_wrapper(X, offset=0.0):
+   def _max_wrapper(X, offset = 0.0):
       if offset < 0.0:
          raise ValueError("'offset' argument must be a positive number.")
       return _max(X, offset)
 
    def _max(X, offset):
-      return np.max(X + offset, axis=0)
+      return np.max(X + offset, axis = 0)
 
 Then, we must change all ``_max`` references to ``_max_wrapper`` in ``methods_dict.py``.
 
@@ -130,12 +130,12 @@ The ``parameters`` field should contain a dictionary, which should be empty if t
 Request TFRs info field
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Typically, the combination method receives only receives its parameters the TFRs tensor as input. However, when calling :func:`ctfr.ctfr` (or its `ctfr.methods` equivalent), methods can also receive additional data about the TFRs. This is done by setting the ``request_tfrs_info`` field to ``True`` (it's assumed to be ``False`` otherwise) and adding an argument named ``_info`` to the wrapper function, such as follows:
+Typically, the combination method receives only receives its parameters the TFRs tensor as input. However, when calling :func:`ctfr.ctfr` (or its `ctfr.methods` equivalent), methods can also receive additional data about the TFRs. This is done by setting the ``request_tfrs_info`` field to ``True`` (it's assumed to be ``False`` otherwise) and adding an argument named ``_info`` to the wrapper function, with default value ``None``, such as follows:
 
 .. code-block:: diff
 
-   - def _max_wrapper(X, offset=0.0):
-   + def _max_wrapper(X, _info, offset=0.0):
+   - def _max_wrapper(X, offset = 0.0):
+   + def _max_wrapper(X, offset = 0.0, _info = None):
 
 The ``_info`` argument will be passed internally as a dictionary containing the key ``r_type`` with the value ``"stft"`` or ``"cqt"`` depending on the type of TFRs provided, and additional keys depending on the TFRs type. For ``_info["r_type"] == "stft"``, the keys ``"win_lengths"``, ``"hop_length"``, and ``"n_fft"`` will be present. For ``_info["r_type"] == "cqt"``, the keys ``"filter_scales"``, ``"bins_per_octave"``, ``"fmin"``, ``"n_bins"``, and ``"hop_length"`` will be present. These keys are compatible with their respective arguments in :func:`ctfr.ctfr`.
 

@@ -4,7 +4,14 @@ cimport cython
 from libc.math cimport INFINITY, exp
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
 
-def _sls_h_wrapper(X, freq_width_energy=11, freq_width_sparsity=21, time_width_energy=11, time_width_sparsity=11, beta = 80, double energy_criterium_db=-40):
+def _sls_h_wrapper(X, 
+        freq_width_energy = 11, 
+        freq_width_sparsity = 21, 
+        time_width_energy = 11, 
+        time_width_sparsity = 11, 
+        beta = 80, 
+        double energy_criterium_db = -40
+    ):
 
     freq_width_energy = _enforce_odd_positive_integer(freq_width_energy, "freq_width_energy", 11)
     freq_width_sparsity = _enforce_odd_positive_integer(freq_width_sparsity, "freq_width_sparsity", 21)
