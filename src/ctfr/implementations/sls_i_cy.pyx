@@ -23,7 +23,6 @@ def _sls_i_wrapper(
     beta = _enforce_nonnegative(beta, "beta", 80.0)
 
     interp_steps = _get_interp_steps(X.shape[0], _info, interp_steps)
-    print(interp_steps)
 
     return _sls_i_cy(X, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, interp_steps)
 
