@@ -2,10 +2,11 @@ import ctfr
 import sys
 import numpy as np
 from scipy.signal import correlate
+from itertools import chain
 
 def load_test_signal():
 
-    signal, _ = ctfr.load("running_time/audio/guitarset_sample.wav", sr=22050, offset=5.0, duration=4.0)
+    signal, _ = ctfr.load("evaluating/audio/guitarset_sample.wav", sr=22050, offset=5.0, duration=4.0)
 
     n_fft = 2048
     hop_length = 256
@@ -16,7 +17,9 @@ def load_test_signal():
 
     print(f"Specs shape: {spec_1.shape}, {spec_2.shape}, {spec_3.shape}")
 
-    return {"specs": (spec_1, spec_2, spec_3), "duration": 4.0}
+    specs_tensor = np.ascontiguousarray(np.stack((spec_1, spec_2, spec_3), axis=0)).astype(np.double)
+
+    return {"specs": specs_tensor, "duration": 4.0}
 
 def time_method(specs, method, num_iter=5, **kwargs):
     total_time = 0.0
@@ -39,8 +42,6 @@ def compute_max_local_energy(specs, freq_width=11, time_width=11):
         np.clip(correlate(spec, energy_window, mode='same')/np.sum(energy_window, axis=None), a_min=epsilon, a_max=None) for spec in specs
     ], dtype=np.double)
 
-    print("shape", local_energy.shape)
-
     return np.max(local_energy, axis=0)
 
 
@@ -48,6 +49,15 @@ def criterium_share(max_local_energy, energy_criterium_db):
     energy_criterium = 10.0 ** (energy_criterium_db/10.0)
     
     return np.sum(max_local_energy >= energy_criterium)/max_local_energy.size
+
+def non_interp_share(specs_shape, interp_steps):
+    P, K, M = specs_shape
+    total_non_interp = 0
+    for p in range(P):
+        k_len = len(list(chain(range(0, K, interp_steps[p, 0]), range( (K - 1) // interp_steps[p, 0] * interp_steps[p, 0] + 1, K))))
+        m_len = len(list(chain(range(0, M, interp_steps[p, 1]), range( (M - 1) // interp_steps[p, 1] * interp_steps[p, 1] + 1, M))))
+        total_non_interp += k_len * m_len
+    return total_non_interp / (P * K * M)
 
 
 def time_all_pipeline(num_iter):
@@ -84,11 +94,19 @@ def time_all_pipeline(num_iter):
     max_local_energy = compute_max_local_energy(specs)
 
     cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-60)
-    print(f"Hybrid (-60): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*criterium_share(max_local_energy, -60):.2f}% SLS")
+    print(f"SLS-H (-60): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*criterium_share(max_local_energy, -60):.2f}% SLS")
     cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-40)
-    print(f"Hybrid (-40): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*criterium_share(max_local_energy, -40):.2f}% SLS")
+    print(f"SLS-H (-40): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*criterium_share(max_local_energy, -40):.2f}% SLS")
     cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-20)
-    print(f"Hybrid (-20): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*criterium_share(max_local_energy, -20):.2f}% SLS")
+    print(f"SLS-H (-20): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*criterium_share(max_local_energy, -20):.2f}% SLS")
+
+    interp_steps_default = np.array([[4, 1], [2, 2], [1, 4]])
+    interp_steps_double = np.array([[8, 2], [4, 4], [2, 8]])
+    cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_i', num_iter=num_iter, interp_steps=interp_steps_default)
+    print(f"SLS-I (default): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*non_interp_share(specs.shape, interp_steps_default):.2f}% SLS")
+    cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_i', num_iter=num_iter, interp_steps=interp_steps_double)
+    print(f"SLS-I (doubled): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*non_interp_share(specs.shape, interp_steps_double):.2f}% SLS")
+
 
 
 if __name__ == "__main__":
