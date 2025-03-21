@@ -33,7 +33,7 @@ _methods_dict = {
     "swgm": {
         "name": "Sample-weighted geometric mean (SWGM)",
         "function": _swgm_wrapper,
-        "citations": ['M. d. V. M. da Costa and L. W. P. Biscainho, “Combining time-frequency representations for music information retrieval,” in 15th AES-Brasil Engineering Congress. Florianópolis, Brazil: Audio Engineering Society, Oct. 2017, pp. 12–18.'],
+        "citations": ['M. do V. M. da Costa and L. W. P. Biscainho, “Combining time-frequency representations for music information retrieval,” in 15th AES-Brasil Engineering Congress. Florianópolis, Brazil: Audio Engineering Society, Oct. 2017, pp. 12–18.'],
         "parameters": {
             "beta": {
                 "type_and_info": r"float, range: [0, 1]",
@@ -48,7 +48,7 @@ _methods_dict = {
     "fls": {
         "name": "Fast local sparsity (FLS)",
         "function": _fls_wrapper,
-        "citations": ['M. d. V. M. da Costa and L. W. P. Biscainho, “The fast local sparsity method: A low-cost combination of time-frequency representations based on the hoyer sparsity,” Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, Sep. 2022.'],
+        "citations": ['M. do V. M. da Costa and L. W. P. Biscainho, “The fast local sparsity method: A low-cost combination of time-frequency representations based on the hoyer sparsity,” Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, Sep. 2022.'],
         "parameters": {
             "freq_width": {
                 "type_and_info": r"int > 0, odd",
@@ -87,8 +87,8 @@ _methods_dict = {
         "name": "Hybrid smoothed local sparsity (SLS-H)",
         "function": _sls_h_wrapper,
         "citations": [
-            'M. d. V. M. da Costa and L. W. P. Biscainho, “Combining time-frequency representations via local sparsity criterion,” in 2nd AES Latin American Congress of Audio Engineering, Montevideo, Uruguay, Sep. 2018, pp. 78–85.',
-            'M. d. V. M. da Costa, I. Apolinário, and L. W. P. Biscainho, “Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms,” Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, Nov. 2019.'
+            'M. do V. M. da Costa and L. W. P. Biscainho, “Combining time-frequency representations via local sparsity criterion,” in 2nd AES Latin American Congress of Audio Engineering, Montevideo, Uruguay, Sep. 2018, pp. 78–85.',
+            'M. do V. M. da Costa, I. Apolinário, and L. W. P. Biscainho, “Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms,” Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, Nov. 2019.'
         ],
         "parameters": {
             "freq_width_energy": {
@@ -122,8 +122,8 @@ _methods_dict = {
         "function": _sls_i_wrapper,
         "request_tfrs_info": True,
         "citations": [
-            'M. d. V. M. da Costa and L. W. P. Biscainho, “Combining time-frequency representations via local sparsity criterion,” in 2nd AES Latin American Congress of Audio Engineering, Montevideo, Uruguay, Sep. 2018, pp. 78–85.',
-            'M. d. V. M. da Costa, I. Apolinário, and L. W. P. Biscainho, “Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms,” Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, Nov. 2019.'
+            'M. do V. M. da Costa and L. W. P. Biscainho, “Combining time-frequency representations via local sparsity criterion,” in 2nd AES Latin American Congress of Audio Engineering, Montevideo, Uruguay, Sep. 2018, pp. 78–85.',
+            'M. do V. M. da Costa, I. Apolinário, and L. W. P. Biscainho, “Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms,” Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, Nov. 2019.'
         ],
         "parameters": {
             "freq_width_energy": {

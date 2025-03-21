@@ -13,8 +13,8 @@ sys.path.append(os.path.relpath("./conf_extras"))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'ctfr'
-copyright = '2024, Bernardo Boechat, Maurício Costa, Luiz Wagner Biscainho'
-author = 'Bernardo Boechat, Maurício Costa, Luiz Wagner Biscainho'
+copyright = '2024, Bernardo A. Boechat, Maurício do V. M. da Costa, Luiz W. P. Biscainho'
+author = 'Bernardo A. Boechat, Maurício do V. M. da Costa, Luiz W. P. Biscainho'
 from ctfr import __version__
 version = __version__
 
