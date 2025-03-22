@@ -142,6 +142,8 @@ def ctfr_from_specs(
     -------
     np.ndarray [shape=(K, M)]
         matrix of dimensions ``K * M`` containing a squared-magnitude CTFR of the input signal, where ``K`` is the number of frequency bins and ``M`` is the number of time frames.
+    float
+        time taken to compute the CTFR in seconds.
 
     Raises
     ------
@@ -164,7 +166,7 @@ def ctfr_from_specs(
     if normalize_input: 
         _normalize_specs_tensor(specs_tensor, input_energy)
     
-    time_i = perf_counter()
+    time_i = perf_counter() # Start timer.
 
     comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
 
