@@ -5,9 +5,9 @@ from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_nonnegativ
 
 def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 8.0):
     
-    freq_width = _enforce_odd_positive_integer(freq_width, 'freq_width', 21)
-    time_width = _enforce_odd_positive_integer(time_width, 'time_width', 11)
-    eta = _enforce_nonnegative(eta, 'eta', 8.0)
+    freq_width = _enforce_odd_positive_integer(freq_width, "freq_width", 21)
+    time_width = _enforce_odd_positive_integer(time_width, "time_width", 11)
+    eta = _enforce_nonnegative(eta, "eta", 8.0)
 
     return _lt_cy(X, freq_width, time_width, eta)
 

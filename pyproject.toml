@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ctfr"
-dynamic = ['version', 'authors']
+dynamic = ["version", "authors"]
 #authors = [
 #  { name="Bernardo Boechat", email="bernardoant@poli.ufrj.br" },
 #  { name="Luiz Wagner Pereira Biscainho", email="cpneqs@gmail.com" },

@@ -6,9 +6,9 @@ cimport cython
 
 def _fls_wrapper(X, freq_width = 21, time_width = 11, gamma = 20.0):
 
-    freq_width = _enforce_odd_positive_integer(freq_width, 'freq_width', 21)
-    time_width = _enforce_odd_positive_integer(time_width, 'time_width', 11)
-    gamma = _enforce_nonnegative(gamma, 'gamma', 20.0)
+    freq_width = _enforce_odd_positive_integer(freq_width, "freq_width", 21)
+    time_width = _enforce_odd_positive_integer(time_width, "time_width", 11)
+    gamma = _enforce_nonnegative(gamma, "gamma", 20.0)
 
     return _fls_cy(X, freq_width, time_width, gamma)
 
@@ -52,8 +52,8 @@ cdef _fls_cy(double[:,:,::1] X, Py_ssize_t freq_width, Py_ssize_t time_width, do
     for p in range(P):
         # Calculate L1 and L2 local energy matrixes and element-wise square root of the L1 matrix.
         # Clipping is used because scipy correlate can return negative values for matrixes with very small positive elements.
-        local_energy_l1_ndarray = np.clip(correlate(X_ndarray[p], hamming_window, mode='same'), a_min=epsilon, a_max=None)
-        local_energy_l2_ndarray = np.sqrt(np.clip(correlate(X_ndarray[p] * X_ndarray[p], hamming_window * hamming_window, mode='same'), a_min=epsilon, a_max=None))
+        local_energy_l1_ndarray = np.clip(correlate(X_ndarray[p], hamming_window, mode="same"), a_min=epsilon, a_max=None)
+        local_energy_l2_ndarray = np.sqrt(np.clip(correlate(X_ndarray[p] * X_ndarray[p], hamming_window * hamming_window, mode="same"), a_min=epsilon, a_max=None))
         local_energy_l1_sqrt_ndarray = np.sqrt(local_energy_l1_ndarray)
 
         # Point Cython memview to the calculated matrixes.

@@ -90,7 +90,7 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
     ############ Calculate local energy and maximum local energy along dimension p {{{ 
 
     for p in range(P):
-        energy_ndarray[p] = np.clip(correlate(X_orig_ndarray[p], hamming_energy, mode='same')/np.sum(hamming_energy, axis=None), a_min=epsilon, a_max=None)
+        energy_ndarray[p] = np.clip(correlate(X_orig_ndarray[p], hamming_energy, mode="same")/np.sum(hamming_energy, axis=None), a_min=epsilon, a_max=None)
 
     max_local_energy_ndarray = np.max(energy_ndarray, axis=0)
 

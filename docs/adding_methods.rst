@@ -149,7 +149,7 @@ Here is an example of a complete entry in ``_methods_dict``::
    "fls": {
          "name": "Fast local sparsity (FLS)",
          "function": _fls_wrapper,
-         "citations": ['M. d. V. M. da Costa and L. W. P. Biscainho, “The fast local sparsity method: A low-cost combination of time-frequency representations based on the hoyer sparsity,” Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, Sep. 2022.'],
+         "citations": ["M. d. V. M. da Costa and L. W. P. Biscainho, “The fast local sparsity method: A low-cost combination of time-frequency representations based on the hoyer sparsity,” Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, Sep. 2022."],
          "parameters": {
                "freq_width": {
                   "type_and_info": r"int > 0, odd",

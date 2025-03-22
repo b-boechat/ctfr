@@ -27,7 +27,7 @@ def stft(signal, *, n_fft=2048, hop_length=None, win_length=None, window="hann",
     """
     return librosa.stft(signal, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=center, dtype=dtype, pad_mode=pad_mode, out=out)
 
-def cqt(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=84, bins_per_octave=12, tuning=0.0, filter_scale=1, norm=1, sparsity=0.01, window='hann', scale=True, pad_mode='constant', res_type='soxr_hq', dtype=None):
+def cqt(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=84, bins_per_octave=12, tuning=0.0, filter_scale=1, norm=1, sparsity=0.01, window="hann", scale=True, pad_mode="constant", res_type="soxr_hq", dtype=None):
     """Computes the constant-Q transform (CQT) of a signal.
 
     This function is a wrapper for :external:func:`librosa.cqt`.
@@ -57,7 +57,7 @@ def stft_spec(signal, *, n_fft=2048, hop_length=None, win_length=None, window="h
     """
     return np.square(np.abs(stft(signal, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=center, dtype=stft_dtype, pad_mode=pad_mode, out=None), dtype=dtype))
 
-def cqt_spec(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=84, bins_per_octave=12, tuning=0.0, filter_scale=1, norm=1, sparsity=0.01, window='hann', scale=True, pad_mode='constant', res_type='soxr_hq', dtype=None, cqt_dtype=None):
+def cqt_spec(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=84, bins_per_octave=12, tuning=0.0, filter_scale=1, norm=1, sparsity=0.01, window="hann", scale=True, pad_mode="constant", res_type="soxr_hq", dtype=None, cqt_dtype=None):
     """Computes the squared magnitude of the constant-Q transform (CQT) of a signal.
 
     This function is equivalent to:
@@ -74,7 +74,7 @@ def cqt_spec(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=84, bins_per
     """
     return np.square(np.abs(cqt(signal, sr=sr, hop_length=hop_length, fmin=fmin, n_bins=n_bins, bins_per_octave=bins_per_octave, tuning=tuning, filter_scale=filter_scale, norm=norm, sparsity=sparsity, window=window, scale=scale, pad_mode=pad_mode, res_type=res_type, dtype=cqt_dtype), dtype=dtype))
 
-def specshow(data, *, x_coords=None, y_coords=None, x_axis=None, y_axis=None, sr=22050, hop_length=512, n_fft=None, win_length=None, fmin=None, fmax=None, tempo_min=16, tempo_max=480, tuning=0.0, bins_per_octave=12, key='C:maj', Sa=None, mela=None, thaat=None, auto_aspect=True, htk=False, unicode=True, intervals=None, unison=None, ax=None, **kwargs):
+def specshow(data, *, x_coords=None, y_coords=None, x_axis=None, y_axis=None, sr=22050, hop_length=512, n_fft=None, win_length=None, fmin=None, fmax=None, tempo_min=16, tempo_max=480, tuning=0.0, bins_per_octave=12, key="C:maj", Sa=None, mela=None, thaat=None, auto_aspect=True, htk=False, unicode=True, intervals=None, unison=None, ax=None, **kwargs):
     """Displays a spectrogram, chromagram or similar plot.
     
     This function is a wrapper for :external:func:`librosa.display.specshow`.
