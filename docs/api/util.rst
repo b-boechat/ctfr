@@ -25,3 +25,11 @@ Combination method utilities
 .. autofunction:: get_method_name
 .. autofunction:: cite_method
 .. autofunction:: show_method_params
+
+Sample fetching utilities
+--------------------------
+
+.. currentmodule:: ctfr
+
+.. autofunction:: list_samples
+.. autofunction:: fetch_sample

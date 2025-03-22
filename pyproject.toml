@@ -14,7 +14,7 @@ dynamic = ['version', 'authors']
 description = "Efficient toolbox for computing combined time-frequency representations of audio signals."
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = ["numpy", "librosa", "scipy"]
+dependencies = ["numpy", "librosa", "scipy", "pooch"]
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "License :: OSI Approved :: MIT License",

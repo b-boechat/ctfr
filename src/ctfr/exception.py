@@ -11,6 +11,9 @@ class InvalidCombinationMethodError(Exception_):
 class InvalidSpecError(Exception_):
     pass
 
+class InvalidSampleError(Exception_):
+    pass
+
 class CitationNotImplementedError(Exception_):
     pass
 

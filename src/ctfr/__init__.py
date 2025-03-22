@@ -3,6 +3,7 @@ __version__ = "0.1.0.dev2"
 from warnings import warn as _warn
 from .utils.audio import load, stft, cqt, stft_spec, cqt_spec, specshow, power_to_db
 from .utils.methods import show_methods, show_method_params, cite_method, get_methods_list, get_method_name
+from .utils.data import list_samples, fetch_sample
 from .core.ctfr import ctfr, ctfr_from_specs
 from .meta import cite, show_version
 from .warning import FunctionNotBuiltWarning
