@@ -69,8 +69,8 @@ audio data and plot it.
 .. code-block:: Python
 
 
-    # Load and print the audio signal.
-    signal, sr = ctfr.load("audio/synthetic.wav")
+    # Load the audio signal.
+    signal, sr = ctfr.load(ctfr.fetch_sample("synthetic")) # For a local file, use ctfr.load("path/to/file")
     print(f"Sample rate: {sr} Hz")
     plt.plot(signal);
 
@@ -90,7 +90,7 @@ audio data and plot it.
 
     Sample rate: 22050 Hz
 
-    [<matplotlib.lines.Line2D object at 0x74e24baec7d0>]
+    [<matplotlib.lines.Line2D object at 0x7458121289d0>]
 
 
 
@@ -140,7 +140,7 @@ length of :math:`512` samples, and a FFT size of :math:`2048` samples.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x74e24b87fa90>
+    <matplotlib.colorbar.Colorbar object at 0x7458122dcf90>
 
 
 
@@ -183,7 +183,7 @@ Now, let’s increase the window length to :math:`L = 1024` samples (~
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x74e249767790>
+    <matplotlib.colorbar.Colorbar object at 0x745811d82950>
 
 
 
@@ -225,7 +225,7 @@ resulting spectrogram.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x74e2493d3cd0>
+    <matplotlib.colorbar.Colorbar object at 0x7458119341d0>
 
 
 
@@ -323,15 +323,16 @@ methods:
  .. code-block:: none
 
     Available combination methods:
-    - Binwise Mean -- mean
-    - Binwise Median -- median
-    - Binwise Minimum -- min
-    - Binwise Geometric Mean -- gmean
-    - Sample Weighted Geometric Mean (SWGM) -- swgm
-    - Fast Local Sparsity (FLS) -- fls
+    - Binwise mean -- mean
+    - Binwise harmonic mean -- hmean
+    - Binwise geometric mean -- gmean
+    - Binwise minimum -- min
+    - Sample-weighted geometric mean (SWGM) -- swgm
+    - Fast local sparsity (FLS) -- fls
     - Lukin-Todd (LT) -- lt
-    - Hybrid Smoothed Local Sparsity (SLS-H) -- sls_h
-    - Smoothed Local Sparsity with Interpolation (SLS-I) -- sls_i
+    - Hybrid smoothed local sparsity (SLS-H) -- sls_h
+    - Smoothed local sparsity with interpolation (SLS-I) -- sls_i
+
 
 
 
@@ -370,7 +371,7 @@ compute the combined TFR and plot it.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x74e248f9ae10>
+    <matplotlib.colorbar.Colorbar object at 0x7458119fe150>
 
 
 
@@ -439,7 +440,7 @@ Let’s do this for our signal, using the same parameters as before.
  .. code-block:: none
 
 
-    <matplotlib.colorbar.Colorbar object at 0x74e248b684d0>
+    <matplotlib.colorbar.Colorbar object at 0x74581157c1d0>
 
 
 
@@ -478,7 +479,7 @@ same:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.390 seconds)
+   **Total running time of the script:** (0 minutes 0.775 seconds)
 
 
 .. _sphx_glr_download_getting_started_examples_gallery_basic_usage.py:

@@ -31,6 +31,22 @@
    "name": "ctfr_from_specs"
   }
  ],
+ "ctfr.fetch_sample": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "ctfr",
+   "module_short": "ctfr",
+   "name": "fetch_sample"
+  }
+ ],
  "ctfr.load": [
   {
    "is_class": false,

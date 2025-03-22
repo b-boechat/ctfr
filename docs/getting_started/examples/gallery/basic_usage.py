@@ -34,8 +34,8 @@ import matplotlib.pyplot as plt
 # audio data and plot it.
 # 
 
-# Load and print the audio signal.
-signal, sr = ctfr.load("audio/synthetic.wav")
+# Load the audio signal.
+signal, sr = ctfr.load(ctfr.fetch_sample("synthetic")) # For a local file, use ctfr.load("path/to/file")
 print(f"Sample rate: {sr} Hz")
 plt.plot(signal);
 
