@@ -22,14 +22,16 @@ _GOODBOY = pooch.create(
 )
 
 def list_samples():
-    """List the available sample files included in this package.
+    """List the available sample files included in this package, along with their brief descriptions.
 
     See Also
     --------
     fetch_sample
     """
+    print("Available samples:")
+    print("-----------------------------------------------------------------------------")
     for key in _SAMPLES:
-        print(f"{key}: {_SAMPLES[key]['description']}")
+        print(f"{key:20}\t{_SAMPLES[key]['description']}")
 
 
 def fetch_sample(sample_key):
