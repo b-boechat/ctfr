@@ -1,4 +1,5 @@
 from ctfr import __version__
+from ctfr.exception import InvalidSampleError
 import pooch
 
 _SAMPLES = {
@@ -47,8 +48,16 @@ def fetch_sample(sample_key):
     str
         The path to the fetched sample dataset.
 
+    Raises
+    ------
+    ctfr.exception.InvalidSampleError
+        If the sample key does not match any sample file included in this package.
+
     See Also
     --------
     list_samples
     """
-    return _GOODBOY.fetch(_SAMPLES[sample_key]["filename"])
+    try:
+        return _GOODBOY.fetch(_SAMPLES[sample_key]["filename"])
+    except KeyError:
+        raise InvalidSampleError(f"Invalid sample key: {sample_key}. Use ctfr.list_samples() to list available keys.")
