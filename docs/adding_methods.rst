@@ -146,22 +146,22 @@ Example
 
 Here is an example of a complete entry in ``_methods_dict``::
 
-   "fls": {
-         "name": "Fast local sparsity (FLS)",
-         "function": _fls_wrapper,
-         "citations": ["M. d. V. M. da Costa and L. W. P. Biscainho, “The fast local sparsity method: A low-cost combination of time-frequency representations based on the hoyer sparsity,” Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, Sep. 2022."],
-         "parameters": {
-               "freq_width": {
-                  "type_and_info": r"int > 0, odd",
-                  "description": r"Width in frequency bins of the analysis window used in the local sparsity computation. Defaults to 21."
-               },
-               "time_width": {
-                  "type_and_info": r"int > 0, odd",
-                  "description": r"Width in time frames of the analysis window used in the local sparsity computation. Defaults to 11."
-               },
-               "gamma": {
-                  "type_and_info": r"float >= 0",
-                  "description": r"Factor used in the computation of combination weights. Defaults to 20."
-               }
-         }
-      },
+    "fls": {
+        "name": "Fast local sparsity (FLS)",
+        "function": _fls_wrapper,
+        "citations": ['M. do V. M. da Costa and L. W. P. Biscainho, “The fast local sparsity method: A low-cost combination of time-frequency representations based on the hoyer sparsity,” Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, Sep. 2022.'],
+        "parameters": {
+            "lk": {
+                "type_and_info": r"int > 0, odd",
+                "description": r"Width in frequency bins of the analysis window used in the local sparsity computation. Defaults to 21."
+            },
+            "lm": {
+                "type_and_info": r"int > 0, odd",
+                "description": r"Width in time frames of the analysis window used in the local sparsity computation. Defaults to 11."
+            },
+            "gamma": {
+                "type_and_info": r"float >= 0",
+                "description": r"Factor used in the computation of combination weights. Defaults to 20."
+            }
+        }
+    },
