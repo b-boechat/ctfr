@@ -54,11 +54,11 @@ _methods_dict = {
         "function": _fls_wrapper,
         "citations": ['M. do V. M. da Costa and L. W. P. Biscainho, “The fast local sparsity method: A low-cost combination of time-frequency representations based on the hoyer sparsity,” Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, Sep. 2022.'],
         "parameters": {
-            "freq_width": {
+            "lk": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in frequency bins of the analysis window used in the local sparsity computation. Defaults to 21."
             },
-            "time_width": {
+            "lm": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in time frames of the analysis window used in the local sparsity computation. Defaults to 11."
             },
@@ -73,11 +73,11 @@ _methods_dict = {
         "function": _lt_wrapper,
         "citations": ['A. Lukin and J. G. Todd, “Adaptive time-frequency resolution for analysis and processing of audio,” in 120th Audio Engineering Society Convention. Paris, France: Audio Engineering Society, May 2006.'],
         "parameters": {
-            "freq_width": {
+            "lk": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in frequency bins of the analysis window used in the local energy smearing computation. Defaults to 21."
             },
-            "time_width": {
+            "lm": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in time frames of the analysis window used in the local energy smearing computation. Defaults to 11."
             },
@@ -95,19 +95,19 @@ _methods_dict = {
             'M. do V. M. da Costa, I. Apolinário, and L. W. P. Biscainho, “Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms,” Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, Nov. 2019.'
         ],
         "parameters": {
-            "freq_width_energy": {
+            "lek": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in frequency bins of the analysis window used in the local energy computation. Defaults to 21."
             },
-            "freq_width_sparsity": {
+            "lsk": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in frequency bins of the analysis window used in the local sparsity computation. Defaults to 21."
             },
-            "time_width_energy": {
+            "lem": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in time frames of the analysis window used in the local energy computation. Defaults to 11."
             },
-            "time_width_sparsity": {
+            "lsm": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in time frames of the analysis window used in the local sparsity computation. Defaults to 11."
             },
@@ -130,19 +130,19 @@ _methods_dict = {
             'M. do V. M. da Costa, I. Apolinário, and L. W. P. Biscainho, “Sparse time-frequency representations for polyphonic audio based on combined efficient fan-chirp transforms,” Journal of the Audio Engineering Society, vol. 67, no. 11, pp. 894–905, Nov. 2019.'
         ],
         "parameters": {
-            "freq_width_energy": {
+            "lek": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in frequency bins of the analysis window used in the local energy computation. Defaults to 21."
             },
-            "freq_width_sparsity": {
+            "lsk": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in frequency bins of the analysis window used in the local sparsity computation. Defaults to 21."
             },
-            "time_width_energy": {
+            "lem": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in time frames of the analysis window used in the local energy computation. Defaults to 11."
             },
-            "time_width_sparsity": {
+            "lsm": {
                 "type_and_info": r"int > 0, odd",
                 "description": r"Width in time frames of the analysis window used in the local sparsity computation. Defaults to 11."
             },

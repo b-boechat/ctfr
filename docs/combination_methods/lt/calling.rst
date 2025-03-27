@@ -1,10 +1,10 @@
 Calling signature
 -----------------
 
-.. function:: ctfr.methods.lt(signal, sr, *, <shared parameters>, freq_width, time_width, eta)
+.. function:: ctfr.methods.lt(signal, sr, *, <shared parameters>, lk, lm, eta)
    :noindex:
 
-.. function:: ctfr.methods.lt_from_specs(specs, *, <shared parameters>, freq_width, time_width, eta)
+.. function:: ctfr.methods.lt_from_specs(specs, *, <shared parameters>, lk, lm, eta)
    :noindex:
 
 .. note::
@@ -15,11 +15,11 @@ See :func:`ctfr.ctfr` and :func:`ctfr.ctfr_from_specs` for more details on the s
 Parameters
 ~~~~~~~~~~
 
-**freq_width** (`int > 0, odd, optional`)
+**lk** (`int > 0, odd, optional`)
 
    Width in frequency bins of the analysis window used in the local energy smearing computation. Defaults to 21.
 
-**time_width** (`int > 0, odd, optional`)
+**lm** (`int > 0, odd, optional`)
 
    Width in time frames of the analysis window used in the local energy smearing computation. Defaults to 11.
 
