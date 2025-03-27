@@ -1,17 +1,14 @@
 Calling signature
 -----------------
 
-.. function:: ctfr.ctfr(signal, sr, method="swgm", *, <shared parameters>, beta, max_gamma)
-   :noindex:
-
-.. function:: ctfr.ctfr_from_specs(specs, method="swgm", *, <shared parameters>, beta, max_gamma)
-   :noindex:
-
 .. function:: ctfr.methods.swgm(signal, sr, *, <shared parameters>, beta, max_gamma)
    :noindex:
 
 .. function:: ctfr.methods.swgm_from_specs(specs, *, <shared parameters>, beta, max_gamma)
    :noindex:
+
+.. note::
+   As with all combination methods, you can also use :func:`ctfr.ctfr` or :func:`ctfr.ctfr_from_specs`.
 
 See :func:`ctfr.ctfr` and :func:`ctfr.ctfr_from_specs` for more details on the shared parameters for computing CTFRs with this package. The parameters specific to this method (passed as keyword arguments) are described below.
 

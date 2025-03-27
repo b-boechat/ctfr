@@ -23,3 +23,5 @@ Combination methods based on simple binwise operations are designed to be simple
      - Minimum
 
 .. include:: further_reading.rst
+
+.. include:: calling.rst
