@@ -162,3 +162,8 @@ _todo.txt
 docs/*.deb
 /_lab
 evaluating/*
+
+
+docs/sg_execution_times.rst
+docs/getting_started/examples/*.py
+docs/getting_started/examples/gallery/
