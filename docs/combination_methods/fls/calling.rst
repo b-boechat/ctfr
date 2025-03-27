@@ -1,17 +1,14 @@
 Calling signature
 -----------------
 
-.. function:: ctfr.ctfr(signal, sr, method="fls", *, <shared parameters>, freq_width, time_width, gamma)
-   :noindex:
-
-.. function:: ctfr.ctfr_from_specs(specs, method="fls", *, <shared parameters>, freq_width, time_width, gamma)
-   :noindex:
-
 .. function:: ctfr.methods.fls(signal, sr, *, <shared parameters>, freq_width, time_width, gamma)
    :noindex:
 
 .. function:: ctfr.methods.fls_from_specs(specs, *, <shared parameters>, freq_width, time_width, gamma)
    :noindex:
+
+.. note::
+   As with all combination methods, you can also use :func:`ctfr.ctfr` or :func:`ctfr.ctfr_from_specs`.
 
 See :func:`ctfr.ctfr` and :func:`ctfr.ctfr_from_specs` for more details on the shared parameters for computing CTFRs with this package. The parameters specific to this method (passed as keyword arguments) are described below.
 

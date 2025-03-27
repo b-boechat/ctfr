@@ -9,4 +9,5 @@ Combination methods
    binwise/index
    swgm/index
    lt/index
+   sls/index
    fls/index

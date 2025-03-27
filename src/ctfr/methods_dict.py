@@ -21,13 +21,17 @@ _methods_dict = {
     "gmean": {
         "name": "Binwise geometric mean",
         "function": _gmean_wrapper,
-        "citations": ['P. Loughlin, J. Pitton, and B. Hannaford, “Approximating time-frequency density functions via optimal combinations of spectrograms,” IEEE Signal Processing Letters, vol. 1, no. 12, pp. 199–202, Dec. 1994.'],
+        "citations": [
+            'C. Detka, P. Loughlin, and A. El-Jaroudi, “On combining evolutionary spectral estimates,” in IEEE Seventh SP Workshop on Statistical Signal and Array Processing, Jun. 1994, pp. 243–246.', 
+            'P. Loughlin, J. Pitton, and B. Hannaford, “Approximating time-frequency density functions via optimal combinations of spectrograms,” IEEE Signal Processing Letters, vol. 1, no. 12, pp. 199–202, Dec. 1994.'],
         "parameters": {}
     },
     "min": {
         "name": "Binwise minimum",
         "function": _min_wrapper,
-        "citations": ['P. Loughlin, J. Pitton, and B. Hannaford, “Approximating time-frequency density functions via optimal combinations of spectrograms,” IEEE Signal Processing Letters, vol. 1, no. 12, pp. 199–202, Dec. 1994.'],
+        "citations": [
+            'C. Detka, P. Loughlin, and A. El-Jaroudi, “On combining evolutionary spectral estimates,” in IEEE Seventh SP Workshop on Statistical Signal and Array Processing, Jun. 1994, pp. 243–246.', 
+            'P. Loughlin, J. Pitton, and B. Hannaford, “Approximating time-frequency density functions via optimal combinations of spectrograms,” IEEE Signal Processing Letters, vol. 1, no. 12, pp. 199–202, Dec. 1994.'],
         "parameters": {}
     },
     "swgm": {

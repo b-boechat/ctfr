@@ -2,6 +2,7 @@ import os
 from ctfr import _methods_dict
 
 class CombinationMethodsDoc:
+
     def __init__(
         self, 
         method_key, 
@@ -10,18 +11,18 @@ class CombinationMethodsDoc:
         combination_methods_doc_folder = "combination_methods",
         file_name = "calling.rst"
     ) -> None:
+
+        self.init_defaults(page_title, parameters_subtitle, combination_methods_doc_folder, file_name)
         self.method_key = method_key
         self.method_entry = _methods_dict[method_key]
-        method_parameters = self.method_entry.get("parameters", {})
-        self.parameter_names = list(method_parameters.keys())
+        self.parameter_names = list(self.method_entry.get("parameters", {}).keys())
+        self.output_path = os.path.join(self.combination_methods_doc_folder, self.method_key, self.file_name)
 
+    def init_defaults(self, page_title, parameters_subtitle, combination_methods_doc_folder, file_name):
         self.page_title = page_title
         self.parameters_subtitle = parameters_subtitle
         self.combination_methods_doc_folder = combination_methods_doc_folder
-        self.file_name = file_name 
-
-
-        self.output_path = os.path.join(self.combination_methods_doc_folder, self.method_key, self.file_name)
+        self.file_name = file_name
 
     def signature_end(self):
         if self.parameter_names:
@@ -42,20 +43,40 @@ class CombinationMethodsDoc:
         with open(self.output_path, "w") as f:
             f.write(self.page_title + "\n")
             f.write("-" * len(self.page_title) + "\n\n")
-            #f.write(".. currentmodule:: ctfr" + "\n\n")
-            f.write(f'.. function:: ctfr.ctfr(signal, sr, method="{self.method_key}", *, <shared parameters>')
-            f.write(self.signature_end() + "\n" + "   :noindex:" + "\n\n")
-            f.write(f'.. function:: ctfr.ctfr_from_specs(specs, method="{self.method_key}", *, <shared parameters>')
-            f.write(self.signature_end() + "\n" + "   :noindex:" + "\n\n")
             f.write(f'.. function:: ctfr.methods.{self.method_key}(signal, sr, *, <shared parameters>')
             f.write(self.signature_end() + "\n" + "   :noindex:" + "\n\n")
             f.write(f'.. function:: ctfr.methods.{self.method_key}_from_specs(specs, *, <shared parameters>')
             f.write(self.signature_end() + "\n" + "   :noindex:" + "\n\n")
-            f.write("See :func:`ctfr.ctfr` and :func:`ctfr.ctfr_from_specs` for more details on the shared parameters for computing CTFRs with this package. The parameters specific to this method (passed as keyword arguments) are described below." + "\n\n")
-            f.write(self.parameters_subtitle + "\n")
-            f.write("~" * len(self.parameters_subtitle) + "\n\n")
-            for parameter in self.parameter_names:
-                f.write(self.doc_parameter(parameter) + "\n\n")
+            f.write(f'.. note::' + "\n" + "   " + "As with all combination methods, you can also use :func:`ctfr.ctfr` or :func:`ctfr.ctfr_from_specs`." "\n\n")
+            f.write("See :func:`ctfr.ctfr` and :func:`ctfr.ctfr_from_specs` for more details on the shared parameters for computing CTFRs with this package.")
+            if self.parameter_names:
+                f.write(" The parameters specific to this method (passed as keyword arguments) are described below." + "\n\n")
+                f.write(self.parameters_subtitle + "\n")
+                f.write("~" * len(self.parameters_subtitle) + "\n\n")
+                for parameter in self.parameter_names:
+                    f.write(self.doc_parameter(parameter) + "\n\n")
+
+class CombinationMethodsWithVariantsDoc(CombinationMethodsDoc):
+    # TODO implement this class if more methods with variants are added.
+
+    def __init__(
+        self, 
+        method_keys, 
+        page_title="Calling signature", 
+        parameters_subtitle="Parameters", 
+        combination_methods_doc_folder="combination_methods", 
+        file_name="calling.rst"
+    ):
+        self.init_defaults(page_title, parameters_subtitle, combination_methods_doc_folder, file_name)
+
+        self.method_keys_iter = list(method_keys)
+        self.method_entries_map = {key: _methods_dict[key] for key in self.method_keys_iter}
+        self.parameter_names_map = {key: list(self.method_entries_map[key].get("parameters", {}).keys()) for key in self.method_keys_iter}
+        self.output_path = os.path.join(self.combination_methods_doc_folder, self.method_key, self.file_name)
+
+    def get_parameter_names_map(self):
+        pass
+        
 
 def combination_methods_doc_main():
 
