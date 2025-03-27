@@ -3,38 +3,38 @@ cimport cython
 from libc.math cimport INFINITY, sqrt, pow
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_nonnegative_integer, _enforce_odd_positive_integer
 
-def _lt_wrapper(X, freq_width = 21, time_width = 11, eta = 8.0):
+def _lt_wrapper(X, lk = 21, lm = 11, eta = 8.0):
     
-    freq_width = _enforce_odd_positive_integer(freq_width, "freq_width", 21)
-    time_width = _enforce_odd_positive_integer(time_width, "time_width", 11)
+    lk = _enforce_odd_positive_integer(lk, "lk", 21)
+    lm = _enforce_odd_positive_integer(lm, "lm", 11)
     eta = _enforce_nonnegative(eta, "eta", 8.0)
 
-    return _lt_cy(X, freq_width, time_width, eta)
+    return _lt_cy(X, lk, lm, eta)
 
 @cython.boundscheck(False)
 @cython.wraparound(False) 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width, double eta):
+cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t lk, Py_ssize_t lm, double eta):
 
     cdef:
         Py_ssize_t P = X_orig.shape[0] # Spectrograms axis.
         Py_ssize_t K = X_orig.shape[1] # Frequency axis.
         Py_ssize_t M = X_orig.shape[2] # Time axis.
         
-        Py_ssize_t freq_width_lobe = (freq_width-1)//2
-        Py_ssize_t time_width_lobe = (time_width-1)//2
+        Py_ssize_t lk_lobe = (lk-1)//2
+        Py_ssize_t lm_lobe = (lm-1)//2
         Py_ssize_t p, m, k, i_sort, j_sort, i, j
         double key
 
         double epsilon = 1e-15 # Small value used to avoid 0 in some computations.
 
     # Zero-pad spectrograms for windowing.
-    X_ndarray = np.pad(X_orig, ((0, 0), (freq_width_lobe, freq_width_lobe), (time_width_lobe, time_width_lobe)))
+    X_ndarray = np.pad(X_orig, ((0, 0), (lk_lobe, lk_lobe), (lm_lobe, lm_lobe)))
     cdef double[:, :, :] X = X_ndarray
 
     # Container that stores an horizontal segment of a spectrogram, with all frequency bins. Used to calculate smearing. 
-    calc_region_ndarray = np.zeros((K + 2*freq_width_lobe, time_width), dtype = np.double)
+    calc_region_ndarray = np.zeros((K + 2*lk_lobe, lm), dtype = np.double)
     cdef double[:, :] calc_region = calc_region_ndarray 
 
     # Container that stores the result.
@@ -43,9 +43,9 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
 
     # Variables related to creating and merging calculation vectors.
     cdef:
-        Py_ssize_t num_vectors = freq_width
-        Py_ssize_t len_vectors = time_width
-        Py_ssize_t combined_size = freq_width*time_width
+        Py_ssize_t num_vectors = lk
+        Py_ssize_t len_vectors = lm
+        Py_ssize_t combined_size = lk*lm
         Py_ssize_t j_parent, j_left_child, j_right_child, j_smaller_child, o
         Py_ssize_t element_origin, origin_index
         double inclusion_scalar, exclusion_scalar
@@ -90,17 +90,17 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
 
     for p in range(P):
         # Copies the initial horizontal segment to the container "calc_region".
-        for k in range(freq_width_lobe, K + freq_width_lobe):
-            for i in range(time_width):
+        for k in range(lk_lobe, K + lk_lobe):
+            for i in range(lm):
                 calc_region[k, i] = X[p, k, i]
         # Iterates through the segments.
-        for m in range(time_width_lobe, M + time_width_lobe):
-            if m == time_width_lobe:
+        for m in range(lm_lobe, M + lm_lobe):
+            if m == lm_lobe:
 
                  ##### Sorts the horizontal vectors from scratch (only done once per spectrogram, for the leftmost segment vectors.) {{
-                for k in range(freq_width_lobe, K + freq_width_lobe):
-                    # Sort the horizontal vector. For usual values of time_width, it's faster to sort with this insertion sort code than using NumPy.
-                    for i_sort in range(1, time_width):
+                for k in range(lk_lobe, K + lk_lobe):
+                    # Sort the horizontal vector. For usual values of lm, it's faster to sort with this insertion sort code than using NumPy.
+                    for i_sort in range(1, lm):
                         key = calc_region[k, i_sort]
                         j_sort = i_sort - 1
                         while j_sort >= 0 and key < calc_region[k, j_sort]:
@@ -113,11 +113,11 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
 
             else:
 
-                #### Obtains the next horizontal vectors, including the element at m + time_width_lobe and excluding the one at m - time_width_lobe - 1 {{
-                for k in range(freq_width_lobe, K + freq_width_lobe):
-                    inclusion_scalar = X[p, k, m + time_width_lobe] #
-                    exclusion_scalar = X[p, k, m - time_width_lobe - 1]
-                    i_sort = time_width - 1
+                #### Obtains the next horizontal vectors, including the element at m + lm_lobe and excluding the one at m - lm_lobe - 1 {{
+                for k in range(lk_lobe, K + lk_lobe):
+                    inclusion_scalar = X[p, k, m + lm_lobe] #
+                    exclusion_scalar = X[p, k, m - lm_lobe - 1]
+                    i_sort = lm - 1
                     while calc_region[k, i_sort] != exclusion_scalar:
                         if inclusion_scalar > calc_region[k, i_sort]:
                             calc_region[k, i_sort], inclusion_scalar = inclusion_scalar, calc_region[k, i_sort]
@@ -190,11 +190,11 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
             for o in range(combined_size):
                 smearing_denominator = smearing_denominator + combined[o]
                 smearing_numerator = smearing_numerator + (combined_size - o)*combined[o]
-            smearing[p, 0, m - time_width_lobe] = smearing_numerator/(sqrt(smearing_denominator) + epsilon)
+            smearing[p, 0, m - lm_lobe] = smearing_numerator/(sqrt(smearing_denominator) + epsilon)
             ### }}
 
             # Iterates through frequency slices, except the first.
-            for k in range(freq_width_lobe + 1, K + freq_width_lobe):
+            for k in range(lk_lobe + 1, K + lk_lobe):
                 ### Merge with exclusion. It's the most computationally intensive part of the algorithm. {{
                 combined, previous_combined = previous_combined, combined
 
@@ -206,21 +206,21 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
                 for o in range(combined_size + len_vectors):
                     if previous_comb_index >= combined_size:
                         # If the elements of "previous_combined" have already been exhausted, pop an element from "inclusion".
-                        combined[combined_index] = calc_region[k + freq_width_lobe, inclusion_index]
+                        combined[combined_index] = calc_region[k + lk_lobe, inclusion_index]
                         combined_index = combined_index + 1
                         inclusion_index = inclusion_index + 1
-                    elif exclusion_index < len_vectors and previous_combined[previous_comb_index] == calc_region[k - freq_width_lobe - 1, exclusion_index]:
+                    elif exclusion_index < len_vectors and previous_combined[previous_comb_index] == calc_region[k - lk_lobe - 1, exclusion_index]:
                         # # Skip the element from previous_combined that belongs to "exclusion".
                         previous_comb_index = previous_comb_index + 1
                         exclusion_index = exclusion_index + 1
-                    elif inclusion_index >= len_vectors or previous_combined[previous_comb_index] <= calc_region[k + freq_width_lobe, inclusion_index]:
+                    elif inclusion_index >= len_vectors or previous_combined[previous_comb_index] <= calc_region[k + lk_lobe, inclusion_index]:
                          # If the elements of "inclusion" have already been exhausted, or if the current element of "previous_combined" is smaller than that of "inclusion", pop an element from "previous_combined".
                         combined[combined_index] = previous_combined[previous_comb_index]
                         combined_index = combined_index + 1
                         previous_comb_index = previous_comb_index + 1
                     else:
                         # Lastly, if the current element of "inclusion" is smaller than that of "previous_combined", pop an element from "inclusion".
-                        combined[combined_index] = calc_region[k + freq_width_lobe, inclusion_index]
+                        combined[combined_index] = calc_region[k + lk_lobe, inclusion_index]
                         combined_index = combined_index + 1
                         inclusion_index = inclusion_index + 1
 
@@ -232,7 +232,7 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width, Py_ssize_t time_width
                 for o in range(combined_size):
                     smearing_denominator = smearing_denominator + combined[o]
                     smearing_numerator = smearing_numerator + (combined_size-o)*combined[o]
-                smearing[p, k - freq_width_lobe, m - time_width_lobe] = smearing_numerator/(sqrt(smearing_denominator) + epsilon)
+                smearing[p, k - lk_lobe, m - lm_lobe] = smearing_numerator/(sqrt(smearing_denominator) + epsilon)
                 
                 ### }}
     

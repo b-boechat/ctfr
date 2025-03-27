@@ -1,16 +1,16 @@
 Calling signature
 -----------------
 
-.. function:: ctfr.methods.sls_h(signal, sr, *, <shared parameters>, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, energy_criterium_db)
+.. function:: ctfr.methods.sls_h(signal, sr, *, <shared parameters>, lek, lsk, lem, lsm, beta, energy_criterium_db)
    :noindex:
 
-.. function:: ctfr.methods.sls_i(signal, sr, *, <shared parameters>, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, interp_steps)
+.. function:: ctfr.methods.sls_i(signal, sr, *, <shared parameters>, lek, lsk, lem, lsm, beta, interp_steps)
    :noindex:
 
-.. function:: ctfr.methods.sls_h_from_specs(specs, *, <shared parameters>, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, energy_criterium_db)
+.. function:: ctfr.methods.sls_h_from_specs(specs, *, <shared parameters>, lek, lsk, lem, lsm, beta, energy_criterium_db)
    :noindex:
 
-.. function:: ctfr.methods.sls_i_from_specs(specs, *, <shared parameters>, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, interp_steps)
+.. function:: ctfr.methods.sls_i_from_specs(specs, *, <shared parameters>, lek, lsk, lem, lsm, beta, interp_steps)
    :noindex:
 
 .. note::

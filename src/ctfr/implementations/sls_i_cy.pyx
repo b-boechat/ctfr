@@ -8,24 +8,24 @@ from ctfr.exception import InvalidArgumentError, ArgumentRequiredError
 
 def _sls_i_wrapper(
         X, 
-        freq_width_energy = 11, 
-        freq_width_sparsity = 21, 
-        time_width_energy = 11, 
-        time_width_sparsity = 11, 
+        lek = 11, 
+        lsk = 21, 
+        lem = 11, 
+        lsm = 11, 
         beta = 80,
         interp_steps = None,
         _info = None
 ):
 
-    freq_width_energy = _enforce_odd_positive_integer(freq_width_energy, "freq_width_energy", 11)
-    freq_width_sparsity = _enforce_odd_positive_integer(freq_width_sparsity, "freq_width_sparsity", 21)
-    time_width_energy = _enforce_odd_positive_integer(time_width_energy, "time_width_energy", 11)
-    time_width_sparsity = _enforce_odd_positive_integer(time_width_sparsity, "time_width_sparsity", 11)
+    lek = _enforce_odd_positive_integer(lek, "lek", 11)
+    lsk = _enforce_odd_positive_integer(lsk, "lsk", 21)
+    lem = _enforce_odd_positive_integer(lem, "lem", 11)
+    lsm = _enforce_odd_positive_integer(lsm, "lsm", 11)
     beta = _enforce_nonnegative(beta, "beta", 80.0)
 
     interp_steps = _get_interp_steps(X.shape[0], _info, interp_steps)
 
-    return _sls_i_cy(X, freq_width_energy, freq_width_sparsity, time_width_energy, time_width_sparsity, beta, interp_steps)
+    return _sls_i_cy(X, lek, lsk, lem, lsm, beta, interp_steps)
 
 def _get_interp_steps(num_specs, _info, user_interp_steps):
 
@@ -54,33 +54,33 @@ def _get_interp_steps(num_specs, _info, user_interp_steps):
 @cython.wraparound(False) 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t freq_width_sparsity, Py_ssize_t time_width_energy, Py_ssize_t time_width_sparsity, double beta, long[:,::1] interp_steps):
+cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_t lem, Py_ssize_t lsm, double beta, long[:,::1] interp_steps):
 
     cdef:
         Py_ssize_t P = X_orig.shape[0] # Spectrograms axis
         Py_ssize_t K = X_orig.shape[1] # Frequency axis
         Py_ssize_t M = X_orig.shape[2] # Time axis
         
-        Py_ssize_t freq_width_energy_lobe = (freq_width_energy-1)//2
-        Py_ssize_t freq_width_sparsity_lobe = (freq_width_sparsity-1)//2
-        Py_ssize_t time_width_sparsity_lobe = (time_width_sparsity-1)//2
-        Py_ssize_t time_width_energy_lobe = (time_width_energy-1)//2
+        Py_ssize_t lek_lobe = (lek-1)//2
+        Py_ssize_t lsk_lobe = (lsk-1)//2
+        Py_ssize_t lsm_lobe = (lsm-1)//2
+        Py_ssize_t lem_lobe = (lem-1)//2
         Py_ssize_t p, m, k, i, j, red_k, red_m
 
         double epsilon = 1e-10
-        Py_ssize_t combined_size_sparsity = time_width_sparsity * freq_width_sparsity
+        Py_ssize_t combined_size_sparsity = lsm * lsk
     
     X_orig_ndarray = np.asarray(X_orig)
     # Zero-pad spectrograms for windowing.
-    X_ndarray = np.pad(X_orig, ((0, 0), (freq_width_sparsity_lobe, freq_width_sparsity_lobe), (time_width_sparsity_lobe, time_width_sparsity_lobe)))
+    X_ndarray = np.pad(X_orig, ((0, 0), (lsk_lobe, lsk_lobe), (lsm_lobe, lsm_lobe)))
     cdef double[:, :, :] X = X_ndarray
 
     # Containers for the hamming window (local sparsity) and the asymmetric hamming window (local energy)
-    hamming_freq_energy_ndarray = np.hamming(freq_width_energy)
-    hamming_freq_sparsity_ndarray = np.hamming(freq_width_sparsity)
-    hamming_time_ndarray = np.hamming(time_width_sparsity)
-    hamming_asym_time_ndarray = np.hamming(time_width_energy)
-    hamming_asym_time_ndarray[time_width_energy_lobe+1:] = 0
+    hamming_freq_energy_ndarray = np.hamming(lek)
+    hamming_freq_sparsity_ndarray = np.hamming(lsk)
+    hamming_time_ndarray = np.hamming(lsm)
+    hamming_asym_time_ndarray = np.hamming(lem)
+    hamming_asym_time_ndarray[lem_lobe+1:] = 0
 
     hamming_energy = np.outer(hamming_freq_energy_ndarray, hamming_asym_time_ndarray)
     cdef double[:] hamming_freq_sparsity = hamming_freq_sparsity_ndarray
@@ -137,12 +137,12 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t freq_width_energy, Py_ssize_t 
                     range(0, M, i_steps[p, 1]),
                     range( (M - 1) // i_steps[p, 1] * i_steps[p, 1] + 1, M)
             ):      
-                k, m = red_k + freq_width_sparsity_lobe, red_m + time_width_sparsity_lobe
+                k, m = red_k + lsk_lobe, red_m + lsm_lobe
 
                 # Copy the windowed region to the calculation vector, multiplying by the Hamming windows (horizontal and vertical).
-                for i in range(freq_width_sparsity):
-                    for j in range(time_width_sparsity):
-                        calc_vector[i*time_width_sparsity + j] = X[p, k - freq_width_sparsity_lobe + i, m - time_width_sparsity_lobe + j] * \
+                for i in range(lsk):
+                    for j in range(lsm):
+                        calc_vector[i*lsm + j] = X[p, k - lsk_lobe + i, m - lsm_lobe + j] * \
                                 hamming_freq_sparsity[i] * hamming_time[j]        
                 
                 # Calculate the local sparsity (Gini index)
