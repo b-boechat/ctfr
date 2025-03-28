@@ -82,8 +82,9 @@ class CombinationMethodsWithVariantsDoc(CombinationMethodsDoc):
         self.parameter_names_map = {method_key: list(self.method_entries_map[method_key].get("parameters", {}).keys()) for method_key in self.method_keys_iter}
 
         params_list_list = list(self.parameter_names_map.values())
-        # List of shared parameter names
+        # List of shared parameter names, sorted by the order of the first method key.
         self.shared_parameters_keys = list(set(params_list_list[0]).intersection(*params_list_list[1:]))
+        self.shared_parameters_keys.sort(key=lambda x: self.parameter_names_map[self.method_keys_iter[0]].index(x))
 
 
     def doc_parameter_shared(self, parameter):
