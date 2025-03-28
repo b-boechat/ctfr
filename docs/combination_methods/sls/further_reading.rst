@@ -1,7 +1,7 @@
 Further reading
 ---------------
 
-- **Package release article (and SLS-H/SLS-I reference paper)**: `placeholder`
+- **Package release article (and SLS-H/SLS-I reference paper)**: `To be added.`
 
 - **D.Sc. thesis on combination methods**: `M. do V. M. da Costa, Novel time-frequency representations for music information retrieval, D.Sc., Federal University of Rio de Janeiro, Rio de Janeiro, Brasil (2020 Apr.).`
 
