@@ -24,7 +24,7 @@ _GOODBOY_CURRENT_VERSION = pooch.create(
 
 _GOODBOY_LATEST = pooch.create(
     path=pooch.os_cache("ctfr"),
-    base_url=r"https://github.com/b-boechat/ctfr/raw/refs/heads/pooch/data/",
+    base_url=r"https://github.com/b-boechat/ctfr/raw/refs/heads/main/data/",
     version_dev="main",
     registry = {_SAMPLES[key]["filename"]: None for key in _SAMPLES}
 )
