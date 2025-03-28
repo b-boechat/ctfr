@@ -74,7 +74,7 @@ def ctfr(
 
     See Also
     --------
-    ctfr_from_specs
+    ctfr.ctfr_from_specs
     """
 
     if representation_type == "stft":
@@ -149,7 +149,7 @@ def ctfr_from_specs(
 
     See Also
     --------
-    ctfr
+    ctfr.ctfr
     """
 
     validate_specs(specs)

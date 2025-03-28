@@ -34,7 +34,7 @@ def list_samples():
 
     See Also
     --------
-    fetch_sample
+    ctfr.fetch_sample
     """
     print("Available samples:")
     print("-----------------------------------------------------------------------------")
@@ -62,7 +62,7 @@ def fetch_sample(sample_key):
 
     See Also
     --------
-    list_samples
+    ctfr.list_samples
     """
     try:
         return _GOODBOY_CURRENT_VERSION.fetch(_SAMPLES[sample_key]["filename"])

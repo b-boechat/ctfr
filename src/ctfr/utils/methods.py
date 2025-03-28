@@ -10,7 +10,7 @@ def show_methods():
     
     See Also
     --------
-    get_methods_list
+    ctfr.get_methods_list
     """
     print("Available combination methods:")
     for key, val in _methods_dict.items():
@@ -53,7 +53,7 @@ def cite_method(method: str):
 
     See Also
     --------
-    cite
+    ctfr.cite
     """
     citations = _get_method_citations(method)
     if citations:
@@ -73,7 +73,7 @@ def get_methods_list():
 
     See Also
     --------
-    show_methods
+    ctfr.show_methods
     """
     return list(_methods_dict.keys())
 
