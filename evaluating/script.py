@@ -6,7 +6,8 @@ from itertools import chain
 
 def load_test_signal():
 
-    signal, _ = ctfr.load("evaluating/audio/guitarset_sample.wav", sr=22050, offset=5.0, duration=4.0)
+    filename = ctfr.fetch_sample("guitarset")
+    signal, _ = ctfr.load(filename, sr=22050, offset=5.0, duration=4.0)
 
     n_fft = 2048
     hop_length = 256
@@ -15,7 +16,7 @@ def load_test_signal():
     spec_2 = ctfr.stft_spec(signal, win_length=1024, n_fft=n_fft, hop_length=hop_length)
     spec_3 = ctfr.stft_spec(signal, win_length=2048, n_fft=n_fft, hop_length=hop_length)
 
-    print(f"Specs shape: {spec_1.shape}, {spec_2.shape}, {spec_3.shape}")
+    print(f"Specs shape: {spec_1.shape}, {spec_2.shape}, {spec_3.shape}", end="\n\n")
 
     specs_tensor = np.ascontiguousarray(np.stack((spec_1, spec_2, spec_3), axis=0)).astype(np.double)
 
