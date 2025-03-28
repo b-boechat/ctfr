@@ -7,7 +7,7 @@ Time-frequency representations (TFRs) such as the short-time Fourier transform (
 
 This package provides several methods that attempt to address this tradeoff by combining multiple TFRs (computed with different resolutions) into a single representation that preserves the best aspects of each individual TFR, achieving good localization in both time and frequency. We refer to these techniques as *combination methods*. If you are interested in learning more about combination methods, we recommend the following reading material:
 
-- **Package release article**: `placeholder`
+- **Package release article**: `To be added.`
 
 - **D.Sc. thesis on combination methods**: `M. do V. M. da Costa, Novel time-frequency representations for music information retrieval, D.Sc., Federal University of Rio de Janeiro, Rio de Janeiro, Brasil (2020 Apr.).`
 
