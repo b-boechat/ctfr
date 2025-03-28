@@ -24,3 +24,4 @@ ctfr
    :caption: Other links
 
    Github <https://github.com/b-boechat/ctfr>
+   PyPI <https://pypi.org/project/ctfr/>
