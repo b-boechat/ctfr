@@ -4,19 +4,19 @@ from libc.math cimport sqrt
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
 cimport cython
 
-def _baseline_fls_wrapper(X, freq_width = 21, time_width = 11, gamma = 20.0):
+def _baseline_fls_wrapper(X, lk = 21, lm = 11, gamma = 20.0):
 
-    freq_width = _enforce_odd_positive_integer(freq_width, 'freq_width', 21)
-    time_width = _enforce_odd_positive_integer(time_width, 'time_width', 11)
+    lk = _enforce_odd_positive_integer(lk, 'lk', 21)
+    lm = _enforce_odd_positive_integer(lm, 'lm', 11)
     gamma = _enforce_nonnegative(gamma, 'gamma', 20.0)
 
-    return _baseline_fls_cy(X, freq_width, time_width, gamma)
+    return _baseline_fls_cy(X, lk, lm, gamma)
 
 @cython.boundscheck(False)
 @cython.wraparound(False) 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef _baseline_fls_cy(double[:,:,::1] X, Py_ssize_t freq_width, Py_ssize_t time_width, double gamma):
+cdef _baseline_fls_cy(double[:,:,::1] X, Py_ssize_t lk, Py_ssize_t lm, double gamma):
 
     cdef:
         Py_ssize_t P = X.shape[0] # Spectrograms axis.
@@ -24,7 +24,7 @@ cdef _baseline_fls_cy(double[:,:,::1] X, Py_ssize_t freq_width, Py_ssize_t time_
         Py_ssize_t M = X.shape[2] # Time axis.
 
         double epsilon = 1e-10 # Small value used to avoid 0 in some computations. Bumped to 1e-10 to avoid numerical issues with cross-correlation.
-        double window_size_sqrt = sqrt(<double> freq_width * time_width)
+        double window_size_sqrt = sqrt(<double> lk * lm)
 
     X_ndarray = np.asarray(X)
 
@@ -45,7 +45,7 @@ cdef _baseline_fls_cy(double[:,:,::1] X, Py_ssize_t freq_width, Py_ssize_t time_
     cdef double[:, :] suitability_product
 
     # Generate the 2D window for local sparsity calculation.
-    hamming_window = np.outer(np.hamming(freq_width), np.hamming(time_width))
+    hamming_window = np.outer(np.hamming(lk), np.hamming(lm))
 
     ############ Local suitability calculation (using local Hoyer sparsity): {{{
 
