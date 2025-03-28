@@ -1,7 +1,7 @@
 import numpy as np
 cimport cython
 from libc.math cimport INFINITY, sqrt, pow
-from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_nonnegative_integer, _enforce_odd_positive_integer
+from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
 
 def _lt_wrapper(X, lk = 21, lm = 11, eta = 8.0):
     

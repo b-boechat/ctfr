@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.signal import correlate
 from libc.math cimport exp, sqrt
-from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_nonnegative_integer, _enforce_odd_positive_integer
+from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
 cimport cython
 
 def _fls_wrapper(X, lk = 21, lm = 11, gamma = 20.0):
