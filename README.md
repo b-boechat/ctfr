@@ -13,14 +13,12 @@
 
 ---
 
-[Back to top ↥](#ctfr)
 ## Documentation
 
 See the ctfr [documentation](https://ctfr.readthedocs.io/en/latest/) for more information about the package, including usage examples and the API reference.
 
 ---
 
-[Back to top ↥](#ctfr)
 ## Instalation
 
 ### Using PyPI
@@ -67,7 +65,6 @@ python setup.py build_ext --inplace
 
 ---
 
-[Back to top ↥](#ctfr)
 ## Citing
 
 If you use ctfr in your work or research, please cite following paper:
