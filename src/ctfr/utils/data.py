@@ -1,5 +1,6 @@
 from ctfr import __version__
 from ctfr.exception import InvalidSampleError
+from requests.exceptions import HTTPError
 import pooch
 
 _SAMPLES = {
@@ -7,17 +8,23 @@ _SAMPLES = {
         "filename": "synthetic.wav",
         "description": "Synthetic audio of 1 s sampled at 22050 Hz, composed of two sinusoidal components with frequencies 440 Hz and 506 Hz, as well as a pulse component with a short duration around the 0.5 s mark."
     },
-    "guitarset_sample": {
-        "filename": "guitarset_sample.wav",
+    "guitarset": {
+        "filename": "guitarset.wav",
         "description": "Excerpt from the GuitarSet dataset, containing 4 s of guitar performance sampled at 44100 Hz."
     }
 }
 
-_GOODBOY = pooch.create(
+_GOODBOY_CURRENT_VERSION = pooch.create(
     path=pooch.os_cache("ctfr"),
-    #base_url=r"https://github.com/b-boechat/ctfr/raw/{version}/data/",
-    base_url=r"https://github.com/b-boechat/ctfr/raw/refs/heads/pooch/data/", # Placeholder for testing.
+    base_url=r"https://github.com/b-boechat/ctfr/raw/{version}/data/",
     version=__version__,
+    version_dev="main",
+    registry = {_SAMPLES[key]["filename"]: None for key in _SAMPLES}
+)
+
+_GOODBOY_LATEST = pooch.create(
+    path=pooch.os_cache("ctfr"),
+    base_url=r"https://github.com/b-boechat/ctfr/raw/refs/heads/pooch/data/",
     version_dev="main",
     registry = {_SAMPLES[key]["filename"]: None for key in _SAMPLES}
 )
@@ -58,6 +65,9 @@ def fetch_sample(sample_key):
     list_samples
     """
     try:
-        return _GOODBOY.fetch(_SAMPLES[sample_key]["filename"])
+        return _GOODBOY_CURRENT_VERSION.fetch(_SAMPLES[sample_key]["filename"])
     except KeyError:
         raise InvalidSampleError(f"Invalid sample key: {sample_key}. Use ctfr.list_samples() to list available keys.")
+    except HTTPError:
+        print("Sample not found in the current version. Fetching it from the latest main branch.")
+        return _GOODBOY_LATEST.fetch(_SAMPLES[sample_key]["filename"])
