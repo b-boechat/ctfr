@@ -7,38 +7,37 @@ else:
     _has_display = True
 
 import numpy as np
-#from librosa.display import specshow
 
-def load(path, *, sr=22050, mono=True, offset=0.0, duration=None, dtype=np.double, res_type="soxr_hq"):
+def load(path, *, sr=None, mono=True, offset=0.0, duration=None, dtype=np.double, res_type="soxr_hq"):
     """Loads an audio file as a floating point time series.
 
-    This function is a wrapper for :external:func:`librosa.load` that changes the default dtype to :external:class:`numpy.double`.
+    This function is a wrapper for :external:func:`librosa.load`. The default values for ``sr`` and ``dtype`` are changed.
     """
     return librosa.load(path, sr=sr, mono=mono, offset=offset, duration=duration, dtype=dtype, res_type=res_type)
 
 def stft(signal, *, n_fft=2048, hop_length=None, win_length=None, window="hann", center=True, dtype=None, pad_mode="constant", out=None):
     """Computes the short-time Fourier transform (STFT) of a signal.
 
-    This function is a wrapper for :external:func:`librosa.stft`.
+    This function is a wrapper for :external:func:`librosa.stft`. The default value for ``n_fft`` is changed to match :func:`ctfr.ctfr` for a signal with a sampling rate of 22050 Hz.
 
     See Also
     --------
-    stft_spec
+    ctfr.stft_spec
     """
     return librosa.stft(signal, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=center, dtype=dtype, pad_mode=pad_mode, out=out)
 
-def cqt(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=84, bins_per_octave=12, tuning=0.0, filter_scale=1, norm=1, sparsity=0.01, window="hann", scale=True, pad_mode="constant", res_type="soxr_hq", dtype=None):
+def cqt(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=288, bins_per_octave=36, tuning=0.0, filter_scale=1, norm=1, sparsity=0.01, window="hann", scale=True, pad_mode="constant", res_type="soxr_hq", dtype=None):
     """Computes the constant-Q transform (CQT) of a signal.
 
-    This function is a wrapper for :external:func:`librosa.cqt`.
+    This function is a wrapper for :external:func:`librosa.cqt`. The default values for ``n_bins`` and ``bins_per_octave`` are changed to match :func:`ctfr.ctfr`. 
 
     See Also
     --------
-    cqt_spec
+    ctfr.cqt_spec
     """
     return librosa.cqt(signal, sr=sr, hop_length=hop_length, fmin=fmin, n_bins=n_bins, bins_per_octave=bins_per_octave, tuning=tuning, filter_scale=filter_scale, norm=norm, sparsity=sparsity, window=window, scale=scale, pad_mode=pad_mode, res_type=res_type, dtype=dtype)
 
-def stft_spec(signal, *, n_fft=2048, hop_length=None, win_length=None, window="hann", center=True, dtype=np.double, stft_dtype=None, pad_mode="constant"):
+def stft_spec(signal, *, n_fft=2048, hop_length=None, win_length=None, window="hann", center=True, pad_mode="constant", dtype=np.double, stft_dtype=None):
     """Computes the squared magnitude of the short-time Fourier transform (STFT) of a signal.
 
     This function is equivalent to:
@@ -53,11 +52,11 @@ def stft_spec(signal, *, n_fft=2048, hop_length=None, win_length=None, window="h
 
     See Also
     --------
-    stft
+    ctfr.stft
     """
     return np.square(np.abs(stft(signal, n_fft=n_fft, hop_length=hop_length, win_length=win_length, window=window, center=center, dtype=stft_dtype, pad_mode=pad_mode, out=None), dtype=dtype))
 
-def cqt_spec(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=84, bins_per_octave=12, tuning=0.0, filter_scale=1, norm=1, sparsity=0.01, window="hann", scale=True, pad_mode="constant", res_type="soxr_hq", dtype=None, cqt_dtype=None):
+def cqt_spec(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=288, bins_per_octave=36, tuning=0.0, filter_scale=1, norm=1, sparsity=0.01, window="hann", scale=True, pad_mode="constant", res_type="soxr_hq", dtype=np.double, cqt_dtype=None):
     """Computes the squared magnitude of the constant-Q transform (CQT) of a signal.
 
     This function is equivalent to:
@@ -70,7 +69,7 @@ def cqt_spec(signal, *, sr=22050, hop_length=512, fmin=None, n_bins=84, bins_per
 
     See Also
     --------
-    cqt
+    ctfr.cqt
     """
     return np.square(np.abs(cqt(signal, sr=sr, hop_length=hop_length, fmin=fmin, n_bins=n_bins, bins_per_octave=bins_per_octave, tuning=tuning, filter_scale=filter_scale, norm=norm, sparsity=sparsity, window=window, scale=scale, pad_mode=pad_mode, res_type=res_type, dtype=cqt_dtype), dtype=dtype))
 
