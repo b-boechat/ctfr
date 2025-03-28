@@ -21,6 +21,14 @@ See :func:`ctfr.ctfr` and :func:`ctfr.ctfr_from_specs` for more details on the s
 Parameters
 ~~~~~~~~~~
 
+**lem** (`int > 0, odd, optional`)
+
+   Width in time frames of the analysis window used in the local energy computation. Defaults to 11.
+
+**lsk** (`int > 0, odd, optional`)
+
+   Width in frequency bins of the analysis window used in the local sparsity computation. Defaults to 21.
+
 **lsm** (`int > 0, odd, optional`)
 
    Width in time frames of the analysis window used in the local sparsity computation. Defaults to 11.
@@ -29,17 +37,9 @@ Parameters
 
    Factor used in the computation of combination weights. Defaults to 0.3.
 
-**lsk** (`int > 0, odd, optional`)
-
-   Width in frequency bins of the analysis window used in the local sparsity computation. Defaults to 21.
-
 **lek** (`int > 0, odd, optional`)
 
    Width in frequency bins of the analysis window used in the local energy computation. Defaults to 21.
-
-**lem** (`int > 0, odd, optional`)
-
-   Width in time frames of the analysis window used in the local energy computation. Defaults to 11.
 
 **energy_criterium_db** (`float, optional`)
 
