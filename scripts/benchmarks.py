@@ -3,37 +3,43 @@ import sys
 import numpy as np
 from scipy.signal import correlate
 from itertools import chain
+from time import perf_counter
 
-def load_test_signal():
+def load_test_signal(sample="guitarset", sr=22050, offset=5.0, duration=4.0, win_lengths=[512, 1024, 2048], n_fft=2048, hop_length=256):
 
-    filename = ctfr.fetch_sample("guitarset")
-    signal, _ = ctfr.load(filename, sr=22050, offset=5.0, duration=4.0)
+    filename = ctfr.fetch_sample(sample)
+    signal, _ = ctfr.load(filename, sr=sr, offset=offset, duration=duration)
 
-    n_fft = 2048
-    hop_length = 256
+    n_fft = n_fft
+    hop_length = hop_length
 
-    spec_1 = ctfr.stft_spec(signal, win_length=512, n_fft=n_fft, hop_length=hop_length)
-    spec_2 = ctfr.stft_spec(signal, win_length=1024, n_fft=n_fft, hop_length=hop_length)
-    spec_3 = ctfr.stft_spec(signal, win_length=2048, n_fft=n_fft, hop_length=hop_length)
+    specs_tensor = np.array(
+        [
+            ctfr.stft_spec(
+                signal, 
+                win_length=win_length, 
+                n_fft=n_fft, 
+                hop_length=hop_length
+            ) 
+            for win_length in win_lengths
+        ], dtype=np.double
+    )
 
-    print(f"Specs shape: {spec_1.shape}, {spec_2.shape}, {spec_3.shape}", end="\n\n")
+    return {"specs": specs_tensor, "duration": duration}
 
-    specs_tensor = np.ascontiguousarray(np.stack((spec_1, spec_2, spec_3), axis=0)).astype(np.double)
 
-    return {"specs": specs_tensor, "duration": 4.0}
-
-def time_method(specs, method, num_iter=5, **kwargs):
+def benchmark_method(specs, method, num_iter, **kwargs):
     total_time = 0.0
     for _ in range(num_iter):
-        # In this repository, ctfr_from_specs has been modified to also return the elapsed time.
-        swgm_spec, elapsed_time = ctfr.ctfr_from_specs(specs, method=method, **kwargs)
+        start_time = perf_counter()
+        swgm_spec = ctfr.ctfr_from_specs(specs, method=method, **kwargs)
+        elapsed_time = perf_counter() - start_time
         total_time += elapsed_time
     average_time = total_time / num_iter
     return swgm_spec, average_time
 
 def compute_max_local_energy(specs, freq_width=11, time_width=11):
     epsilon=1e-10
-
     hamming_freq = np.hamming(freq_width)
     hamming_asym_time = np.hamming(time_width)
     hamming_asym_time[(time_width-1)//2:] = 0
@@ -46,10 +52,8 @@ def compute_max_local_energy(specs, freq_width=11, time_width=11):
 
     return np.max(local_energy, axis=0)
 
-
 def criterium_share(max_local_energy, energy_criterium_db):
     energy_criterium = 10.0 ** (energy_criterium_db/10.0)
-    
     return np.sum(max_local_energy >= energy_criterium)/max_local_energy.size
 
 def non_interp_share(specs_shape, interp_steps):
@@ -63,7 +67,7 @@ def non_interp_share(specs_shape, interp_steps):
 
 
 def time_all_pipeline(num_iter):
-
+    
     test_sig_dict = load_test_signal()
     specs = test_sig_dict["specs"]
     duration = test_sig_dict["duration"]
@@ -71,44 +75,43 @@ def time_all_pipeline(num_iter):
     print("Execution time for each method and implementation:")
 
     print("\n==== Binwise minimum ====\n")
-    _, average_time_ctfr = time_method(specs, method='min', num_iter=num_iter)
+    _, average_time_ctfr = benchmark_method(specs, method='min', num_iter=num_iter)
     print(f"ctfr: {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time")
     
     print("\n==== SWGM ====\n")
-    cspec_base, average_time_base = time_method(specs, method='baseline_swgm', num_iter=num_iter)
+    cspec_base, average_time_base = benchmark_method(specs, method='baseline_swgm', num_iter=num_iter)
     print(f"Baseline: {average_time_base:0.3f} s -- {100*average_time_base/duration:0.2f}% real-time")
-    cspec_ctfr, average_time_ctfr = time_method(specs, method='swgm', num_iter=num_iter)
+    cspec_ctfr, average_time_ctfr = benchmark_method(specs, method='swgm', num_iter=num_iter)
     print(f"ctfr: {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time")
     assert np.allclose(cspec_base, cspec_ctfr)
 
     print("\n==== FLS ====\n")
-    cspec_base, average_time_base = time_method(specs, method='baseline_fls', num_iter=num_iter)
+    cspec_base, average_time_base = benchmark_method(specs, method='baseline_fls', num_iter=num_iter)
     print(f"Baseline: {average_time_base:0.3f} s -- {100*average_time_base/duration:0.2f}% real-time")
-    cspec_ctfr, average_time_ctfr = time_method(specs, method='fls', num_iter=num_iter)
+    cspec_ctfr, average_time_ctfr = benchmark_method(specs, method='fls', num_iter=num_iter)
     print(f"ctfr: {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time")
     assert np.allclose(cspec_base, cspec_ctfr)
 
     print("\n==== SLS ====\n")
-    cspec_base, average_time_base = time_method(specs, method='baseline_sls', num_iter=num_iter)
+    cspec_base, average_time_base = benchmark_method(specs, method='baseline_sls', num_iter=num_iter)
     print(f"Baseline: {average_time_base:0.3f} s -- {100*average_time_base/duration:0.2f}% real-time")
-    cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-200)
+    cspec_ctfr, average_time_ctfr = benchmark_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-200)
 
     max_local_energy = compute_max_local_energy(specs)
 
-    cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-60)
+    cspec_ctfr, average_time_ctfr = benchmark_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-60)
     print(f"SLS-H (-60): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*criterium_share(max_local_energy, -60):.2f}% SLS")
-    cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-40)
+    cspec_ctfr, average_time_ctfr = benchmark_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-40)
     print(f"SLS-H (-40): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*criterium_share(max_local_energy, -40):.2f}% SLS")
-    cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-20)
+    cspec_ctfr, average_time_ctfr = benchmark_method(specs, method='sls_h', num_iter=num_iter, energy_criterium_db=-20)
     print(f"SLS-H (-20): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*criterium_share(max_local_energy, -20):.2f}% SLS")
 
     interp_steps_default = np.array([[4, 1], [2, 2], [1, 4]])
     interp_steps_double = np.array([[8, 2], [4, 4], [2, 8]])
-    cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_i', num_iter=num_iter, interp_steps=interp_steps_default)
+    cspec_ctfr, average_time_ctfr = benchmark_method(specs, method='sls_i', num_iter=num_iter, interp_steps=interp_steps_default)
     print(f"SLS-I (default): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*non_interp_share(specs.shape, interp_steps_default):.2f}% SLS")
-    cspec_ctfr, average_time_ctfr = time_method(specs, method='sls_i', num_iter=num_iter, interp_steps=interp_steps_double)
+    cspec_ctfr, average_time_ctfr = benchmark_method(specs, method='sls_i', num_iter=num_iter, interp_steps=interp_steps_double)
     print(f"SLS-I (doubled): {average_time_ctfr:0.3f} s -- {100*average_time_ctfr/duration:0.2f}% real-time -- {100*non_interp_share(specs.shape, interp_steps_double):.2f}% SLS")
-
 
 
 if __name__ == "__main__":
