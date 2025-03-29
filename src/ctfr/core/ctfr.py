@@ -2,14 +2,11 @@ import numpy as np
 from ctfr.exception import InvalidRepresentationTypeError, InvalidSpecError
 from ctfr.utils.audio import stft_spec, cqt_spec
 from ctfr.utils.private import (
-    _normalize_spec, 
-    _normalize_specs_tensor, 
-    _get_specs_tensor_energy_array, 
     _round_to_power_of_two, 
     _get_method_function,
     _request_tfrs_info
 )
-from typing import List, Optional, Any, Iterable
+from typing import Any, Iterable
 
 def ctfr(
     signal: np.ndarray,
@@ -307,5 +304,17 @@ def _get_cqt_params(sr, filter_scales, bins_per_octave, fmin, n_bins, hop_length
         "hop_length": hop_length
     }
 
+def _normalize_specs_tensor(specs_tensor, target_energy):
+    specs_tensor = specs_tensor * target_energy / _get_specs_tensor_energy_array(specs_tensor)
+
+def _get_specs_tensor_energy_array(specs_tensor):
+    return np.sum(specs_tensor, axis=(1, 2), keepdims=True)
+
+def _normalize_spec(spec, target_energy):
+    spec = spec * target_energy / np.sum(spec)
+
 def _stack_specs(specs):
-    return np.ascontiguousarray(np.stack(specs, axis=0)).astype(np.double)
+    specs_tensor = np.ascontiguousarray(np.stack(specs, axis=0)).astype(np.double)
+    if specs_tensor.ndim != 3:
+        raise InvalidSpecError("Input spectrograms must be 2-dimensional.")
+    return specs_tensor
