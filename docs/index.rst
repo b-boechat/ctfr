@@ -25,4 +25,4 @@ ctfr
 
    Github <https://github.com/b-boechat/ctfr>
    PyPI <https://pypi.org/project/ctfr/>
-   Benchmarks repo <https://github.com/b-boechat/ctfr_benchmarks>
+   Benchmarks repository <https://github.com/b-boechat/ctfr_benchmarks>
