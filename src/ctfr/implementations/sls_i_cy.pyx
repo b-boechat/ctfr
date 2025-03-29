@@ -198,4 +198,3 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
     ############ }} Smoothed local sparsity combination
 
     return result_ndarray
-                

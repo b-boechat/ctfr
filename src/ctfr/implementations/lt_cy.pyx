@@ -253,19 +253,3 @@ cdef _lt_cy(double[:,:,::1] X_orig, Py_ssize_t lk, Py_ssize_t lm, double eta):
     ############ }}}
 
     return result_ndarray
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
