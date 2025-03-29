@@ -114,8 +114,8 @@ def ctfr_from_specs(
     method: str,
     *,
     normalize_input: bool = True,
-    input_energy: float = None,
     normalize_output: bool = True,
+    energy: float = None,
     **kwargs: Any
 ) -> np.ndarray:
     """Computes a combined time-frequency representation (CTFR) from input spectrograms.
@@ -129,11 +129,11 @@ def ctfr_from_specs(
     method : str
         combination method to use, as specified by their id string. See :ref:`combination methods`. User-defined methods are also supported if they are properly installed (see :ref:`adding methods`). A list of all available methods can also be obtained with :func:`ctfr.show_methods` or :func:`ctfr.get_methods_list`.
     normalize_input : bool, default=True
-        whether to normalize the input spectrograms to have the same total energy. This is highly recommended for a quality CTFR.
-    input_energy : float, optional
-        total energy of the input spectrograms after normalization, if ``normalize_input`` is set to ``True``. If not provided, defaults to the mean total energy of the input spectrograms.
+        whether to normalize the input spectrograms to have the same total energy. This is highly recommended for a quality CTFR, though can be skipped if the input spectrograms are already normalized.
     normalize_output : bool, default=True
-        whether to normalize the output CTFR's total energy to ``input_energy``. 
+        whether to normalize the output CTFR's total energy to match the input energy. This is highly recommended for a quality CTFR, though can be skipped for output testing purposes.
+    energy : float, optional
+        energy to normalize the input spectrograms to, if ``normalize_input`` is `True`, and the output CTFR to, if ``normalize_output`` is `True`. If not provided, the mean energy of the input spectrograms is used.
     **kwargs
         additional keyword arguments to pass to the combination method function. These are specified in their respective pages in :ref:`combination methods`.
 
@@ -152,24 +152,25 @@ def ctfr_from_specs(
     ctfr.ctfr
     """
 
-    validate_specs(specs)
+    # Stack the input spectrograms into a contiguous tensor
+    specs_tensor = _stack_specs(specs)
 
-    # np.ascontiguous array is not strictly needed here, as validate_specs already converts the input arrays to C-contiguous and this is preserved by np.stack.
-    specs_tensor = np.ascontiguousarray(np.stack(specs, axis=0)).astype(np.double)
+    # If not provided and a normalization is requested, set the energy to the mean energy of the input spectrograms.
+    if (normalize_input or normalize_output) and energy is None:
+        energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
 
-    if (normalize_input or normalize_output) and input_energy is None:
-        input_energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
-
+    # Normalize the input spectrograms to have the same total energy, if requested
     if normalize_input: 
-        _normalize_specs_tensor(specs_tensor, input_energy)
+        _normalize_specs_tensor(specs_tensor, energy)
     
+    # Compute the combined spectrogram using the specified method.
     comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
 
+    # Normalize the output spectrogram to match the input energy, if requested.
     if normalize_output:
-        _normalize_spec(comb_spec, input_energy)
+        _normalize_spec(comb_spec, energy)
 
     return comb_spec
-
 
 # =============================================================================
 
@@ -306,16 +307,5 @@ def _get_cqt_params(sr, filter_scales, bins_per_octave, fmin, n_bins, hop_length
         "hop_length": hop_length
     }
 
-def validate_specs(specs):
-    try:
-        specs = tuple(np.ascontiguousarray(spec) for spec in specs)
-    except Exception:
-        raise InvalidSpecError("Invalid specs: all specs must be convertible to numpy arrays.")
-
-    if not all([spec.ndim == 2 for spec in specs]):
-        raise InvalidSpecError("Invalid specs: all specs must have 2 dimensions.")
-
-    if not len(set([spec.shape for spec in specs])) == 1:
-        raise InvalidSpecError("Invalid specs: all specs must have the same shape.")
-
-    return specs
+def _stack_specs(specs):
+    return np.ascontiguousarray(np.stack(specs, axis=0)).astype(np.double)
