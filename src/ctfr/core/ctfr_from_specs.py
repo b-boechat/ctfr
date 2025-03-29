@@ -51,21 +51,21 @@ def ctfr_from_specs(
     ctfr.ctfr
     """
 
-    # Stack the input spectrograms into a contiguous tensor
+    # Stacks the input spectrograms into a contiguous tensor
     specs_tensor = _stack_specs(specs)
 
-    # If not provided and a normalization is requested, set the energy to the mean energy of the input spectrograms.
+    # If not provided and a normalization is requested, sets the energy to the mean energy of the input spectrograms.
     if (normalize_input or normalize_output) and energy is None:
         energy = np.mean(_get_specs_tensor_energy_array(specs_tensor))
 
-    # Normalize the input spectrograms to have the same total energy, if requested
+    # Normalizes the input spectrograms to have the same total energy, if requested
     if normalize_input: 
         _normalize_specs_tensor(specs_tensor, energy)
     
-    # Compute the combined spectrogram using the specified method.
+    # Computes the combined spectrogram using the specified method.
     comb_spec = _get_method_function(method)(specs_tensor, **kwargs)
 
-    # Normalize the output spectrogram to match the input energy, if requested.
+    # Normalizes the output spectrogram to match the input energy, if requested.
     if normalize_output:
         _normalize_spec(comb_spec, energy)
 
