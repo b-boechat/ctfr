@@ -1,81 +1,43 @@
-# ctfr
+### Benchmarking ctfr implementations
 
-[![PyPI](https://img.shields.io/pypi/v/ctfr.svg)](https://pypi.python.org/pypi/ctfr) [![Python Versions](https://img.shields.io/pypi/pyversions/ctfr.svg)](https://pypi.python.org/pypi/ctfr) ![Licence](https://img.shields.io/github/license/b-boechat/ctfr) 
+This auxiliary repository contains the code to benchmark the CTFR implementations of the article:
 
-#### Efficient toolbox for computing combined time-frequency representations of audio signals.
+> Placeholder
 
-# Table of contents
-- [Documentation](#documentation)
-- [Installation](#instalation)
-    - [Using PyPI](#using-pypi)
-    - [Development mode](#development-mode)
-- [Citing](#citing)
+The main repository of the `ctfr` package is available [here](https://github.com/b-boechat/ctfr).
 
----
+## Instructions
 
-## Documentation
-
-See the ctfr [documentation](https://ctfr.readthedocs.io/en/latest/) for more information about the package, including usage examples and the API reference.
-
----
-
-## Instalation
-
-### Using PyPI
-
-The latest stable release is available on PyPI, and can be installed with the following command:
+To repeat the experiments, first clone this repository and install it in a virtual environment with:
 
 ```shell
-pip install ctfr
+git clone git@github.com:b-boechat/ctfr_benchmarks.git
+cd ctfr_benchmarks
+python -m venv venv
+source venv/bin/activate
+pip install .
+
 ```
 
-Note that this doesn’t install the plotting dependencies. To install with plotting included, run
+Then, you can run the benchmarks on your local machine running
 
 ```shell
-pip install ctfr[display]
+python scripts/benchmarks.py
 ```
 
-### Development mode
-
-If you want to make changes to ctfr, you can install it in editable mode with development dependencies by cloning or downloading the repository and running:
+You can specify the number of repetitions for each benchmark with a command line argument. For example, for 10 repetitions, you can use:
 
 ```shell
-make dev
+python scripts/benchmarks.py 10
 ```
 
-or
+## Plots
 
-```shell
-pip install -e .[dev]
-```
+To ensure reproducibility, all spectrogram plots in the article can be generated with the `plots.ipynb` Jupyter Notebook located in the `notebooks` folder.
 
-When installing in this mode, Cython is a build dependency. If you have trouble running Cython, see [this guide](https://docs.cython.org/en/stable/src/quickstart/install.html).
+## Implementations code
 
-Note: When developing, `.pyx` files need to be recompiled in order for changes in them to take place. This can be done by running 
+The code for the implementations of the CTFR algorithms (both baseline and `ctfr`) is available in the following links:
 
-```shell
-make ext
-```
-
-or
-
-```shell
-python setup.py build_ext --inplace
-```
-
----
-
-## Citing
-
-If you use ctfr in your work or research, please cite following paper:
-
-```
-To be added.
-```
-
-Also, if you use a speficic combination method, please cite the corresponding paper(s). You can find the references for a specific method by running:
-
-```python
->>> ctfr.cite_method("fls")
-M. do V. M. da Costa and L. W. P. Biscainho, “The fast local sparsity method: A low-cost combination of time-frequency representations based on the hoyer sparsity,” Journal of the Audio Engineering Society, vol. 70, no. 9, pp. 698–707, Sep. 2022.
-```
+- [Placeholder]
+- [Placeholder]
