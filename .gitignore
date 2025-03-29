@@ -162,7 +162,3 @@ docs/*.deb
 /_lab
 /evaluating/plots/*
 !/evaluating/plots/.gitkeep
-
-docs/sg_execution_times.rst
-docs/getting_started/examples/*.py
-docs/getting_started/examples/gallery/
