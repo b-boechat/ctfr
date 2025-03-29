@@ -25,6 +25,7 @@ def load_test_signal():
 def time_method(specs, method, num_iter=5, **kwargs):
     total_time = 0.0
     for _ in range(num_iter):
+        # In this repository, ctfr_from_specs has been modified to also return the elapsed time.
         swgm_spec, elapsed_time = ctfr.ctfr_from_specs(specs, method=method, **kwargs)
         total_time += elapsed_time
     average_time = total_time / num_iter
