@@ -6,6 +6,7 @@ from itertools import chain
 from time import perf_counter
 
 def load_test_signal(sample="guitarset", sr=22050, offset=5.0, duration=4.0, win_lengths=[512, 1024, 2048], n_fft=2048, hop_length=256):
+    """Load the test signal for the benchmark experiments."""
 
     filename = ctfr.fetch_sample(sample)
     signal, _ = ctfr.load(filename, sr=sr, offset=offset, duration=duration)
@@ -29,6 +30,8 @@ def load_test_signal(sample="guitarset", sr=22050, offset=5.0, duration=4.0, win
 
 
 def benchmark_method(specs, method, num_iter, **kwargs):
+    """ Benchmark the specified method for a given number of iterations."""
+
     total_time = 0.0
     for _ in range(num_iter):
         start_time = perf_counter()
@@ -39,6 +42,8 @@ def benchmark_method(specs, method, num_iter, **kwargs):
     return swgm_spec, average_time
 
 def compute_max_local_energy(specs, freq_width=11, time_width=11):
+    """ Compute the maximum local energy among the spectrograms for each time-frequency bin. """
+
     epsilon=1e-10
     hamming_freq = np.hamming(freq_width)
     hamming_asym_time = np.hamming(time_width)
@@ -53,10 +58,14 @@ def compute_max_local_energy(specs, freq_width=11, time_width=11):
     return np.max(local_energy, axis=0)
 
 def criterium_share(max_local_energy, energy_criterium_db):
+    """ Compute the share of time-frequency bins that exceed the specified energy criterium. """
+
     energy_criterium = 10.0 ** (energy_criterium_db/10.0)
     return np.sum(max_local_energy >= energy_criterium)/max_local_energy.size
 
 def non_interp_share(specs_shape, interp_steps):
+    """ Compute the share of time-frequency bins in which the sparsity computation of SLS-I is not interpolated, for a given specification of the interpolation steps. """
+
     P, K, M = specs_shape
     total_non_interp = 0
     for p in range(P):
@@ -67,6 +76,7 @@ def non_interp_share(specs_shape, interp_steps):
 
 
 def time_all_pipeline(num_iter):
+    """ Benchmark all methods and implementations. """
     
     test_sig_dict = load_test_signal()
     specs = test_sig_dict["specs"]
