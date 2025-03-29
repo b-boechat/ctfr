@@ -38,7 +38,7 @@ cdef _fls_cy(double[:,:,::1] X, Py_ssize_t lk, Py_ssize_t lm, double gamma):
     suitability_ndarray = np.zeros((P, K, M), dtype=np.double)
     cdef double[:,:,:] suitability = suitability_ndarray
 
-    # Containers related to combination.
+    # Containers related to the combination step.
     cdef double[:, :, :] log_suitability
     cdef double[:, :] sum_log_suitability
     combination_weight_ndarray = np.zeros((P, K, M), dtype=np.double)
