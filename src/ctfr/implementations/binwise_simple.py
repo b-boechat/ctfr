@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.stats import gmean, hmean
 
+# These methods are implemented with NumPy and SciPy functions.
+
 def _mean_wrapper(X):
     return np.mean(X, axis = 0)
 

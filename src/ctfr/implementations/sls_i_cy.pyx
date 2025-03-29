@@ -103,8 +103,7 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
     energy_ndarray = np.zeros((P, K, M), dtype=np.double)
     cdef double[:,:,:] energy = energy_ndarray
 
-
-    # Armazena o passo de interpolação em cada direção. i_steps[i, j] -> Interpolações para p = i. j = 0: na frequência; j = 1: no tempo
+    # Stores the interpolation steps in each direction. i_steps[i, j] ->  step for p = i. j = 0: in frequency; j = 1: in time
     cdef long[:,:] i_steps = interp_steps
 
     # Variables related to the last step (spectrograms combination).
@@ -112,8 +111,6 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
     cdef double[:, :] sum_log_sparsity
     combination_weight_ndarray = np.zeros((P, K, M), dtype=np.double)
     cdef double[:, :, :] combination_weight = combination_weight_ndarray
-
-    # ------------ >>
 
     ############ Calculate local energy {{{ 
 
@@ -128,7 +125,7 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
 
     for p in range(P):
     
-        # Itera pelas janelas de cálculo, levando em conta os passos de interpolação. TODO comment
+        # Iterates through the segments, taking into account the interpolation steps.
         for red_k in chain(
                 range(0, K, i_steps[p, 0]),
                 range( (K - 1) // i_steps[p, 0] * i_steps[p, 0] + 1, K)
@@ -198,7 +195,7 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
 
     result_ndarray = np.average(X_orig_ndarray * np.min(energy_ndarray, axis=0)/energy_ndarray, axis=0, weights=combination_weight_ndarray)
 
-    ############ }} Combinação por Esparsidade Local e compensação por Energia Local
+    ############ }} Smoothed local sparsity combination
 
     return result_ndarray
                 

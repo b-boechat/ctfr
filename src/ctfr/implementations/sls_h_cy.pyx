@@ -116,7 +116,7 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
                     if X[p, k, m] < result[red_k, red_m]:
                         result[red_k, red_m] = X[p, k, m]
 
-            # Otherwise, calculate LS combination.
+            # Otherwise, calculate SLS combination.
             else:
                 for p in range(P):
                     # Copy the windowed region to the calculation vector, multiplying by the Hamming windows (horizontal and vertical).
