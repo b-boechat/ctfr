@@ -3,7 +3,7 @@ from ctfr.implementations.fls_cy import _fls_wrapper
 from ctfr.implementations.lt_cy import _lt_wrapper
 from ctfr.implementations.sls_h_cy import _sls_h_wrapper
 from ctfr.implementations.sls_i_cy import _sls_i_wrapper
-from ctfr.implementations.binwise_np import _mean_wrapper, _hmean_wrapper, _gmean_wrapper, _min_wrapper
+from ctfr.implementations.binwise_simple import _mean_wrapper, _hmean_wrapper, _gmean_wrapper, _min_wrapper
 
 _methods_dict = {
     "mean": {
