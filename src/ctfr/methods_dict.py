@@ -157,3 +157,29 @@ _methods_dict = {
         }
     }
 }
+
+from ctfr.implementations.baseline_swgm_cy import _baseline_swgm_wrapper
+from ctfr.implementations.baseline_lt_cy import _baseline_lt_wrapper
+from ctfr.implementations.baseline_fls_cy import _baseline_fls_wrapper
+from ctfr.implementations.baseline_sls_cy import _baseline_sls_wrapper
+
+_baseline_methods_dict = {
+    "baseline_swgm": {
+        "name": "Sample-weighted geometric mean (SWGM) [Baseline]",
+        "function": _baseline_swgm_wrapper,
+    },
+    "baseline_lt": {
+        "name": "Lukin-Todd (LT) [Baseline]",
+        "function": _baseline_lt_wrapper,
+    },
+    "baseline_sls": {
+        "name": "Smoothed Local Sparsity (SLS) [Baseline]",
+        "function": _baseline_sls_wrapper,
+    },
+    "baseline_fls": {
+        "name": "Fast local sparsity (FLS) [Baseline]",
+        "function": _baseline_fls_wrapper,
+    }
+}
+
+_methods_dict.update(_baseline_methods_dict)
