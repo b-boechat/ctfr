@@ -33,7 +33,7 @@ keywords = ["audio", "music", "sound", "music information retrieval", "time-freq
 [project.urls]
 Homepage = "https://github.com/b-boechat/ctfr"
 Issues = "https://github.com/b-boechat/ctfr/issues"
-#Documentation = "#TODO"
+Documentation = "https://ctfr.readthedocs.io/en/latest/"
 
 [project.optional-dependencies]
 dev = ["cython>=3", "setuptools>=69", "pip>=24", "matplotlib>=3.3"]

@@ -95,7 +95,7 @@ cdef _sls_i_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
     result_ndarray = np.zeros((K, M), dtype=np.double)
 
     # Containers and variables related to local sparsity calculation.
-    sparsity_ndarray = np.zeros((P, K, M), dtype=np.double) # TODO change to empty.
+    sparsity_ndarray = np.zeros((P, K, M), dtype=np.double)
     cdef double[:,:,:] sparsity = sparsity_ndarray
     cdef double arr_norm, gini
 
