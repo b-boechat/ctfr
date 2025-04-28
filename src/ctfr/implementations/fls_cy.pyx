@@ -51,9 +51,18 @@ cdef _fls_cy(double[:,:,::1] X, Py_ssize_t lk, Py_ssize_t lm, double gamma):
 
     for p in range(P):
         # Calculate L1 and L2 local energy matrixes and element-wise square root of the L1 matrix.
-        # Clipping is used because scipy correlate can return negative values for matrixes with very small positive elements.
-        local_energy_l1_ndarray = np.clip(correlate(X_ndarray[p], hamming_window, mode="same"), a_min=epsilon, a_max=None)
-        local_energy_l2_ndarray = np.sqrt(np.clip(correlate(X_ndarray[p] * X_ndarray[p], hamming_window * hamming_window, mode="same"), a_min=epsilon, a_max=None))
+        # The clipping guarantees that the inequality ||x||_1 <= sqrt(N) ||x||_2 holds even when numerical errors occur.
+        local_energy_l1_ndarray = np.clip(
+            correlate(X_ndarray[p], hamming_window, mode="same"), 
+            a_min=epsilon*window_size_sqrt, a_max=None
+        )
+        local_energy_l2_ndarray = np.sqrt(
+            np.clip(
+                correlate(X_ndarray[p] * X_ndarray[p], hamming_window * hamming_window, mode="same"), 
+                a_min=local_energy_l1_ndarray / window_size_sqrt + epsilon, 
+                a_max=None
+            )
+        )
         local_energy_l1_sqrt_ndarray = np.sqrt(local_energy_l1_ndarray)
 
         # Point Cython memview to the calculated matrixes.
