@@ -1,4 +1,4 @@
-__version__ = "0.1.0.dev4"
+__version__ = "0.1.0.dev5"
 
 from warnings import warn as _warn
 from .utils.audio import load, stft, cqt, stft_spec, cqt_spec, specshow, power_to_db
