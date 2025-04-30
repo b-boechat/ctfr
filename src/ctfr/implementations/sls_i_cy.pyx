@@ -4,7 +4,7 @@ from itertools import chain
 cimport cython
 from libc.math cimport exp
 from ctfr.utils.arguments_check import _enforce_nonnegative, _enforce_odd_positive_integer
-from ctfr.exception import InvalidArgumentError, ArgumentRequiredError
+from ctfr.exception import ArgumentRequiredError
 
 def _sls_i_wrapper(
         X, 
@@ -31,8 +31,10 @@ def _get_interp_steps(num_specs, _info, user_interp_steps):
 
     if user_interp_steps is not None:
         interp_steps = np.ascontiguousarray(user_interp_steps, dtype=int)
-        if interp_steps.shape[0] != num_specs or interp_steps.shape[1] != 2:
-            raise InvalidArgumentError("The dimensions of 'interp_steps' must be P x 2, where P is the number of spectrograms to combine.")
+        if interp_steps.ndim != 2 or interp_steps.shape[0] != num_specs or interp_steps.shape[1] != 2:
+            raise ValueError("The dimensions of 'interp_steps' must be P x 2, where P is the number of spectrograms to combine.")
+        if np.any(interp_steps < 0):
+            raise ValueError("All values in 'interp_steps' must be non-negative.")
         return interp_steps
 
     if _info is not None:

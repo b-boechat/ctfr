@@ -10,7 +10,7 @@ def _sls_h_wrapper(X,
         lem = 11, 
         lsm = 11, 
         beta = 80, 
-        double energy_criterium_db = -40
+        energy_criterium_db = -40
     ):
 
     lek = _enforce_odd_positive_integer(lek, "lek", 11)
@@ -18,6 +18,7 @@ def _sls_h_wrapper(X,
     lem = _enforce_odd_positive_integer(lem, "lem", 11)
     lsm = _enforce_odd_positive_integer(lsm, "lsm", 11)
     beta = _enforce_nonnegative(beta, "beta", 80.0)
+    energy_criterium_db = float(energy_criterium_db)
 
     return _sls_h_cy(X, lek, lsk, lem, lsm, beta, energy_criterium_db)
 

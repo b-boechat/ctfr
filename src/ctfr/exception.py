@@ -17,8 +17,5 @@ class InvalidSampleError(Exception_):
 class CitationNotImplementedError(Exception_):
     pass
 
-class InvalidArgumentError(Exception_):
-    pass
-
 class ArgumentRequiredError(Exception_):
     pass
