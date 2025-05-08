@@ -53,4 +53,9 @@ testpaths = ["tests"]
 [tool.cibuildwheel]
 test-requires = "pytest"
 test-command = "pytest {project}/tests"
-skip = ["*-win32", "*-manylinux_i686", "pp*"]
+skip = [
+    "*-win32", # 32-bit
+    "*-manylinux_i686", # 32-bit 
+    "pp*", # pypy
+    "*musllinux*", # musl, fails to build numba/llvmlite
+]
