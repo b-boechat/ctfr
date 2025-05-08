@@ -53,3 +53,4 @@ testpaths = ["tests"]
 [tool.cibuildwheel]
 test-requires = "pytest"
 test-command = "pytest {project}/tests"
+skip = ["*-win32", "*-manylinux_i686"]
