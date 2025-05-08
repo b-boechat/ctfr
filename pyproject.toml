@@ -16,7 +16,7 @@ dynamic = ["version", "authors"]
 #]
 description = "Package for efficiently computing combined time-frequency representations of audio signals."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = ["numpy", "librosa", "scipy", "pooch"]
 license = "MIT"
 classifiers = [
@@ -25,7 +25,6 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
     "Operating System :: Microsoft :: Windows",
     "Programming Language :: Cython",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
