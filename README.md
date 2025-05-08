@@ -70,7 +70,7 @@ python setup.py build_ext --inplace
 If you use ctfr in your work or research, please cite following paper:
 
 ```
-To be added.
+> To be added!
 ```
 
 Also, if you use a speficic combination method, please cite the corresponding paper(s). You can find the references for a specific method by running:
