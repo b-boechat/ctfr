@@ -157,5 +157,6 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
                     result[red_k, red_m] = result[red_k, red_m] + X_orig[p, red_k, red_m] * combination_weight[p] * min_local_energy / energy[p, red_k, red_m]
                 result[red_k, red_m] = result[red_k, red_m] / weights_sum
 
+    ############ }}}
 
     return result_ndarray

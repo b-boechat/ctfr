@@ -43,7 +43,6 @@ class TestSlsI(BaseMethodTest):
         with pytest.raises(ValueError):
             func(self.X, interp_steps=np.array([[-1, 1], [1, 1], [1, 1]])) # negative value in interp_steps
             
-
     def test_parameter_changes(self, func, valid_steps):
         with pytest.warns(ArgumentChangeWarning):
             func(self.X, lek=20, interp_steps=valid_steps) # lek not odd

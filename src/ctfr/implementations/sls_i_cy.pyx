@@ -30,7 +30,7 @@ def _sls_i_wrapper(
 def _get_interp_steps(num_specs, _info, user_interp_steps):
 
     if user_interp_steps is not None:
-        interp_steps = np.ascontiguousarray(user_interp_steps, dtype=int)
+        interp_steps = np.ascontiguousarray(user_interp_steps, dtype=np.long)
         if interp_steps.ndim != 2 or interp_steps.shape[0] != num_specs or interp_steps.shape[1] != 2:
             raise ValueError("The dimensions of 'interp_steps' must be P x 2, where P is the number of spectrograms to combine.")
         if np.any(interp_steps < 0):
@@ -43,7 +43,7 @@ def _get_interp_steps(num_specs, _info, user_interp_steps):
             return np.clip(
                 np.array(
                     [[n_fft//l, l//(2*hop_length)] for l in _info["win_lengths"]], 
-                    dtype=int
+                    dtype=np.long
                 ), 
             a_min=1, a_max=None)
         else: # "cqt"

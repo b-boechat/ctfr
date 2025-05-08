@@ -14,18 +14,18 @@ dynamic = ["version", "authors"]
 #  { name="Luiz Wagner Pereira Biscainho", email="cpneqs@gmail.com" },
 #  { name="Mauricio do Vale Madeira da Costa", email="mauriciomvc@gmail.com" },
 #]
-description = "Efficient toolbox for computing combined time-frequency representations of audio signals."
+description = "Package for efficiently computing combined time-frequency representations of audio signals."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = ["numpy", "librosa", "scipy", "pooch"]
 license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
-    "Development Status :: 1 - Planning",
+    "Development Status :: 3 - Alpha",
     "Operating System :: POSIX :: Linux",
     "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
     "Programming Language :: Cython",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -54,3 +54,9 @@ testpaths = ["tests"]
 [tool.cibuildwheel]
 test-requires = "pytest"
 test-command = "pytest {project}/tests"
+skip = [
+    "*-win32", # 32-bit
+    "*-manylinux_i686", # 32-bit 
+    "pp*", # pypy
+    "*musllinux*", # musl, fails to build numba/llvmlite
+]
