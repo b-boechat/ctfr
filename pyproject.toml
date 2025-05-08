@@ -14,14 +14,14 @@ dynamic = ["version", "authors"]
 #  { name="Luiz Wagner Pereira Biscainho", email="cpneqs@gmail.com" },
 #  { name="Mauricio do Vale Madeira da Costa", email="mauriciomvc@gmail.com" },
 #]
-description = "Efficient toolbox for computing combined time-frequency representations of audio signals."
+description = "Package for efficiently computing combined time-frequency representations of audio signals."
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = ["numpy", "librosa", "scipy", "pooch"]
 license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
-    "Development Status :: 1 - Planning",
+    "Development Status :: 3 - Alpha",
     "Operating System :: POSIX :: Linux",
     "Operating System :: Microsoft :: Windows",
     "Programming Language :: Cython",
