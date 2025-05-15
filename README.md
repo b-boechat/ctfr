@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/ctfr.svg)](https://pypi.python.org/pypi/ctfr) [![Python Versions](https://img.shields.io/pypi/pyversions/ctfr.svg)](https://pypi.python.org/pypi/ctfr) ![Licence](https://img.shields.io/github/license/b-boechat/ctfr) 
 
-#### Efficient toolbox for computing combined time-frequency representations of audio signals.
+#### Efficient package for computing combined time-frequency representations of audio signals.
 
 # Table of contents
 - [Documentation](#documentation)

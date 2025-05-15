@@ -6,7 +6,7 @@
 ctfr
 ==========================
 
-``ctfr`` is an efficient toolbox for computing combined time-frequency representations of audio signals.
+``ctfr`` is an efficient package for computing combined time-frequency representations of audio signals.
 
 .. Link :external+python:ref:`comparison manual <comparisons>`
 
