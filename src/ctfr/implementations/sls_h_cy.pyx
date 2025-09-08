@@ -91,7 +91,7 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
     ############ Calculate local energy and maximum local energy along dimension p {{{ 
 
     for p in range(P):
-        energy_ndarray[p] = np.clip(correlate(X_orig_ndarray[p], hamming_energy, mode="same")/np.sum(hamming_energy, axis=None), a_min=epsilon, a_max=None)
+        energy_ndarray[p] = np.clip(correlate(X_orig_ndarray[p], hamming_energy, mode="same"), a_min=epsilon, a_max=None)
 
     max_local_energy_ndarray = np.max(energy_ndarray, axis=0)
 
@@ -100,8 +100,8 @@ cdef _sls_h_cy(double[:,:,::1] X_orig, Py_ssize_t lek, Py_ssize_t lsk, Py_ssize_
 
     ############ }}}
 
-    # Energy criterium in regular units.
-    cdef double energy_criterium = 10.0 ** (energy_criterium_db/10.0)
+    # Energy criterium in regular units, adjusted by the norm of the hamming window.
+    cdef double energy_criterium = 10.0 ** (energy_criterium_db/10.0) * np.sum(hamming_energy, axis=None)
 
     ############ Hybrid combination {{{
 
